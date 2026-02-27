@@ -117,7 +117,7 @@ Three NATO member nations need to share and collaboratively enrich intelligence 
 ### AC5: Dynamic Recipient Addition
 - [ ] UK can add UK key management to Polish-encrypted data without re-encrypting payload
 - [ ] US can add US key management to Polish-encrypted data without re-encrypting payload
-- [ ] Process works for large files (multi-GB) efficiently
+- [ ] Process works efficiently for large files
 
 ### AC6: Comprehensive Audit Trail
 - [ ] Every access attempt logged (successful and denied)
@@ -138,11 +138,11 @@ Three NATO member nations need to share and collaboratively enrich intelligence 
 
 ## Success Metrics
 
-- **Time to Share**: < 5 minutes from encryption to recipient access
-- **Access Decision Latency**: < 2 seconds for policy evaluation
-- **Audit Completeness**: 100% of access attempts logged
+- **Time to Share**: Fast from encryption to recipient access
+- **Access Decision Latency**: Very low latency for policy evaluation
+- **Audit Completeness**: All access attempts logged
 - **Interoperability**: Works across all three national systems without manual intervention
-- **Scalability**: Supports 10+ nations without architectural changes
+- **Scalability**: Supports many nations without architectural changes
 
 ## Out of Scope
 

@@ -101,9 +101,9 @@ Forward-deployed military units from allied nations need to share operational da
 ## Operational Constraints
 
 1. **Connectivity**: Intermittent or no connectivity to strategic infrastructure
-2. **Latency**: Time-critical tactical decisions (minutes to hours, not days)
+2. **Latency**: Time-critical tactical decisions (rapid response required)
 3. **Bandwidth**: Limited (tactical radio networks, low-bandwidth satellite)
-4. **Offline Duration**: 6-48 hours without strategic network access
+4. **Offline Duration**: Extended periods without strategic network access
 5. **Equipment**: Ruggedized tactical systems with limited compute/storage
 6. **Mobility**: Units are mobile and may change locations
 7. **Certificate Validity**: Pre-distributed credentials must work offline
@@ -124,7 +124,7 @@ Forward-deployed military units from allied nations need to share operational da
 
 ### AC1: Offline Encryption
 - [ ] Polish unit can encrypt reconnaissance data without connectivity to PL-KAS
-- [ ] Encryption process completes in < 30 seconds for 100MB dataset
+- [ ] Encryption process completes quickly for typical tactical datasets
 - [ ] Encrypted data includes access policies for UK and US units
 
 ### AC2: Offline Decryption
@@ -135,24 +135,24 @@ Forward-deployed military units from allied nations need to share operational da
 
 ### AC3: Certificate Pre-Distribution
 - [ ] Units receive certificates/keys during mission planning (before deployment)
-- [ ] Certificates valid for mission duration (72 hours minimum)
-- [ ] Certificate bundle size < 10MB for tactical systems
+- [ ] Certificates valid for mission duration
+- [ ] Certificate bundle size is small enough for tactical systems
 
 ### AC4: Offline Certificate Validation
 - [ ] Units can validate certificates using pre-distributed CRL
-- [ ] CRL staleness acceptable up to 48 hours
-- [ ] Validation process completes in < 5 seconds
+- [ ] CRL staleness acceptable for tactical mission duration
+- [ ] Validation process completes quickly
 - [ ] Clear indication when CRL is stale (warning, not failure)
 
 ### AC5: Bandwidth Efficiency
-- [ ] Encrypted data overhead < 10% of payload size
-- [ ] Certificate/policy metadata < 50KB per encrypted object
-- [ ] Suitable for transmission over tactical radio (9.6 kbps minimum)
+- [ ] Encrypted data overhead is minimal
+- [ ] Certificate/policy metadata is small
+- [ ] Suitable for transmission over tactical radio networks (low bandwidth)
 
 ### AC6: Rapid Distribution
-- [ ] Data encrypted and ready for transmission in < 1 minute
-- [ ] Recipient can decrypt and access in < 30 seconds
-- [ ] End-to-end sharing time < 15 minutes (including transmission)
+- [ ] Data encrypted and ready for transmission quickly
+- [ ] Recipient can decrypt and access quickly
+- [ ] End-to-end sharing time is fast enough for tactical operations
 
 ### AC7: Local Audit Logging
 - [ ] All encryption/decryption events logged locally
@@ -169,7 +169,7 @@ Forward-deployed military units from allied nations need to share operational da
 ### AC9: Graceful Degradation
 - [ ] System works with zero connectivity (fully offline)
 - [ ] System works with intermittent connectivity (opportunistic sync)
-- [ ] System works with low bandwidth (< 10 kbps)
+- [ ] System works with low bandwidth connections
 - [ ] Clear user feedback about connectivity status and limitations
 
 ### AC10: Emergency Revocation
@@ -180,13 +180,13 @@ Forward-deployed military units from allied nations need to share operational da
 
 ## Success Metrics
 
-- **Offline Duration**: Support 48+ hours without strategic connectivity
-- **Encryption Time**: < 30 seconds for 100MB tactical dataset
-- **Decryption Time**: < 30 seconds for 100MB tactical dataset
-- **Distribution Time**: < 15 minutes end-to-end (including transmission)
-- **Certificate Validation**: < 5 seconds offline validation
-- **Bandwidth Overhead**: < 10% metadata overhead
-- **Audit Completeness**: 100% of events logged (synchronized when online)
+- **Offline Duration**: Support extended periods without strategic connectivity
+- **Encryption Time**: Fast encryption for typical tactical datasets
+- **Decryption Time**: Fast decryption for typical tactical datasets
+- **Distribution Time**: Fast end-to-end sharing (including transmission)
+- **Certificate Validation**: Fast offline validation
+- **Bandwidth Overhead**: Minimal metadata overhead
+- **Audit Completeness**: All events logged (synchronized when online)
 
 ## Out of Scope
 
