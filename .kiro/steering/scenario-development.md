@@ -85,18 +85,35 @@ Use descriptive names that indicate the operational context:
 
 ## Solution Format
 
-Solutions propose **approaches** to solve scenario challenges. Multiple solutions can address the same scenario.
+Solutions propose **general approaches and technology workflows** to solve scenario challenges. Multiple solutions can address the same scenario.
+
+**CRITICAL**: Solutions are NOT implementations. They describe:
+- General technology approaches (e.g., "use LLMs with MCP servers")
+- High-level workflows and processes
+- Conceptual architectures (boxes and arrows, not specific products)
+- Technology categories (not specific versions or vendors)
+- Pros and cons of the approach
+- Complexity estimates (not detailed timelines)
+
+**Solutions should NOT include**:
+- Specific hardware specifications (CPU models, RAM amounts, GPU types)
+- Specific software versions (PostgreSQL 16.x, RHEL 9.x)
+- Network topology details (IP addresses, VLAN configurations)
+- Vendor-specific products (unless comparing vendor approaches)
+- Detailed deployment procedures
+- Cost estimates or procurement details
+- Specific timelines or project plans
 
 ### Required Sections
 
 1. **Scenario Reference**: Which scenario(s) this solves
-2. **Overview**: High-level approach
-3. **How It Works**: Detailed explanation of the solution
+2. **Overview**: High-level approach (conceptual, not specific)
+3. **How It Works**: General workflow and technology approach
 4. **Advantages**: Benefits of this approach
 5. **Disadvantages**: Limitations and trade-offs
 6. **Acceptance Criteria Coverage**: Which AC from scenario are met
-7. **Technology Stack**: Specific technologies/standards used
-8. **Implementation Complexity**: Effort required (Low/Medium/High)
+7. **Technology Stack**: General technologies/standards (not specific versions)
+8. **Implementation Complexity**: Effort required (Low/Medium/High with rationale)
 9. **Operational Fit**: How well it matches real-world operations
 
 ### Solution Organization
@@ -119,19 +136,42 @@ Solutions use descriptive names indicating the approach:
 
 ## Architecture Format
 
-Architectures provide **detailed technical designs** implementing a solution.
+Architectures provide **real-world implementation specifics and guidance** for deploying a solution. Architectures are based on actual experience, vendor documentation, or verified technical specifications - NOT guesswork.
+
+**CRITICAL**: Architectures are concrete implementations. They specify:
+- Exact hardware models and specifications (when known from real deployments)
+- Specific software versions and configurations (from actual implementations)
+- Network topology with IP addressing schemes (from real networks)
+- Vendor-specific products and licensing (from actual procurements)
+- Detailed deployment procedures (from real deployments)
+- Actual performance metrics (from real testing)
+- Real cost estimates (from actual projects)
+
+**Architectures should ONLY be created when**:
+- You have real implementation experience to draw from
+- You have vendor documentation specifying exact requirements
+- You have access to reference architectures from actual deployments
+- You can cite sources for all technical specifications
+
+**DO NOT create architectures based on**:
+- Guesswork about hardware requirements
+- Assumptions about software configurations
+- Fabricated network topologies
+- Estimated costs without real data
+- Hypothetical deployment procedures
 
 ### Required Sections
 
 1. **Solution Reference**: Which solution this implements
-2. **Overview**: Architecture summary with diagrams
-3. **Components**: Detailed component descriptions
-4. **Interactions**: Sequence diagrams and data flows
-5. **Deployment Models**: How to deploy in different environments
-6. **Security Considerations**: Threat model and mitigations
-7. **Performance Analysis**: Scalability and performance characteristics
-8. **Implementation Guide**: Step-by-step implementation instructions
-9. **Testing Strategy**: How to verify acceptance criteria
+2. **Implementation Source**: Where this architecture comes from (real deployment, vendor docs, reference architecture)
+3. **Overview**: Architecture summary with diagrams
+4. **Components**: Detailed component specifications with part numbers/models
+5. **Interactions**: Sequence diagrams and data flows
+6. **Deployment Models**: How to deploy in different environments (with specifics)
+7. **Security Considerations**: Threat model and mitigations (from real security assessments)
+8. **Performance Analysis**: Actual performance metrics from testing
+9. **Implementation Guide**: Step-by-step procedures from real deployments
+10. **Testing Strategy**: How to verify acceptance criteria (with actual test results if available)
 
 ### Architecture Organization
 

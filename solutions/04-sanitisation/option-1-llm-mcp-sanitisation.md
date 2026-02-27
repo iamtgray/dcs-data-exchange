@@ -495,19 +495,18 @@ OUTPUT FORMAT:
 
 ### LLM Inference Time
 
-**Challenge**: Large documents may take minutes to process
+**Challenge**: Large documents may take time to process
 
 **Optimisations**:
 - Batch processing for multiple documents
 - Parallel processing for document sections
 - Caching of MCP server responses
-- Pre-computed embeddings for common patterns
 - GPU acceleration for inference
 
 **Expected Performance**:
-- Small document (1-5 pages): 30-60 seconds
-- Medium document (10-50 pages): 2-5 minutes
-- Large document (100+ pages): 10-30 minutes
+- Small documents: Under a minute
+- Medium documents: A few minutes
+- Large documents: Tens of minutes
 
 ### MCP Server Response Time
 
@@ -520,36 +519,30 @@ OUTPUT FORMAT:
 - Parallel MCP queries where possible
 
 **Expected Performance**:
-- Project context query: < 1 second
-- Classification rule query: < 500ms
-- Historical sanitisation search: < 2 seconds
+- Context queries: Sub-second to a few seconds
+- Complex searches: A few seconds
 
 ## Deployment Model
 
 ### High-Side Infrastructure
 
 **Requirements**:
-- GPU servers for LLM inference (NVIDIA A100 or equivalent)
-- High-memory servers for large context windows (256GB+ RAM)
-- Fast storage for MCP server data (NVMe SSD)
+- GPU-capable servers for LLM inference
+- Application servers for MCP server hosting
+- Database servers for context storage
+- Workstations for human review
 - Secure network isolation (air-gapped or SCIF)
 
 **Deployment Options**:
 1. **On-Premise**: Fully air-gapped deployment in SCIF
-2. **Government Cloud**: Azure Government or AWS GovCloud (if approved)
+2. **Government Cloud**: Azure Government or AWS GovCloud (if approved for classification level)
 3. **Hybrid**: LLM on-premise, some MCP servers in gov cloud
 
 ### Scaling
 
-**Single Site**:
-- 1-2 LLM inference servers
-- 3-5 MCP servers (one per context type)
-- 10-20 concurrent sanitisation requests
-
-**Enterprise**:
-- Load-balanced LLM cluster (5-10 servers)
-- Replicated MCP servers for high availability
-- 100+ concurrent sanitisation requests
+**Small Deployment**: 10-20 documents/day, minimal infrastructure
+**Medium Deployment**: 50-100 documents/day, redundant systems
+**Large Deployment**: 200+ documents/day, load-balanced clusters
 
 ## Advantages
 
@@ -590,41 +583,30 @@ OUTPUT FORMAT:
 ## Technology Stack
 
 **LLM Options**:
-- GPT-4 (via Azure Government Cloud or on-premise)
-- Claude 3 Opus (via AWS GovCloud or on-premise)
-- Llama 3 70B+ (fully on-premise, open weights)
-- Mistral Large (on-premise deployment)
+- Open-weight models (Llama, Mistral) for on-premise deployment
+- Commercial models (GPT-4, Claude) via government cloud APIs
+- Requires large context windows and strong reasoning capability
 
 **MCP Infrastructure**:
-- MCP servers (Python/TypeScript)
-- Document repositories (SharePoint, Confluence, etc.)
+- MCP servers (Python or TypeScript implementations)
+- Document repositories (SharePoint, Confluence, or similar)
 - Classification guide databases
-- Historical sanitisation database
+- Historical sanitisation storage
 
 **Traditional CDS**:
-- Owl Cyber Defense
-- General Dynamics TACDS
-- Forcepoint/Everfox
-- Or similar certified CDS
+- Certified cross-domain solutions (Owl, General Dynamics, Forcepoint, or similar)
+- Format validation and malware scanning
+- Backup keyword filtering
 
 **Infrastructure**:
-- GPU servers (NVIDIA A100 or equivalent)
-- High-memory servers (256GB+ RAM)
-- Fast storage (NVMe SSD)
-- Secure network (air-gapped or SCIF)
+- GPU-capable servers for LLM inference
+- Application servers for MCP hosting
+- Database servers for context storage
+- Secure networking (air-gapped or SCIF)
 
 ## Implementation Complexity
 
 **Complexity**: High
-
-**Effort Estimate**:
-- **Design & Planning**: 2-3 months
-- **LLM Deployment**: 3-4 months (procurement, setup, security accreditation)
-- **MCP Server Development**: 4-6 months (3 servers + integration)
-- **Human Review Interface**: 2-3 months
-- **CDS Integration**: 2-3 months
-- **Testing & Accreditation**: 6-12 months (security testing, certification)
-- **Total**: 18-24 months to operational capability
 
 **Key Challenges**:
 1. Security accreditation for LLM on high-side
@@ -632,6 +614,15 @@ OUTPUT FORMAT:
 3. LLM fine-tuning on classification examples
 4. Integration with existing CDS infrastructure
 5. Human reviewer training and workflow
+6. Ongoing maintenance and model updates
+
+**Effort Considerations**:
+- Significant infrastructure investment required
+- Long security accreditation process
+- Custom MCP server development
+- Integration with existing systems
+- Extensive testing and validation
+- Operational training and procedures
 
 ## Operational Fit
 
@@ -676,24 +667,6 @@ OUTPUT FORMAT:
 5. **Active Learning**: LLM requests clarification when uncertain
 6. **Integration**: Direct integration with document management systems
 
-## Advantages Over Traditional Approaches
-
-1. **Context-Aware**: LLM understands operational context, not just keywords
-2. **Reasoning**: LLM explains WHY something is sensitive
-3. **Adaptive**: LLM learns from feedback, improves over time
-4. **Consistent**: Same reasoning applied across all documents
-5. **Scalable**: Can process large volumes with human review
-6. **Explainable**: LLM provides reasoning for audit trail
-
-## Limitations and Risks
-
-1. **LLM Errors**: LLM may miss sensitive information or over-redact
-2. **Context Dependency**: Quality depends on MCP server data quality
-3. **Computational Cost**: Requires significant GPU resources
-4. **Human Review Required**: Cannot fully automate (security requirement)
-5. **Novel Situations**: LLM may struggle with unprecedented scenarios
-6. **Adversarial Attacks**: Prompt injection or manipulation attempts
-
 ## Future Enhancements
 
 1. **Multi-Modal**: Support images, videos, audio (not just text)
@@ -705,5 +678,5 @@ OUTPUT FORMAT:
 
 ---
 
-*This solution leverages modern LLM capabilities with MCP for context-aware, intelligent sanitisation whilst maintaining human oversight and traditional CDS controls for defence in depth. An architecture implementing this solution would specify exact hardware, software versions, network topology, and deployment procedures.*
+*This solution leverages modern LLM capabilities with MCP for context-aware, intelligent sanitisation whilst maintaining human oversight and traditional CDS controls for defence in depth.*
 
