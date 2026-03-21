@@ -85,7 +85,7 @@ A key challenge with DCS is that digital signatures detect data modification, bu
 ## Implementation Considerations
 
 When implementing DCS:
-1. **Standards are crucial**: All communicating parties must agree on data formats and DCS architecture
+1. **Standards matter**: All communicating parties must agree on data formats and DCS architecture
 2. **System-centric boundaries**: Apply DCS at the edge where proprietary systems meet interoperability standards
 3. **Avoid N-squared problem**: Use common standards to avoid every system needing to understand every other system's format
 4. **Bake in security**: DCS cannot be bolted on; it must be part of the architecture from the start

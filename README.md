@@ -84,12 +84,12 @@ Domain knowledge files automatically included in AI assistant context:
 Data-Centric Security (DCS) principles, three DCS levels, implementation guidance for defense and NATO contexts.
 
 #### `ztdf-trusted-data-format.md`
-Comprehensive ZTDF/TDF guide: core concepts, federated key management, encryption workflows, access control patterns, design principles, integration guidelines.
+ZTDF/TDF guide: core concepts, federated key management, encryption workflows, access control patterns, design principles, integration guidelines.
 
 #### `scenario-development.md`
 Guide for developing scenarios, solutions, and architectures. Explains repository structure, format requirements, workflow from scenario to architecture, and best practices for working with AI assistants.
 
-These files ensure consistent understanding across AI sessions.
+These files give AI sessions consistent context.
 
 ## Current Work
 
@@ -105,7 +105,7 @@ Three NATO nations (Poland, UK, US) sharing sensor data with progressive enrichm
 - Granular access control (clearance + SAP combinations)
 - Federated key management with national sovereignty
 - Dynamic recipient addition without payload re-encryption
-- Comprehensive audit trails
+- Full audit trails
 
 ### Scenario 02: Tactical Unit-to-Unit Communications
 

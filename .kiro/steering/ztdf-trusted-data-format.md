@@ -56,7 +56,7 @@ The KAS is the central component that:
 
 - A manifest can contain multiple `keyAccess` objects
 - Each can reference different KAS instances (different organizations)
-- Supports "AnyOf" access patterns - any participating KAS can unlock data
+- Supports "AnyOf" access patterns - any participating KAS can release the data
 - Each KAS can use different cryptographic algorithms independently
 - Enables secure cross-domain collaboration in zero-trust environments
 
@@ -81,7 +81,7 @@ The KAS is the central component that:
 
 ## Security Principles (C.I.A. Triad)
 
-- **Confidentiality**: Strong encryption + ABAC ensures only authorized access
+- **Confidentiality**: Strong encryption + ABAC limits access to authorized users only
 - **Integrity**: Cryptographic binding prevents unauthorized modifications
 - **Availability**: Distributed key management + offline creation maintains accessibility
 
@@ -111,7 +111,7 @@ The KAS is the central component that:
 
 4. **Attribute Standardization**: Success in federated environments requires agreement on attribute schemas and semantics across organizations.
 
-5. **Audit by Design**: Every key access attempt is logged, providing comprehensive audit trails across organizational boundaries.
+5. **Audit by Design**: Every key access attempt is logged, providing full audit trails across organizational boundaries.
 
 ### Architecture Considerations
 

@@ -1,0 +1,78 @@
+site_name: Data-Centric Security on AWS - Workshop Guide
+site_description: Learn how to implement Data-Centric Security using AWS cloud services, progressing through the three DCS levels
+site_url: ""
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep orange
+  features:
+    - navigation.footer
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.expand
+    - toc.integrate
+    - content.code.copy
+  icon:
+    logo: material/shield-lock
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+nav:
+  - Home: index.md
+  - What is Data-Centric Security?:
+    - overview/index.md
+    - The Problem DCS Solves: overview/the-problem.md
+    - The Three DCS Levels: overview/three-levels.md
+    - NATO Standards: overview/nato-standards.md
+    - DCS on AWS - How It Maps: overview/aws-mapping.md
+  - "Lab 1: Data Labeling (DCS Level 1)":
+    - lab1/index.md
+    - "Step 1: Create the S3 Data Bucket": lab1/step1-s3-bucket.md
+    - "Step 2: Set Up Security Labels": lab1/step2-labels.md
+    - "Step 3: Create Simulated Users": lab1/step3-users.md
+    - "Step 4: Build the Access Checker": lab1/step4-authorizer.md
+    - "Step 5: Test Access Decisions": lab1/step5-test.md
+    - "Step 6: Review the Audit Trail": lab1/step6-audit.md
+    - "What You Learned": lab1/summary.md
+  - "Lab 2: Access Control (DCS Level 2)":
+    - lab2/index.md
+    - "Step 1: Set Up Identity Providers": lab2/step1-cognito.md
+    - "Step 2: Create the Policy Engine": lab2/step2-policies.md
+    - "Step 3: Store Labeled Data": lab2/step3-data.md
+    - "Step 4: Build the Data Service": lab2/step4-service.md
+    - "Step 5: Test ABAC Scenarios": lab2/step5-test.md
+    - "Step 6: Change Policies Dynamically": lab2/step6-dynamic.md
+    - "What You Learned": lab2/summary.md
+  - "Lab 3: Encryption (DCS Level 3)":
+    - lab3/index.md
+    - "Step 1: Set Up the Network": lab3/step1-vpc.md
+    - "Step 2: Create the Key Store": lab3/step2-kms.md
+    - "Step 3: Deploy the Key Access Server": lab3/step3-kas.md
+    - "Step 4: Configure Identity and Attributes": lab3/step4-identity.md
+    - "Step 5: Encrypt Your First TDF File": lab3/step5-encrypt.md
+    - "Step 6: Decrypt with Policy Checks": lab3/step6-decrypt.md
+    - "Step 7: Test Federation and Denial": lab3/step7-test.md
+    - "What You Learned": lab3/summary.md
+  - Wrap-Up:
+    - wrapup/index.md
+    - Comparing the Three Levels: wrapup/comparison.md
+    - Real-World Applications: wrapup/real-world.md
+    - Clean Up Your AWS Resources: wrapup/cleanup.md

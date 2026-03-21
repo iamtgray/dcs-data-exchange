@@ -73,7 +73,7 @@ architectures/01-strategic-tdf-federation/
 
 **Files**:
 - `data-centric-security.md` - DCS principles and levels
-- `ztdf-trusted-data-format.md` - ZTDF/TDF comprehensive guide
+- `ztdf-trusted-data-format.md` - ZTDF/TDF guide
 - `scenario-development.md` - Workflow and format guide
 
 ## Naming Conventions
