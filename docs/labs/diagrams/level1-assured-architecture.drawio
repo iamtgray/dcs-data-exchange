@@ -1,0 +1,79 @@
+<mxfile host="drawio-jsapi" modified="2026-03-24T15:58:16.557Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="Assured DCS Level 1 - STANAG-Compliant Architecture">
+  <mxGraphModel background="#FFFFFF" dx="1426" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="bg-rect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxGeometry x="10" y="0" width="880" height="800" as="geometry" />
+      </mxCell>
+      <mxCell id="aws-cloud" value="AWS Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E" vertex="1" parent="1">
+        <mxGeometry x="50" y="120" width="800" height="650" as="geometry" />
+      </mxCell>
+      <mxCell id="user-a" value="User A&amp;lt;br&amp;gt;(SECRET GBR)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.user;" vertex="1" parent="1">
+        <mxGeometry x="150" y="20" width="50" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="user-b" value="User B&amp;lt;br&amp;gt;(NATO SECRET)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.user;" vertex="1" parent="1">
+        <mxGeometry x="400" y="20" width="50" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="user-c" value="User C&amp;lt;br&amp;gt;(UNCLASSIFIED)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.user;" vertex="1" parent="1">
+        <mxGeometry x="650" y="20" width="50" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="api-gw" value="API Gateway" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#945DF2;gradientDirection=north;fillColor=#5A30B5;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.api_gateway;" vertex="1" parent="1">
+        <mxGeometry x="400" y="170" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="lambda-auth" value="Lambda Authorizer&amp;lt;br&amp;gt;(verifies signature,&amp;lt;br&amp;gt;evaluates policy)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" vertex="1" parent="1">
+        <mxGeometry x="400" y="300" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="s3-data" value="S3 Data Bucket&amp;lt;br&amp;gt;(raw data, no labels)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
+        <mxGeometry x="150" y="440" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="dynamodb" value="DynamoDB Label Store&amp;lt;br&amp;gt;(STANAG 4774 XML,&amp;lt;br&amp;gt;signatures, hashes)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#4D72F3;gradientDirection=north;fillColor=#3334B9;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.dynamodb;" vertex="1" parent="1">
+        <mxGeometry x="400" y="440" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="kms" value="KMS Asymmetric Key&amp;lt;br&amp;gt;(RSA SIGN/VERIFY)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;" vertex="1" parent="1">
+        <mxGeometry x="650" y="440" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="lambda-label" value="Lambda Label Service&amp;lt;br&amp;gt;(creates 4774 XML,&amp;lt;br&amp;gt;signs via KMS)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#D05C17;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.lambda_function;" vertex="1" parent="1">
+        <mxGeometry x="400" y="590" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="cloudtrail" value="CloudTrail&amp;lt;br&amp;gt;(S3 + DynamoDB + KMS)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F34482;gradientDirection=north;fillColor=#BC1356;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudtrail;" vertex="1" parent="1">
+        <mxGeometry x="650" y="590" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="user-a" target="api-gw">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="user-b" target="api-gw">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="user-c" target="api-gw">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="api-gw" target="lambda-auth">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e5" value="reads data" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lambda-auth" target="s3-data">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e6" value="reads 4774 label" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lambda-auth" target="dynamodb">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e7" value="verifies signature" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lambda-auth" target="kms">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e8" value="creates label + signs" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;" edge="1" parent="1" source="lambda-label" target="dynamodb">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e9" value="signs binding" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;" edge="1" parent="1" source="lambda-label" target="kms">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e10" value="reads object + hash" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;" edge="1" parent="1" source="lambda-label" target="s3-data">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e11" value="logs all operations" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;strokeColor=#999999;" edge="1" parent="1" source="lambda-auth" target="cloudtrail">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

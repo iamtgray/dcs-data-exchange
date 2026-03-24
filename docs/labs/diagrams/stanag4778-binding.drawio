@@ -1,0 +1,57 @@
+<mxfile host="drawio-jsapi" modified="2026-03-24T16:01:58.422Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="STANAG 4778 Binding Mechanism">
+  <mxGraphModel background="#FFFFFF" dx="1426" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="bg-rect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxGeometry x="20" y="20" width="530" height="540" as="geometry" />
+      </mxCell>
+      <mxCell id="s3-obj" value="S3 Object
+(intel-001.pdf)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="50" y="50" width="180" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="label-xml" value="STANAG 4774 Label
+(XML document)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="320" y="50" width="180" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="hash" value="SHA-256 Hash
+of object content" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="60" y="160" width="160" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="canonical" value="Canonical XML
+(C14N serialization)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="330" y="160" width="160" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="binding" value="Binding Document
+hash + canonical XML" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="175" y="260" width="200" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="kms-sign" value="KMS Sign (RSA)&amp;lt;br&amp;gt;RSASSA_PKCS1_V1_5_SHA_256" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;" vertex="1" parent="1">
+        <mxGeometry x="250" y="360" width="50" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="signature" value="Signature (Base64)\nStored in DynamoDB" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="175" y="460" width="200" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="s3-obj" target="hash">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="label-xml" target="canonical">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="hash" target="binding">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="canonical" target="binding">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="binding" target="kms-sign">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="kms-sign" target="signature">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

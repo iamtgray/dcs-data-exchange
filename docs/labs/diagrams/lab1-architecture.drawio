@@ -1,0 +1,46 @@
+<mxfile host="drawio-jsapi" modified="2026-03-24T15:54:02.790Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="Lab 1 - Data Labeling Architecture">
+  <mxGraphModel background="#FFFFFF" dx="1426" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="bg-rect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxGeometry x="10" y="0" width="780" height="500" as="geometry" />
+      </mxCell>
+      <mxCell id="aws-cloud" value="AWS Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_aws_cloud_alt;strokeColor=#232F3E;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#232F3E" vertex="1" parent="1">
+        <mxGeometry x="100" y="120" width="600" height="350" as="geometry" />
+      </mxCell>
+      <mxCell id="user" value="User" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#232F3D;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.user;" vertex="1" parent="1">
+        <mxGeometry x="350" y="20" width="50" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="lambda-svc" value="Lambda Data Service" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.lambda;" vertex="1" parent="1">
+        <mxGeometry x="220" y="220" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="s3-bucket" value="S3 Data Bucket&amp;lt;br&amp;gt;(labeled objects)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#60A337;gradientDirection=north;fillColor=#277116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
+        <mxGeometry x="470" y="220" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="cloudtrail" value="CloudTrail&amp;lt;br&amp;gt;(audit trail)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F34482;gradientDirection=north;fillColor=#BC1356;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cloudtrail;" vertex="1" parent="1">
+        <mxGeometry x="470" y="370" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="json-response" value="JSON Response&amp;lt;br&amp;gt;{ data, labels }" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="130" y="370" width="160" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="invokes" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="user" target="lambda-svc">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="reads object + tags" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lambda-svc" target="s3-bucket">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="lambda-svc" target="json-response">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e4" value="logs access" style="edgeStyle=orthogonalEdgeStyle;rounded=1;dashed=1;" edge="1" parent="1" source="lambda-svc" target="cloudtrail">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="no-access-note" value="No access control — labels only" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=11;fontColor=#FF0000;" vertex="1" parent="1">
+        <mxGeometry x="300" y="140" width="200" height="30" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

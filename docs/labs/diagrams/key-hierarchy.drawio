@@ -1,0 +1,52 @@
+<mxfile host="drawio-jsapi" modified="2026-03-24T16:01:14.013Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="KMS Key Hierarchy">
+  <mxGraphModel background="#FFFFFF" dx="1426" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="bg-rect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxGeometry x="20" y="10" width="530" height="360" as="geometry" />
+      </mxCell>
+      <mxCell id="kms-key" value="AWS KMS Key (KEK)&amp;lt;br&amp;gt;dcs-level3-kas-kek&amp;lt;br&amp;gt;FIPS 140-3 Level 3" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.key_management_service;" vertex="1" parent="1">
+        <mxGeometry x="250" y="30" width="60" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="dek1" value="DEK #1 → intel-report.tdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="50" y="180" width="200" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="dek2" value="DEK #2 → wall-report.tdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="50" y="240" width="200" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="dek3" value="DEK #3 → logistics.tdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="50" y="300" width="200" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="payload1" value="Encrypts intel-report payload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="310" y="180" width="200" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="payload2" value="Encrypts wall-report payload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="310" y="240" width="200" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="payload3" value="Encrypts logistics payload" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="310" y="300" width="200" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="wraps" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;" edge="1" parent="1" source="kms-key" target="dek1">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="wraps" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;" edge="1" parent="1" source="kms-key" target="dek2">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="wraps" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeWidth=2;" edge="1" parent="1" source="kms-key" target="dek3">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="dek1" target="payload1">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="dek2" target="payload2">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" edge="1" parent="1" source="dek3" target="payload3">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

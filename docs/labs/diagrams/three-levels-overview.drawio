@@ -1,0 +1,50 @@
+<mxfile host="drawio-jsapi" modified="2026-03-24T16:00:41.374Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="Three DCS Levels Overview">
+  <mxGraphModel background="#FFFFFF" dx="1426" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="bg-rect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" vertex="1" parent="1">
+        <mxGeometry x="20" y="20" width="670" height="400" as="geometry" />
+      </mxCell>
+      <mxCell id="level3" value="Level 3: Encryption" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxGeometry x="50" y="50" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="level3-desc" value="Data encrypted + KAS policy checks" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxGeometry x="370" y="50" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="level2" value="Level 2: Access Control" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxGeometry x="50" y="180" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="level2-desc" value="Policy engine checks attributes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxGeometry x="370" y="180" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="level1" value="Level 1: Labeling" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=14;fontStyle=1;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxGeometry x="50" y="310" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="level1-desc" value="Security metadata on data" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;verticalAlign=middle;align=center;" vertex="1" parent="1">
+        <mxGeometry x="370" y="310" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="builds-on-1" value="builds on" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="140" y="135" width="80" height="30" as="geometry" />
+      </mxCell>
+      <mxCell id="builds-on-2" value="builds on" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="140" y="265" width="80" height="30" as="geometry" />
+      </mxCell>
+      <mxCell id="uses-labels" value="uses labels from Level 1
+uses ABAC logic from Level 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=10;" vertex="1" parent="1">
+        <mxGeometry x="400" y="135" width="220" height="40" as="geometry" />
+      </mxCell>
+      <mxCell id="uses-labels-2" value="uses labels from Level 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=10;" vertex="1" parent="1">
+        <mxGeometry x="400" y="265" width="180" height="30" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="level3" target="level2">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="level2" target="level1">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,130 @@
+site_name: Data-Centric Security on AWS
+site_description: Concepts, hands-on labs, reference architectures, operational scenarios, and solution patterns for coalition data sharing using Data-Centric Security
+site_url: ""
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: deep orange
+  features:
+    - navigation.footer
+    - navigation.indexes
+    - navigation.top
+    - navigation.sections
+    - toc.integrate
+    - content.code.copy
+  icon:
+    logo: material/shield-lock
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+  - md_in_html
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - What is Data-Centric Security?:
+    - labs/overview/index.md
+    - The Problem DCS Solves: labs/overview/the-problem.md
+    - The Three DCS Levels: labs/overview/three-levels.md
+    - NATO Standards: labs/overview/nato-standards.md
+    - DCS on AWS - How It Maps: labs/overview/aws-mapping.md
+  - Reference Architectures:
+    - architectures/index.md
+    - "Level 1 - Data Labeling":
+      - Overview: architectures/aws-dcs-level-1-labeling/overview.md
+      - Terraform: architectures/aws-dcs-level-1-labeling/terraform.md
+    - "Level 1 - Assured (STANAG-Compliant)":
+      - Overview: architectures/aws-dcs-level-1-assured/overview.md
+      - Terraform: architectures/aws-dcs-level-1-assured/terraform.md
+    - "Level 2 - ABAC":
+      - Overview: architectures/aws-dcs-level-2-abac/overview.md
+      - Terraform: architectures/aws-dcs-level-2-abac/terraform.md
+    - "Level 2 - Cloud-Native ABAC":
+      - Overview: architectures/aws-dcs-cloud-native-abac/overview.md
+      - Terraform: architectures/aws-dcs-cloud-native-abac/terraform.md
+    - "Level 3 - Encryption (OpenTDF)":
+      - Overview: architectures/aws-dcs-level-3-encryption/overview.md
+      - Terraform: architectures/aws-dcs-level-3-encryption/terraform.md
+  - Operational Scenarios:
+    - scenarios/index.md
+    - "01: Coalition Strategic Sharing": scenarios/01-coalition-strategic-sharing.md
+    - "02: Tactical Unit-to-Unit": scenarios/02-tactical-unit-to-unit.md
+    - "03: Legacy System Retrofit": scenarios/03-legacy-system-dcs-retrofit.md
+    - "04: Cross-Domain Sanitisation": scenarios/04-cross-domain-automated-sanitisation.md
+    - "05: Mission-Based Coalition Sharing": scenarios/05-mission-based-coalition-sharing.md
+    - "06: Intelligence Fusion Centre": scenarios/06-intelligence-fusion-centre.md
+    - "07: Coalition Air Operations": scenarios/07-coalition-air-operations.md
+    - "08: Maritime Domain Awareness": scenarios/08-maritime-domain-awareness.md
+    - "09: Disaster Recovery and Backup": scenarios/09-disaster-recovery-backup.md
+  - Solution Options:
+    - solutions/index.md
+    - "Classification and Labelling":
+      - solutions/cross-cutting/classification-labelling/index.md
+      - "Batch Classification Pipeline": solutions/cross-cutting/classification-labelling/option-1-batch-pipeline.md
+      - "Hybrid Batch + Classify-on-Write": solutions/cross-cutting/classification-labelling/option-2-hybrid.md
+    - "Offline Key Management": solutions/cross-cutting/offline-key-management-options.md
+    - "Legacy DCS Retrofit":
+      - solutions/03-legacy-retrofit/index.md
+      - "JLTS Application Profile": solutions/03-legacy-retrofit/legacy-app-profile.md
+      - "Option 1: Shadow Label Store": solutions/03-legacy-retrofit/option-1-shadow-label-store.md
+      - "Option 2: User Attribute Store": solutions/03-legacy-retrofit/option-2-user-attribute-store.md
+      - "Option 3: TN3270 Security Proxy": solutions/03-legacy-retrofit/option-3-tn3270-security-proxy.md
+      - "Option 4: Batch Export Gateway": solutions/03-legacy-retrofit/option-4-batch-export-gateway.md
+      - "Option 5: TDF Encryption on Export": solutions/03-legacy-retrofit/option-5-tdf-export-encryption.md
+      - "Option 6: Encrypted Data Mirror": solutions/03-legacy-retrofit/option-6-encrypted-data-mirror.md
+    - "LLM-Based Sanitisation": solutions/04-sanitisation/option-1-llm-mcp-sanitisation.md
+  - "Hands-On Labs":
+    - labs/index.md
+    - "Lab 1: Data Labeling (DCS Level 1)":
+      - labs/lab1/index.md
+      - "Step 1: Create the S3 Data Bucket": labs/lab1/step1-s3-bucket.md
+      - "Step 2: Set Up Security Labels": labs/lab1/step2-labels.md
+      - "Step 3: Build the Data Service": labs/lab1/step3-service.md
+      - "Step 4: Test the Data Service": labs/lab1/step4-test.md
+      - "Step 5: Review the Audit Trail": labs/lab1/step5-audit.md
+      - "What You Learned": labs/lab1/summary.md
+    - "Lab 2: Access Control (DCS Level 2)":
+      - labs/lab2/index.md
+      - "Step 1: Set Up Identity Providers": labs/lab2/step1-cognito.md
+      - "Step 2: Create the Policy Engine": labs/lab2/step2-policies.md
+      - "Step 3: Confirm Your Labeled Data": labs/lab2/step3-data.md
+      - "Step 4: Add Access Control to the Data Service": labs/lab2/step4-service.md
+      - "Step 5: Test ABAC Scenarios": labs/lab2/step5-test.md
+      - "Step 6: Change Policies Dynamically": labs/lab2/step6-dynamic.md
+      - "What You Learned": labs/lab2/summary.md
+    - "Lab 3: Encryption (DCS Level 3)":
+      - labs/lab3/index.md
+      - "Step 1: Create the Key Store": labs/lab3/step1-kms.md
+      - "Step 2: Deploy the Key Access Server": labs/lab3/step2-kas.md
+      - "Step 3: Configure Identity and Attributes": labs/lab3/step3-identity.md
+      - "Step 4: Encrypt Your First TDF File": labs/lab3/step4-encrypt.md
+      - "Step 5: Decrypt with Policy Checks": labs/lab3/step5-decrypt.md
+      - "Step 6: Test Federation and Denial": labs/lab3/step6-test.md
+      - "What You Learned": labs/lab3/summary.md
+    - Wrap-Up:
+      - labs/wrapup/index.md
+      - Comparing the Three Levels: labs/wrapup/comparison.md
+      - Real-World Applications: labs/wrapup/real-world.md
+      - Automate with Terraform: labs/wrapup/terraform.md
+      - Clean Up Your AWS Resources: labs/wrapup/cleanup.md
+  - Reference:
+    - NATO STANAGs: documents/nato-stanags/README.md
+    - Gap Analysis: NEXT-STEPS.md
+    - Repository Structure: STRUCTURE.md
