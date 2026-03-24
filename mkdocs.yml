@@ -1,6 +1,6 @@
 site_name: Data-Centric Security on AWS
 site_description: Concepts, hands-on labs, reference architectures, operational scenarios, and solution patterns for coalition data sharing using Data-Centric Security
-site_url: ""
+site_url: https://iamtgray.github.io/dcs-data-exchange/
 
 theme:
   name: material

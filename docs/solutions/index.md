@@ -18,6 +18,8 @@ Each solution documents how it works, advantages and disadvantages, which accept
 - [Option 2: User Attribute Store](03-legacy-retrofit/option-2-user-attribute-store.md) -- Security attributes mapped to RACF user IDs (DCS Level 2 prerequisite)
 - [Option 3: TN3270 Security Proxy](03-legacy-retrofit/option-3-tn3270-security-proxy.md) -- Protocol-aware proxy for interactive access filtering (DCS Level 2)
 - [Option 4: Batch Export Gateway](03-legacy-retrofit/option-4-batch-export-gateway.md) -- Filtering and STANAG 4778 labeling for outbound data (DCS Level 1 assured + Level 2)
+- [Option 5: TDF Encryption on Export](03-legacy-retrofit/option-5-tdf-export-encryption.md) -- TDF-wrapping outbound data with ABAC policies (DCS Level 3)
+- [Option 6: Encrypted Data Mirror](03-legacy-retrofit/option-6-encrypted-data-mirror.md) -- Off-mainframe TDF-encrypted replica for compliance and DR (DCS Level 3)
 
 ### Scenario 04: Cross-domain sanitisation
 
