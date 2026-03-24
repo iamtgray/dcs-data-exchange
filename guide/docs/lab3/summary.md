@@ -4,19 +4,20 @@
 
 ### 1. Data is truly self-protecting
 
-The TDF file contains encrypted data, a wrapped key, and an access policy. It doesn't matter where the file ends up: a USB drive, a cloud bucket, an email attachment. Without KAS authorization, the data is unreadable. This is the core promise of data-centric security.
+The TDF file contains encrypted data, a wrapped key, and an access policy. It doesn't matter where the file ends up — a USB drive, a cloud bucket, an email attachment. Without KAS authorization, the data is unreadable. This is the core promise of data-centric security.
 
 ### 2. The Key Access Server is the control plane
 
-Whoever runs the KAS controls access to data. The KAS decides whether to release encryption keys based on the user's attributes and the data's policy. This is why federated KAS matters in coalition scenarios: each nation controls their own citizens' access through their own KAS.
+Whoever runs the KAS controls access to data. The KAS decides whether to release encryption keys based on the user's attributes and the data's policy. In coalition scenarios, each nation controls their own citizens' access through their own KAS.
 
 ### 3. Policy enforcement happens at decryption time
 
-Policies aren't evaluated when data is stored or shared. They're evaluated every time someone tries to decrypt. This means you can change access to already-shared data by updating entitlements. Revoke someone's clearance, and every TDF they could previously read becomes inaccessible.
+Policies aren't evaluated when data is stored or shared. They're evaluated every time someone tries to decrypt. Change access to already-shared data by updating subject mappings. Revoke someone's clearance, and every TDF they could previously read becomes inaccessible.
 
 ### 4. The TDF format combines all three DCS levels
 
 A TDF file contains:
+
 - Labels (Level 1): Security metadata in the manifest assertions
 - Access control (Level 2): ABAC policy bound to the wrapped key
 - Encryption (Level 3): AES-256-GCM encrypted payload with KAS-controlled key access
@@ -27,9 +28,9 @@ All three levels work together in a single package.
 
 The KMS key never leaves the hardware security module. It's the root of trust for the entire system. CloudTrail logs every key operation, providing a hardware-backed audit trail.
 
-### 6. Protection is independent of infrastructure
+### 6. Minimal infrastructure, maximum protection
 
-This is the biggest difference from Levels 1 and 2. S3 admins, database admins, even AWS root account holders cannot read TDF-protected data. The encryption is applied before data reaches AWS and can only be removed through the KAS.
+We didn't need a custom VPC, a load balancer, or Keycloak. A single Fargate task with a public IP, a db.t3.micro RDS instance, and the Cognito user pools from Lab 2 gave us everything we needed. The OpenTDF platform's Claims entity resolution mode reads attributes directly from Cognito's OIDC tokens. The security isn't in the infrastructure — it's in the data.
 
 ## The complete DCS picture
 
@@ -53,7 +54,7 @@ Result: Data that protects itself wherever it goes
 
 - Multiple KAS instances, one per nation, each with their own KMS key
 - Federated identity via real SAML/OIDC federation between national identity providers
-- Cryptographic label binding with STANAG 4778 JWS signatures binding labels to TDF manifests
+- Cryptographic label binding with STANAG 4778 JWS signatures
 - Gateway architecture for transition points between PKI (tactical) and TDF (strategic) systems
 - Post-quantum migration using TDF's multi-KAS support to add post-quantum algorithms alongside classical ones
 - Offline operations via asymmetric encryption mode for tactical scenarios without KAS connectivity

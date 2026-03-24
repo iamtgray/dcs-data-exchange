@@ -6,9 +6,9 @@ You've now built all three levels of Data-Centric Security on AWS. Here's a summ
 
 | Lab | DCS Level | What you built | Key AWS services |
 |-----|-----------|----------------|------------------|
-| Lab 1 | Level 1 - Labeling | S3 objects with security tags, Lambda access checker | S3, Lambda, IAM, CloudTrail |
-| Lab 2 | Level 2 - Access Control | Policy engine with Cedar rules, multi-org identity | Cognito, Verified Permissions, DynamoDB, Lambda |
-| Lab 3 | Level 3 - Encryption | OpenTDF platform with KAS, encrypted TDF files | ECS, KMS, RDS, Keycloak |
+| Lab 1 | Level 1 - Labeling | S3 objects with security tags, Lambda data service | S3, Lambda, IAM, CloudTrail |
+| Lab 2 | Level 2 - Access Control | Policy engine with Cedar rules, multi-org identity | Cognito, Verified Permissions, Lambda |
+| Lab 3 | Level 3 - Encryption | OpenTDF platform with KAS, encrypted TDF files | ECS, KMS, RDS, Cognito |
 
 ## The journey
 
@@ -25,7 +25,7 @@ Data-centric security moves protection from the network into the data. Instead o
 This approach is useful when:
 
 - Data crosses organizational boundaries (coalition operations, partner sharing)
-- You can't trust every system the data touches (cloud, partner networks)
+- You need to mitigate the risk of bad actors — insiders, cloud provider employees, or external attackers — accessing systems the data touches
 - Access requirements change after data is shared (policy updates, revocations)
 - You need to prove who accessed what and when (audit, compliance)
 

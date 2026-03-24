@@ -4,8 +4,8 @@
 
 | Feature | Level 1: Labeling | Level 2: Access Control | Level 3: Encryption |
 |---------|:-:|:-:|:-:|
-| Data has security metadata | Yes (S3 tags) | Yes (DB attributes) | Yes (TDF assertions) |
-| Access decisions based on attributes | Yes (Lambda code) | Yes (Cedar policies) | Yes (KAS policy engine) |
+| Data has security metadata | Yes (S3 tags) | Yes (S3 tags) | Yes (TDF assertions) |
+| Access decisions based on attributes | No (labels returned, not enforced) | Yes (Cedar policies) | Yes (KAS policy engine) |
 | Policy changes without code deploy | No | Yes | Yes |
 | Data encrypted at rest | No (plain text) | No (plain text) | Yes (AES-256-GCM) |
 | Admin can read data | Yes | Yes | No |
@@ -36,7 +36,7 @@
 ### Level 3 is right when...
 
 - Data crosses organizational or national boundaries
-- You can't fully trust the infrastructure (cloud, partner systems, public networks)
+- You need to mitigate the risk of bad actors — whether insiders, cloud provider employees, or external attackers — accessing the underlying infrastructure
 - Protection must persist regardless of where data ends up
 - You need to revoke access to data that's already been shared
 - Regulatory or classification requirements demand encryption
@@ -60,6 +60,6 @@ Each level is valuable on its own, and the investment in lower levels carries fo
 |-------|-------------------|-------------------|
 | Level 1 | ~$5 | S3, Lambda (mostly free tier) |
 | Level 2 | ~$10-15 | Verified Permissions, Cognito |
-| Level 3 | ~$50-100 | ECS Fargate, RDS, ALB |
+| Level 3 | ~$15-25 | ECS Fargate, RDS db.t3.micro, KMS |
 
-Production costs will be higher, especially at Level 3 where you'll want multiple availability zones, larger database instances, and potentially multiple KAS deployments.
+Production costs will be higher, especially at Level 3 where you'd add a load balancer, private subnets, multi-AZ database, and potentially multiple KAS deployments.

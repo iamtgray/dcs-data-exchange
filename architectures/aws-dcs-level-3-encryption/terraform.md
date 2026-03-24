@@ -4,9 +4,11 @@
 
 - AWS Account with admin access
 - Terraform >= 1.5
-- Docker installed (for building/pulling OpenTDF images)
 - Understanding of Levels 1 and 2 (recommended)
-- Domain name with DNS access (for TLS certificates)
+
+## Design: Simplified Infrastructure
+
+This Terraform uses the default VPC, a single Fargate task with a public IP, and a db.t3.micro RDS instance. No custom VPC, no ALB, no NAT gateway. The focus is on the DCS components (KMS, OpenTDF, Cognito), not networking.
 
 ## Core Terraform Configuration
 
@@ -22,110 +24,40 @@ variable "project_name" {
   default = "dcs-level-3"
 }
 
-variable "domain_name" {
-  description = "Base domain for services (e.g., coalition.example.com)"
-  type        = string
-}
-
 variable "db_password" {
   description = "PostgreSQL master password"
   type        = string
   sensitive   = true
 }
+
+variable "cognito_uk_pool_id" {
+  description = "Cognito User Pool ID for the UK IdP (from Lab 2)"
+  type        = string
+}
 ```
 
-### vpc.tf - Network Infrastructure
+### data.tf - Default VPC and Subnets
 ```hcl
-resource "aws_vpc" "main" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_support   = true
-  enable_dns_hostnames = true
-  tags = { Name = "${var.project_name}-vpc" }
+data "aws_caller_identity" "current" {}
+
+data "aws_vpc" "default" {
+  default = true
 }
 
-resource "aws_subnet" "public_a" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "${var.aws_region}a"
-  map_public_ip_on_launch = true
-  tags = { Name = "${var.project_name}-public-a" }
-}
-
-resource "aws_subnet" "public_b" {
-  vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.2.0/24"
-  availability_zone       = "${var.aws_region}b"
-  map_public_ip_on_launch = true
-  tags = { Name = "${var.project_name}-public-b" }
-}
-
-resource "aws_subnet" "private_a" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.10.0/24"
-  availability_zone = "${var.aws_region}a"
-  tags = { Name = "${var.project_name}-private-a" }
-}
-
-resource "aws_subnet" "private_b" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.11.0/24"
-  availability_zone = "${var.aws_region}b"
-  tags = { Name = "${var.project_name}-private-b" }
-}
-
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-}
-
-resource "aws_eip" "nat" {
-  domain = "vpc"
-}
-
-resource "aws_nat_gateway" "nat" {
-  allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public_a.id
-}
-
-resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.main.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
   }
-}
-
-resource "aws_route_table" "private" {
-  vpc_id = aws_vpc.main.id
-  route {
-    cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat.id
+  filter {
+    name   = "default-for-az"
+    values = ["true"]
   }
-}
-
-resource "aws_route_table_association" "public_a" {
-  subnet_id      = aws_subnet.public_a.id
-  route_table_id = aws_route_table.public.id
-}
-
-resource "aws_route_table_association" "public_b" {
-  subnet_id      = aws_subnet.public_b.id
-  route_table_id = aws_route_table.public.id
-}
-
-resource "aws_route_table_association" "private_a" {
-  subnet_id      = aws_subnet.private_a.id
-  route_table_id = aws_route_table.private.id
-}
-
-resource "aws_route_table_association" "private_b" {
-  subnet_id      = aws_subnet.private_b.id
-  route_table_id = aws_route_table.private.id
 }
 ```
 
 ### kms.tf - Key Encryption Keys
 ```hcl
-# Primary KEK for wrapping TDF Data Encryption Keys
 resource "aws_kms_key" "kas_kek" {
   description             = "DCS Level 3 - KAS Key Encryption Key"
   deletion_window_in_days = 7
@@ -136,15 +68,15 @@ resource "aws_kms_key" "kas_kek" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid    = "RootAccess"
-        Effect = "Allow"
+        Sid       = "RootAccess"
+        Effect    = "Allow"
         Principal = { AWS = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root" }
-        Action   = "kms:*"
-        Resource = "*"
+        Action    = "kms:*"
+        Resource  = "*"
       },
       {
-        Sid    = "KASAccess"
-        Effect = "Allow"
+        Sid       = "KASAccess"
+        Effect    = "Allow"
         Principal = { AWS = aws_iam_role.ecs_task.arn }
         Action = [
           "kms:Encrypt",
@@ -158,7 +90,7 @@ resource "aws_kms_key" "kas_kek" {
   })
 
   tags = {
-    Purpose = "TDF DEK wrapping"
+    Purpose  = "TDF DEK wrapping"
     DCSLevel = "3"
   }
 }
@@ -167,53 +99,45 @@ resource "aws_kms_alias" "kas_kek" {
   name          = "alias/${var.project_name}-kas-kek"
   target_key_id = aws_kms_key.kas_kek.key_id
 }
-
-data "aws_caller_identity" "current" {}
 ```
 
 ### rds.tf - PostgreSQL for OpenTDF
 ```hcl
-resource "aws_db_subnet_group" "opentdf" {
-  name       = "${var.project_name}-db-subnet"
-  subnet_ids = [aws_subnet.private_a.id, aws_subnet.private_b.id]
-}
-
 resource "aws_security_group" "rds" {
   name   = "${var.project_name}-rds-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = data.aws_vpc.default.id
 
   ingress {
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [aws_security_group.ecs.id]
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.default.cidr_block]
+    description = "PostgreSQL from default VPC"
   }
 }
 
-resource "aws_rds_cluster" "opentdf" {
-  cluster_identifier      = "${var.project_name}-opentdf"
-  engine                  = "aurora-postgresql"
-  engine_mode             = "provisioned"
-  engine_version          = "15.4"
-  database_name           = "opentdf"
-  master_username         = "opentdf"
-  master_password         = var.db_password
-  db_subnet_group_name    = aws_db_subnet_group.opentdf.name
-  vpc_security_group_ids  = [aws_security_group.rds.id]
-  storage_encrypted       = true
-  skip_final_snapshot     = true  # Demo only - enable in production
+resource "aws_db_instance" "opentdf" {
+  identifier     = "${var.project_name}-opentdf"
+  engine         = "postgres"
+  engine_version = "15"
+  instance_class = "db.t3.micro"
 
-  serverlessv2_scaling_configuration {
-    min_capacity = 0.5
-    max_capacity = 2
+  allocated_storage = 20
+  storage_type      = "gp3"
+  storage_encrypted = true
+
+  db_name  = "opentdf"
+  username = "opentdf"
+  password = var.db_password
+
+  vpc_security_group_ids = [aws_security_group.rds.id]
+  publicly_accessible    = false
+  skip_final_snapshot    = true  # Demo only
+
+  tags = {
+    Name     = "${var.project_name}-opentdf"
+    DCSLevel = "3"
   }
-}
-
-resource "aws_rds_cluster_instance" "opentdf" {
-  cluster_identifier = aws_rds_cluster.opentdf.id
-  instance_class     = "db.serverless"
-  engine             = aws_rds_cluster.opentdf.engine
-  engine_version     = aws_rds_cluster.opentdf.engine_version
 }
 ```
 
@@ -221,22 +145,18 @@ resource "aws_rds_cluster_instance" "opentdf" {
 ```hcl
 resource "aws_ecs_cluster" "opentdf" {
   name = "${var.project_name}-cluster"
-
-  setting {
-    name  = "containerInsights"
-    value = "enabled"
-  }
 }
 
 resource "aws_security_group" "ecs" {
   name   = "${var.project_name}-ecs-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = data.aws_vpc.default.id
 
   ingress {
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    security_groups = [aws_security_group.alb.id]
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+    description = "OpenTDF platform API"
   }
 
   egress {
@@ -264,18 +184,11 @@ resource "aws_iam_role_policy" "ecs_task_kms" {
   role = aws_iam_role.ecs_task.id
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "kms:Encrypt",
-          "kms:Decrypt",
-          "kms:GenerateDataKey",
-          "kms:DescribeKey",
-        ]
-        Resource = aws_kms_key.kas_kek.arn
-      }
-    ]
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey", "kms:DescribeKey"]
+      Resource = aws_kms_key.kas_kek.arn
+    }]
   })
 }
 
@@ -310,37 +223,34 @@ resource "aws_ecs_task_definition" "opentdf" {
   execution_role_arn       = aws_iam_role.ecs_execution.arn
   task_role_arn            = aws_iam_role.ecs_task.arn
 
-  container_definitions = jsonencode([
-    {
-      name      = "opentdf"
-      image     = "ghcr.io/opentdf/platform:latest"
-      essential = true
-      portMappings = [
-        { containerPort = 8080, protocol = "tcp" }
-      ]
-      environment = [
-        { name = "OPENTDF_DB_HOST",     value = aws_rds_cluster.opentdf.endpoint },
-        { name = "OPENTDF_DB_PORT",     value = "5432" },
-        { name = "OPENTDF_DB_NAME",     value = "opentdf" },
-        { name = "OPENTDF_DB_USER",     value = "opentdf" },
-        { name = "OPENTDF_SERVER_PORT", value = "8080" },
-      ]
-      secrets = [
-        {
-          name      = "OPENTDF_DB_PASSWORD"
-          valueFrom = aws_ssm_parameter.db_password.arn
-        }
-      ]
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          "awslogs-group"         = aws_cloudwatch_log_group.opentdf.name
-          "awslogs-region"        = var.aws_region
-          "awslogs-stream-prefix" = "opentdf"
-        }
+  container_definitions = jsonencode([{
+    name      = "opentdf"
+    image     = "ghcr.io/opentdf/platform:latest"
+    essential = true
+    portMappings = [{ containerPort = 8080, protocol = "tcp" }]
+    environment = [
+      { name = "OPENTDF_DB_HOST",                            value = aws_db_instance.opentdf.address },
+      { name = "OPENTDF_DB_PORT",                            value = "5432" },
+      { name = "OPENTDF_DB_NAME",                            value = "opentdf" },
+      { name = "OPENTDF_DB_USER",                            value = "opentdf" },
+      { name = "OPENTDF_SERVER_PORT",                        value = "8080" },
+      { name = "OPENTDF_SERVER_AUTH_ISSUER",                 value = "https://cognito-idp.${var.aws_region}.amazonaws.com/${var.cognito_uk_pool_id}" },
+      { name = "OPENTDF_SERVER_AUTH_AUDIENCE",               value = "http://localhost:8080" },
+      { name = "OPENTDF_SERVICES_ENTITYRESOLUTION_MODE",     value = "claims" },
+    ]
+    secrets = [{
+      name      = "OPENTDF_DB_PASSWORD"
+      valueFrom = aws_ssm_parameter.db_password.arn
+    }]
+    logConfiguration = {
+      logDriver = "awslogs"
+      options = {
+        "awslogs-group"         = aws_cloudwatch_log_group.opentdf.name
+        "awslogs-region"        = var.aws_region
+        "awslogs-stream-prefix" = "opentdf"
       }
     }
-  ])
+  }])
 }
 
 resource "aws_ssm_parameter" "db_password" {
@@ -353,90 +263,21 @@ resource "aws_ecs_service" "opentdf" {
   name            = "${var.project_name}-opentdf"
   cluster         = aws_ecs_cluster.opentdf.id
   task_definition = aws_ecs_task_definition.opentdf.arn
-  desired_count   = 2
+  desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
-    subnets          = [aws_subnet.private_a.id, aws_subnet.private_b.id]
+    subnets          = data.aws_subnets.default.ids
     security_groups  = [aws_security_group.ecs.id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
-
-  load_balancer {
-    target_group_arn = aws_lb_target_group.opentdf.arn
-    container_name   = "opentdf"
-    container_port   = 8080
-  }
-}
-```
-
-### alb.tf - Application Load Balancer
-```hcl
-resource "aws_security_group" "alb" {
-  name   = "${var.project_name}-alb-sg"
-  vpc_id = aws_vpc.main.id
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-
-resource "aws_lb" "opentdf" {
-  name               = "${var.project_name}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb.id]
-  subnets            = [aws_subnet.public_a.id, aws_subnet.public_b.id]
-}
-
-resource "aws_lb_target_group" "opentdf" {
-  name        = "${var.project_name}-tg"
-  port        = 8080
-  protocol    = "HTTP"
-  vpc_id      = aws_vpc.main.id
-  target_type = "ip"
-
-  health_check {
-    path                = "/healthz"
-    healthy_threshold   = 2
-    unhealthy_threshold = 3
-    interval            = 30
-  }
-}
-
-resource "aws_lb_listener" "https" {
-  load_balancer_arn = aws_lb.opentdf.arn
-  port              = 443
-  protocol          = "HTTPS"
-  ssl_policy        = "ELBSecurityPolicy-TLS13-1-2-2021-06"
-  certificate_arn   = aws_acm_certificate.kas.arn
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.opentdf.arn
-  }
-}
-
-resource "aws_acm_certificate" "kas" {
-  domain_name       = "kas.${var.domain_name}"
-  validation_method = "DNS"
 }
 ```
 
 ### s3.tf - TDF Storage
 ```hcl
 resource "aws_s3_bucket" "tdf_data" {
-  bucket = "${var.project_name}-tdf-${data.aws_caller_identity.current.account_id}"
+  bucket = "dcs-lab-data-${data.aws_caller_identity.current.account_id}"
 }
 
 resource "aws_s3_bucket_versioning" "tdf_data" {
@@ -453,107 +294,76 @@ resource "aws_s3_bucket_public_access_block" "tdf_data" {
 }
 ```
 
-## Keycloak Configuration
+## Cognito Configuration (from Lab 2)
 
-Keycloak runs as a separate ECS service for identity management. Key configuration:
+This architecture reuses the Cognito user pools created in Lab 2. The OpenTDF platform is configured in Claims ERS mode, reading user attributes directly from Cognito's OIDC tokens.
 
-### Realm: coalition
-```json
-{
-  "realm": "coalition",
-  "enabled": true,
-  "clients": [
-    {
-      "clientId": "opentdf-sdk",
-      "publicClient": true,
-      "redirectUris": ["*"],
-      "webOrigins": ["*"],
-      "directAccessGrantsEnabled": true
-    },
-    {
-      "clientId": "opentdf-platform",
-      "secret": "<generated>",
-      "serviceAccountsEnabled": true
-    }
-  ],
-  "users": [
-    {
-      "username": "uk-analyst-01",
-      "enabled": true,
-      "attributes": {
-        "clearance": ["SECRET"],
-        "clearanceLevel": ["2"],
-        "nationality": ["GBR"],
-        "saps": ["WALL"],
-        "organisation": ["UK-MOD-DI"]
-      }
-    },
-    {
-      "username": "pol-analyst-01",
-      "enabled": true,
-      "attributes": {
-        "clearance": ["NATO-SECRET"],
-        "clearanceLevel": ["2"],
-        "nationality": ["POL"],
-        "saps": [],
-        "organisation": ["PL-MON"]
-      }
-    },
-    {
-      "username": "us-analyst-01",
-      "enabled": true,
-      "attributes": {
-        "clearance": ["IL-6"],
-        "clearanceLevel": ["2"],
-        "nationality": ["USA"],
-        "saps": ["WALL"],
-        "organisation": ["US-DOD-DIA"]
-      }
-    }
-  ]
-}
-```
+### Required Cognito resources (already created in Lab 2)
 
-## OpenTDF Attribute Configuration
+| Resource | Name | Purpose |
+|----------|------|---------|
+| UK User Pool | `dcs-level2-uk-idp` | UK users with custom attributes |
+| PL User Pool | `dcs-level2-pol-idp` | Polish users with custom attributes |
+| US User Pool | `dcs-level2-us-idp` | US users with custom attributes |
 
-After deploying the platform, configure attributes via the OpenTDF API:
+### Custom attributes in each pool
+
+| Attribute | Example (UK) | Token claim |
+|-----------|-------------|-------------|
+| `clearance` | SECRET | `custom:clearance` |
+| `clearanceLevel` | 2 | `custom:clearanceLevel` |
+| `nationality` | GBR | `custom:nationality` |
+| `saps` | WALL | `custom:saps` |
+
+## OpenTDF Attribute and Subject Mapping Configuration
+
+After deploying the platform, configure attributes and subject mappings via the OpenTDF API:
 
 ```bash
+KAS_IP="YOUR-TASK-PUBLIC-IP"
+
 # Define attribute namespaces
-curl -X POST https://kas.${DOMAIN}/api/attributes/namespaces \
+curl -X POST http://$KAS_IP:8080/api/attributes/namespaces \
   -H "Authorization: Bearer ${TOKEN}" \
   -d '{
-    "name": "https://coalition.example.com/attr/classification",
+    "name": "https://dcs.example.com/attr/classification",
     "values": ["UNCLASSIFIED", "OFFICIAL", "SECRET", "TOP-SECRET"],
     "rule": "hierarchy"
   }'
 
-curl -X POST https://kas.${DOMAIN}/api/attributes/namespaces \
+curl -X POST http://$KAS_IP:8080/api/attributes/namespaces \
   -H "Authorization: Bearer ${TOKEN}" \
   -d '{
-    "name": "https://coalition.example.com/attr/releasable",
+    "name": "https://dcs.example.com/attr/releasable",
     "values": ["GBR", "USA", "POL"],
     "rule": "anyOf"
   }'
 
-curl -X POST https://kas.${DOMAIN}/api/attributes/namespaces \
+curl -X POST http://$KAS_IP:8080/api/attributes/namespaces \
   -H "Authorization: Bearer ${TOKEN}" \
   -d '{
-    "name": "https://coalition.example.com/attr/sap",
+    "name": "https://dcs.example.com/attr/sap",
     "values": ["WALL"],
     "rule": "allOf"
   }'
 
-# Assign entitlements to users
-curl -X POST https://kas.${DOMAIN}/api/entitlements \
+# Create subject mappings (connect Cognito claims to attributes)
+curl -X POST http://$KAS_IP:8080/api/subject-mappings \
   -H "Authorization: Bearer ${TOKEN}" \
   -d '{
-    "entity": "uk-analyst-01",
-    "attributes": [
-      "https://coalition.example.com/attr/classification/value/SECRET",
-      "https://coalition.example.com/attr/releasable/value/GBR",
-      "https://coalition.example.com/attr/sap/value/WALL"
-    ]
+    "attribute_value_id": "<RELEASABLE_GBR_ID>",
+    "subject_condition_set": {
+      "subject_sets": [{
+        "condition_groups": [{
+          "boolean_operator": "AND",
+          "conditions": [{
+            "subject_external_selector_value": ".custom:nationality",
+            "operator": "IN",
+            "subject_external_values": ["GBR"]
+          }]
+        }]
+      }]
+    }
   }'
 ```
 
@@ -561,15 +371,12 @@ curl -X POST https://kas.${DOMAIN}/api/entitlements \
 
 If building by hand instead of Terraform:
 
-1. **Create VPC** with public and private subnets across 2 AZs
-2. **Create RDS Aurora PostgreSQL** (serverless v2) in private subnets
-3. **Create KMS key** for KEK with restricted key policy
-4. **Create ECS Fargate cluster**
-5. **Deploy Keycloak** container on ECS with realm configuration
-6. **Deploy OpenTDF Platform** container on ECS, connecting to RDS and KMS
-7. **Create ALB** with HTTPS listener and ACM certificate
-8. **Create S3 bucket** for TDF storage
-9. **Configure OpenTDF attributes** via API
-10. **Test with OpenTDF SDK** from workstation
+1. **Create KMS key** with alias `dcs-level3-kas-kek`
+2. **Create RDS PostgreSQL** (db.t3.micro) in default VPC
+3. **Create ECS Fargate cluster** `dcs-level3`
+4. **Create IAM roles** for task execution and KMS access
+5. **Run ECS task** with public IP in default VPC public subnet
+6. **Configure OpenTDF attributes and subject mappings** via API
+7. **Test with OpenTDF CLI** from workstation
 
-See the interactive guide (guide/index.html) for a detailed walkthrough.
+See the interactive guide for a detailed walkthrough.

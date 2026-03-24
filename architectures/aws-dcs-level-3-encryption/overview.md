@@ -7,6 +7,7 @@ This architecture implements **DCS Level 3 (Protection via Encryption)**, the mo
 After building it, you'll understand:
 - How TDF wraps data with encryption and embedded access policies
 - How a Key Access Server (KAS) enforces policies at decryption time
+- How AWS-native identity (Cognito) provides user attributes for access decisions
 - How federated key management works across multiple organizations
 - How DCS Level 3 provides protection even when infrastructure is compromised
 - The complete DCS stack: labeling + access control + encryption
@@ -16,45 +17,45 @@ After building it, you'll understand:
 ```
 +------------------------------------------------------------------+
 |                 "Coalition Shared" AWS Account                    |
+|                         Default VPC                               |
 |                                                                   |
 |   +-----------------------------------------------------------+  |
-|   |                    Application Load Balancer               |  |
-|   |  kas.coalition.example.com                                 |  |
-|   +----------------------------+------------------------------+  |
+|   |              ECS Fargate Task (Public IP)                  |  |
+|   |                                                            |  |
+|   |  +------------------------------------------------------+ |  |
+|   |  | OpenTDF Platform Container                            | |  |
+|   |  |                                                       | |  |
+|   |  | - KAS Service (Key Access Server)                     | |  |
+|   |  | - Attribute Service                                   | |  |
+|   |  | - Claims ERS (Entity Resolution)                      | |  |
+|   |  | - Port 8080 (public)                                  | |  |
+|   |  +-------------------------+-----------------------------+ |  |
+|   |                            |                               |  |
+|   +----------------------------|-------------------------------+  |
 |                                |                                  |
-|   +----------------------------v------------------------------+  |
-|   |              ECS Fargate Cluster                           |  |
-|   |                                                            |  |
-|   |  +------------------+  +------------------+                |  |
-|   |  | OpenTDF Platform |  | OpenTDF Platform |  (auto-scale) |  |
-|   |  | Container        |  | Container        |               |  |
-|   |  |                  |  |                  |                |  |
-|   |  | - KAS Service    |  | - KAS Service    |               |  |
-|   |  | - Policy Engine  |  | - Policy Engine  |               |  |
-|   |  | - Attribute Svc  |  | - Attribute Svc  |               |  |
-|   |  +--------+---------+  +--------+---------+               |  |
-|   |           |                      |                         |  |
-|   +-----------|----------------------|-------------------------+  |
-|               |                      |                            |
-|        +------v------+        +------v------+                     |
-|        | RDS          |        | AWS KMS     |                    |
-|        | PostgreSQL   |        |             |                    |
-|        |              |        | KEK (Key    |                    |
-|        | - Attributes |        |  Encryption |                    |
-|        | - Policies   |        |  Key)       |                    |
-|        | - Entitlements|       |             |                    |
-|        | - Audit logs |        | Wraps/      |                    |
-|        +--------------+        | Unwraps DEKs|                    |
-|                                +-------------+                    |
+|        +-----------------------+------------------------+         |
+|        |                                                |         |
+|  +-----v------+                                  +------v------+  |
+|  | RDS          |                                | AWS KMS     |  |
+|  | PostgreSQL   |                                |             |  |
+|  | db.t3.micro  |                                | KEK (Key    |  |
+|  |              |                                |  Encryption |  |
+|  | - Attributes |                                |  Key)       |  |
+|  | - Subject    |                                |             |  |
+|  |   mappings   |                                | Wraps/      |  |
+|  | - Audit logs |                                | Unwraps DEKs|  |
+|  +--------------+                                +-------------+  |
 |                                                                   |
 |   +-----------------------------------------------------------+  |
-|   |              Keycloak (Identity Provider)                  |  |
-|   |              on ECS Fargate                                |  |
+|   |              Cognito User Pools (from Lab 2)               |  |
 |   |                                                            |  |
-|   |  - Authenticates users from all nations                   |  |
-|   |  - Issues OIDC tokens with user attributes                |  |
-|   |  - Federated to national IdPs (SAML/OIDC)                |  |
-|   |  - Attributes: clearance, nationality, SAPs, org          |  |
+|   |  UK Pool          PL Pool          US Pool                |  |
+|   |  - uk-analyst-01  - pol-analyst-01 - us-analyst-01        |  |
+|   |  - clearance      - clearance      - clearance            |  |
+|   |  - nationality    - nationality    - nationality          |  |
+|   |  - saps           - saps           - saps                 |  |
+|   |                                                            |  |
+|   |  Issues OIDC tokens with custom attributes as claims      |  |
 |   +-----------------------------------------------------------+  |
 |                                                                   |
 |   +-----------------------------------------------------------+  |
@@ -72,8 +73,7 @@ After building it, you'll understand:
 | UK User          | | Polish User      | | US User          |
 | Workstation      | | Workstation      | | Workstation      |
 |                  | |                  | |                  |
-| OpenTDF SDK      | | OpenTDF SDK      | | OpenTDF SDK      |
-| (JavaScript)     | | (JavaScript)     | | (JavaScript)     |
+| OpenTDF CLI      | | OpenTDF CLI      | | OpenTDF CLI      |
 |                  | |                  | |                  |
 | Encrypts data    | | Encrypts data    | | Encrypts data    |
 | locally as TDF   | | locally as TDF   | | locally as TDF   |
@@ -82,27 +82,41 @@ After building it, you'll understand:
 +------------------+ +------------------+ +------------------+
 ```
 
+## Design philosophy: minimal infrastructure
+
+This architecture deliberately uses the simplest possible AWS setup so you can focus on the DCS concepts rather than networking:
+
+- **Default VPC** — no custom VPC, no NAT gateway, no private subnets
+- **ECS Fargate with public IP** — the task runs in a default public subnet with `assignPublicIp: ENABLED`
+- **No load balancer** — the KAS is accessed directly via the task's public IP on port 8080
+- **db.t3.micro RDS** — free-tier eligible, single-AZ, in the default VPC
+- **Cognito from Lab 2** — no new identity infrastructure
+
+In production you'd add a load balancer, private subnets, TLS, and multi-AZ. But for learning DCS, none of that matters. What matters is the encryption, the KAS policy checks, and the key hierarchy.
+
 ## How It Demonstrates DCS Level 3
 
 | DCS Concept | AWS Implementation |
 |---|---|
-| **Data encryption** | AES-256-GCM via OpenTDF SDK (client-side encryption) |
+| **Data encryption** | AES-256-GCM via OpenTDF CLI (client-side encryption) |
 | **Key management** | AWS KMS wraps/unwraps DEKs; OpenTDF KAS manages key access |
 | **Policy enforcement at decryption** | KAS evaluates ABAC policies before releasing DEK |
 | **Labels bound to encrypted data** | TDF manifest contains labels, policies, and key references |
 | **Federated key management** | Multiple KAS instances possible (one per nation account) |
 | **Audit trail** | KAS logs every key access request; CloudTrail logs KMS operations |
 | **Protection independent of infrastructure** | Even S3 admin or AWS root account cannot read TDF payloads |
+| **Identity** | Cognito OIDC tokens with custom attributes, consumed via Claims ERS |
 
 ## The critical difference: why Level 3 matters
 
-In Level 1 and Level 2, anyone with infrastructure access (DynamoDB admin, S3 admin, AWS root) can read all data. Labels and policies are only enforced by the application.
+In Level 1 and Level 2, anyone with infrastructure access (S3 admin, AWS root) can read all data. Labels and policies are only enforced by the application.
 
 In Level 3:
+
 - Data is encrypted at the client before it ever reaches AWS
 - Only the KAS can release the DEK needed to decrypt
 - The KAS evaluates ABAC policies before releasing any key
-- Even AWS itself cannot read the data, only users who pass KAS policy checks
+- Even AWS itself cannot read the data — only users who pass KAS policy checks
 - If you copy the TDF file to a USB drive, it remains encrypted and policy-protected
 - If the S3 bucket is breached, attackers get only ciphertext
 
@@ -112,11 +126,11 @@ This is true data-centric security: protection travels with the data, independen
 
 ### 1. OpenTDF Platform on ECS Fargate
 
-The OpenTDF platform runs as a containerized service providing:
+The OpenTDF platform runs as a single Fargate task with a public IP, providing:
 
 **Key Access Service (KAS)**:
-- Receives DEK unwrap requests from client SDKs
-- Authenticates the requesting user via OIDC token
+- Receives DEK unwrap requests from client CLIs/SDKs
+- Authenticates the requesting user via OIDC token (validated against Cognito's JWKS)
 - Evaluates ABAC policy from the TDF manifest
 - If authorized: unwraps DEK using AWS KMS and returns to client
 - If denied: returns 403 with policy violation details
@@ -125,12 +139,12 @@ The OpenTDF platform runs as a containerized service providing:
 **Attribute Service**:
 - Manages the attribute namespace (clearance levels, nationalities, SAPs)
 - Defines attribute hierarchy (SECRET > OFFICIAL > UNCLASSIFIED)
-- Maps user identity attributes to entitlements
+- Stores subject mappings that connect JWT claims to attribute entitlements
 
-**Policy Engine**:
-- Evaluates ABAC policies embedded in TDF manifests
-- Supports complex boolean logic (AND, OR, NOT)
-- Supports attribute hierarchy comparisons
+**Entity Resolution Service (Claims mode)**:
+- Reads user attributes directly from JWT claims
+- No callback to an external IdP required
+- Maps Cognito's `custom:` prefixed claims to OpenTDF attributes via subject mappings
 
 **Container image**: `ghcr.io/opentdf/platform:latest`
 
@@ -138,9 +152,10 @@ The OpenTDF platform runs as a containerized service providing:
 ```
 OPENTDF_DB_HOST=<rds-endpoint>
 OPENTDF_DB_PORT=5432
-OPENTDF_DB_NAME=opentdf
-OPENTDF_KAS_OIDC_ISSUER=https://keycloak.coalition.example.com/realms/coalition
-OPENTDF_KAS_KMS_KEY_ID=<aws-kms-key-id>
+OPENTDF_DB_DATABASE=opentdf
+OPENTDF_SERVER_AUTH_ISSUER=https://cognito-idp.<region>.amazonaws.com/<pool-id>
+OPENTDF_SERVER_AUTH_AUDIENCE=http://localhost:8080
+OPENTDF_SERVICES_ENTITYRESOLUTION_MODE=claims
 ```
 
 ### 2. AWS KMS (Key Encryption Keys)
@@ -162,7 +177,7 @@ AWS KMS Key (KEK - never leaves KMS)
   "Statement": [
     {
       "Effect": "Allow",
-      "Principal": { "AWS": "arn:aws:iam::role/opentdf-kas-role" },
+      "Principal": { "AWS": "arn:aws:iam::role/dcs-level3-kas-task-role" },
       "Action": ["kms:Encrypt", "kms:Decrypt", "kms:GenerateDataKey"],
       "Resource": "*"
     }
@@ -170,95 +185,70 @@ AWS KMS Key (KEK - never leaves KMS)
 }
 ```
 
-- **Why KMS**: Hardware-backed, FIPS 140-3 Level 3 validated, audit-logged via CloudTrail. The KEK never leaves the HSM. This mirrors the security properties of dedicated HSMs in defence environments.
+**Why KMS**: Hardware-backed, FIPS 140-3 Level 3 validated, audit-logged via CloudTrail. The KEK never leaves the HSM.
 
-### 3. Keycloak Identity Provider
+### 3. Cognito User Pools (from Lab 2)
 
-Handles authentication and attribute assertion for all coalition users.
+Handles authentication and attribute assertion for all coalition users. Reused directly from Lab 2 — no additional setup required.
 
-**Realm**: `coalition`
+**User pools**: One per nation (UK, Poland, US)
 
-**Identity Federation**:
-- UK users: Federated via SAML to UK IdP (simulated with local users for demo)
-- Polish users: Federated via SAML to Polish IdP
-- US users: Federated via SAML to US IdP
-
-**Token attributes** (included in OIDC ID token):
+**Custom attributes** (included in OIDC ID tokens):
 ```json
 {
-  "sub": "user-uk-analyst-01",
-  "clearance": "SECRET",
-  "clearanceLevel": 2,
-  "nationality": "GBR",
-  "saps": ["WALL"],
-  "organisation": "UK-MOD-DI",
-  "iss": "https://keycloak.coalition.example.com/realms/coalition"
+  "sub": "a1b2c3d4-...",
+  "custom:clearance": "SECRET",
+  "custom:clearanceLevel": "2",
+  "custom:nationality": "GBR",
+  "custom:saps": "WALL",
+  "cognito:username": "uk-analyst-01",
+  "iss": "https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_aBcDeFgHi"
 }
 ```
 
-### 4. RDS PostgreSQL
+The OpenTDF platform validates these tokens against Cognito's JWKS endpoint and extracts the `custom:` claims for access decisions via subject mappings.
 
-Stores OpenTDF platform state:
+### 4. RDS PostgreSQL (db.t3.micro)
+
+A single-AZ db.t3.micro instance in the default VPC. Free-tier eligible. Stores:
+
 - **Attribute definitions**: The namespace of attributes (clearance, nationality, etc.)
-- **Entitlements**: Mapping of user identities to attribute values
+- **Subject mappings**: Rules connecting JWT claims to attribute entitlements
 - **Key access audit**: Log of every KAS request and decision
-- **Policy templates**: Reusable policy patterns
 
 ### 5. S3 Data Bucket
 
 Stores TDF files. Unlike Level 1 and Level 2, the S3 bucket contains only ciphertext. No special S3 policies needed for access control because the data is self-protecting.
 
-**Bucket policy** is simple: allow authenticated users to read/write. All real access control happens at the KAS level when users try to decrypt.
+### 6. OpenTDF CLI (otdfctl)
 
-### 6. OpenTDF Client SDK
-
-Installed on user workstations. Available in JavaScript, Java, and Go.
+Installed on user workstations. Available as npm package or Go binary.
 
 **Encryption flow**:
-```javascript
-import { TDF3Client } from '@opentdf/client';
-
-const client = new TDF3Client({
-  kasEndpoint: 'https://kas.coalition.example.com',
-  oidcOrigin: 'https://keycloak.coalition.example.com',
-  clientId: 'opentdf-sdk',
-});
-
-// Encrypt data with ABAC policy
-const tdfStream = await client.encrypt({
-  source: fileBuffer,
-  metadata: {
-    labels: {
-      classification: 'SECRET',
-      releasableTo: ['GBR', 'USA', 'POL'],
-      sap: 'NONE',
-      originator: 'POL'
-    }
-  },
-  scope: {
-    attributes: [
-      'https://coalition.example.com/attr/classification/value/SECRET',
-      'https://coalition.example.com/attr/releasable/value/GBR',
-      'https://coalition.example.com/attr/releasable/value/USA',
-      'https://coalition.example.com/attr/releasable/value/POL'
-    ]
-  }
-});
-
-// Upload TDF to S3
-await s3.putObject({ Bucket: 'dcs-data', Key: 'intel-001.tdf', Body: tdfStream });
+```bash
+otdfctl encrypt \
+  --endpoint http://$KAS_IP:8080 \
+  --oidc-endpoint $COGNITO_ISSUER \
+  --client-id $CLIENT_ID \
+  --username uk-analyst-01 \
+  --password 'TempPass1!' \
+  --attr "https://dcs.example.com/attr/classification/value/SECRET" \
+  --attr "https://dcs.example.com/attr/releasable/value/GBR" \
+  --input intel-report.txt \
+  --output intel-report.txt.tdf
 ```
 
 **Decryption flow**:
-```javascript
-// Download TDF from S3
-const tdfData = await s3.getObject({ Bucket: 'dcs-data', Key: 'intel-001.tdf' });
-
-// Decrypt - SDK contacts KAS, KAS evaluates policy, returns DEK if authorized
-const plaintext = await client.decrypt({
-  source: tdfData.Body
-});
-// If user lacks required attributes, this throws PolicyDeniedError
+```bash
+otdfctl decrypt \
+  --endpoint http://$KAS_IP:8080 \
+  --oidc-endpoint $COGNITO_ISSUER \
+  --client-id $CLIENT_ID \
+  --username uk-analyst-01 \
+  --password 'TempPass1!' \
+  --input intel-report.txt.tdf \
+  --output intel-report-decrypted.txt
+# If user lacks required attributes, this returns "access denied"
 ```
 
 ## TDF File Structure
@@ -278,7 +268,7 @@ intel-001.tdf (ZIP archive)
     "keyAccess": [
       {
         "type": "wrapped",
-        "url": "https://kas.coalition.example.com",
+        "url": "http://KAS-IP:8080/kas",
         "protocol": "kas",
         "wrappedKey": "<base64-encoded-wrapped-DEK>",
         "policyBinding": {
@@ -303,31 +293,16 @@ intel-001.tdf (ZIP archive)
         "sig": "<payload-integrity-hash>"
       }
     }
-  },
-  "assertions": [
-    {
-      "id": "classification",
-      "type": "handling",
-      "scope": "payload",
-      "statement": {
-        "format": "json",
-        "value": "{\"classification\":\"SECRET\",\"releasableTo\":[\"GBR\",\"USA\",\"POL\"]}"
-      },
-      "binding": {
-        "method": "jws",
-        "signature": "<JWS-signature-binding-assertion-to-manifest>"
-      }
-    }
-  ]
+  }
 }
 ```
 
-Security properties of this structure:
+Security properties:
+
 1. `wrappedKey` can only be unwrapped by the KAS specified in `url`
 2. `policyBinding` prevents the policy from being tampered with after encryption
-3. `assertions` carry STANAG 4774-style labels, bound via JWS (STANAG 4778)
-4. `rootSignature` on payload detects any data tampering
-5. Even with the TDF file, you cannot decrypt without KAS authorization
+3. `rootSignature` on payload detects any data tampering
+4. Even with the TDF file, you cannot decrypt without KAS authorization
 
 ## Federated Architecture (Advanced)
 
@@ -341,92 +316,22 @@ For true coalition operations, each nation runs its own KAS:
 | (OpenTDF +       |     | (OpenTDF +       |     | (OpenTDF +       |
 |  UK KMS key)     |     |  PL KMS key)     |     |  US KMS key)     |
 |                  |     |                  |     |                  |
-| UK IdP           |     | PL IdP           |     | US IdP           |
+| UK Cognito/IdP   |     | PL Cognito/IdP   |     | US Cognito/IdP   |
 | UK policies      |     | PL policies      |     | US policies      |
 | UK audit logs    |     | PL audit logs    |     | US audit logs    |
 +------------------+     +------------------+     +------------------+
-
-TDF manifest with AnyOf key access:
-{
-  "keyAccess": [
-    { "url": "https://kas.uk.mod.example.com",  "wrappedKey": "<UK-KEK-wrapped>" },
-    { "url": "https://kas.pl.mon.example.com",  "wrappedKey": "<PL-KEK-wrapped>" },
-    { "url": "https://kas.us.dod.example.com",  "wrappedKey": "<US-KEK-wrapped>" }
-  ]
-}
-
-Any nation's KAS can independently authorize and unwrap.
-Each nation maintains sovereignty over their keys and policies.
 ```
 
-## Scenarios to Demonstrate
-
-### Scenario A: Basic Encrypt-Decrypt
-1. Polish analyst encrypts sensor report as TDF
-2. Uploads to shared S3 bucket
-3. UK analyst downloads TDF file
-4. SDK contacts KAS, KAS checks UK analyst's attributes
-5. KAS authorizes, returns DEK
-6. SDK decrypts locally
-
-### Scenario B: Access Denied at KAS
-1. Contractor downloads TDF file from S3 (anyone can download ciphertext)
-2. SDK contacts KAS with contractor's OIDC token
-3. KAS evaluates: contractor clearance UNCLASSIFIED < required SECRET
-4. KAS returns PolicyDeniedError
-5. Data remains encrypted on contractor's machine
-
-### Scenario C: Data Exfiltration Protection
-1. Insider copies TDF files to external USB drive
-2. TDF files contain only ciphertext
-3. Without KAS authorization, files are useless
-4. Even if insider has the TDF SDK, KAS won't authorize without valid credentials
-
-### Scenario D: Policy Update After Sharing
-1. Polish analyst encrypts report, shares with GBR and USA
-2. Later, policy admin revokes USA access in KAS
-3. US analyst who previously could decrypt now gets denied
-4. Data doesn't change - policy changed at KAS
-5. This is "policy persistence" - control after sharing
-
-### Scenario E: Federated KAS (Advanced)
-1. Polish analyst encrypts with both PL-KAS and UK-KAS key access
-2. UK analyst contacts UK-KAS (never touches Polish infrastructure)
-3. UK-KAS unwraps with UK KMS key, evaluates UK policies
-4. UK analyst decrypts - Polish KAS never involved
-5. Each nation maintains sovereignty over their citizens' access
-
-## What you'll learn
-
-After building and using this architecture, you'll understand:
-
-1. Data is truly self-protecting. Unlike Levels 1 and 2, encrypted data cannot be read by infrastructure administrators, cloud providers, or attackers who breach the storage layer.
-
-2. Key management is the control plane. Whoever controls the KAS controls access to data. This is why federated KAS matters: each nation controls their own.
-
-3. Policy enforcement happens at consumption time. Policies are evaluated when someone tries to decrypt, not when data is stored. This allows dynamic access control after sharing.
-
-4. TDF is an envelope. The TDF wraps data with everything needed for access control: the encrypted payload, the wrapped key, the policy, and the labels. It's a complete data-centric security package.
-
-5. The full DCS stack works together. Level 3 builds on Level 1 (labels in assertions) and Level 2 (ABAC policies) and adds encryption. All three levels are present in a single TDF file.
-
-## Terraform Overview
-
-See `terraform/` for complete IaC. Key resources:
-- `aws_ecs_cluster` + `aws_ecs_service` for OpenTDF platform
-- `aws_ecs_service` for Keycloak
-- `aws_rds_cluster` for PostgreSQL
-- `aws_kms_key` for KEK
-- `aws_lb` + `aws_lb_target_group` for ALB
-- `aws_s3_bucket` for TDF storage
-- `aws_ecr_repository` for container images (or pull from GHCR)
-- VPC, subnets, security groups for network isolation
+Each nation maintains sovereignty over their keys and access decisions.
 
 ## Estimated Cost
 
-Approximately $50-100/month for demonstration:
-- ECS Fargate: ~$30-50 (2 tasks, 0.5 vCPU, 1GB each)
-- RDS PostgreSQL: ~$15-30 (db.t3.micro)
+Approximately $15-25/month for demonstration:
+
+- ECS Fargate: ~$10-15 (1 task, 0.5 vCPU, 1GB)
+- RDS db.t3.micro: Free tier eligible (first 12 months), ~$15/month after
 - KMS: ~$1/month per key + $0.03/10,000 requests
-- ALB: ~$15/month
+- Cognito: Free tier covers demo usage
 - S3: minimal for demo data volumes
+
+No ALB, no NAT gateway, no custom VPC — those were the biggest cost drivers in the previous architecture.

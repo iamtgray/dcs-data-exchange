@@ -26,15 +26,15 @@ UK SECRET, Polish NATO-SECRET, and US IL-6 all map to clearance level 2. The num
 
 ### Data is still unencrypted
 
-The biggest gap: DynamoDB stores all payloads in plain text. Anyone with direct DynamoDB access (database admin, AWS root account, a compromised IAM credential with DynamoDB permissions) can read everything. The ABAC policies are only enforced by our Lambda - they're not enforced at the data layer.
+The biggest gap: S3 stores all data in plain text. Anyone with direct S3 access (an admin, AWS root account, a compromised IAM credential) can read everything. The ABAC policies are only enforced by our Lambda — they're not enforced at the storage layer.
 
 ### No cryptographic binding of labels
 
-Labels are DynamoDB attributes that anyone with write access can change. There's no digital signature proving that the originator set these labels. In a real system, labels would be cryptographically bound to the data (STANAG 4778).
+Labels are S3 tags that anyone with tagging permissions can change. There's no digital signature proving that the originator set these labels. In a real system, labels would be cryptographically bound to the data (STANAG 4778).
 
 ### Protection doesn't travel with the data
 
-If someone exports the DynamoDB table or copies data to another system, the labels might follow (as attributes) but the policy enforcement won't. The Cedar policies only apply within our system.
+If someone copies the S3 objects to another bucket or downloads them, the labels might follow (as tags) but the policy enforcement won't. The Cedar policies only apply within our system.
 
 ## Moving to Level 3
 

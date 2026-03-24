@@ -50,7 +50,7 @@ These three capabilities map directly to the **three DCS levels** we'll explore 
 
 This workshop teaches DCS in two passes:
 
-1. **Concepts (the labs)**: Build each DCS level using straightforward AWS services. S3 tags for labels, Lambda for access checks, OpenTDF for encryption. You'll understand what each level does and why it matters.
+1. **Concepts (the labs)**: Build each DCS level using straightforward AWS services. S3 tags for labels, Lambda and Verified Permissions for access control, OpenTDF for encryption. You'll understand what each level does and why it matters.
 
 2. **Compliance (the architecture references)**: See how the same concepts are implemented to NATO STANAG standards. Structured XML labels, cryptographic binding, formal classification vocabularies. This is what production coalition systems look like.
 

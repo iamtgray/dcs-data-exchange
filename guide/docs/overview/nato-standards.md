@@ -6,7 +6,7 @@ DCS isn't just a concept. NATO has published formal standards that define how it
 
 This workshop teaches DCS in two stages:
 
-1. **Basic concepts (the labs)** -- You'll use simplified AWS implementations (S3 tags, Lambda comparisons, DynamoDB attributes) to learn what DCS does and why each level matters. This is like learning to cook with a recipe before studying food science.
+1. **Basic concepts (the labs)** -- You'll use simplified AWS implementations (S3 tags, Lambda functions, Cedar policies) to learn what DCS does and why each level matters. This is like learning to cook with a recipe before studying food science.
 
 2. **STANAG-compliant implementations (the architecture references)** -- Once you understand the concepts, the architecture documents show how to implement them using the actual NATO standards. Proper XML labels, cryptographic signatures, formal classification vocabularies.
 

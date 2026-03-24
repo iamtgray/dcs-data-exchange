@@ -1,33 +1,39 @@
 # Lab 2: Access Control (DCS Level 2)
 
+## What's the problem?
+
+In Lab 1, we built a data service that returns S3 objects along with their labels. It works — but it returns everything to everyone. The labels are there in the response, describing how the data should be handled, but nothing checks whether the caller should actually see it.
+
+DCS Level 2 adds enforcement. A policy engine sits between the user and the data, checking the user's attributes (clearance, nationality, SAPs) against the data's labels before allowing access. The labels from Level 1 become the input to access decisions in Level 2.
+
 ## What you'll build
 
-In this lab, you'll create a system where:
+We'll take the data service from Lab 1 and add three things:
 
-1. Three identity providers (one per nation) manage user attributes
-2. A dedicated policy engine (Amazon Verified Permissions) evaluates access rules written in Cedar
-3. Data items in DynamoDB carry security labels as attributes
-4. A Lambda service ties it all together - checking the policy engine before returning data
+1. **User identity** — Cognito user pools (one per nation) with custom attributes for clearance, nationality, and SAPs
+2. **A policy engine** — Amazon Verified Permissions with Cedar policies that express the access rules
+3. **Access checking in the Lambda** — before returning data, the Lambda asks Verified Permissions "should this user see this?"
 
-This demonstrates **DCS Level 2** - access control driven by a proper policy engine rather than hard-coded logic.
+```
+Lab 1:  User → Lambda → S3 (returns data + labels, no questions asked)
 
-## What's different from Lab 1?
+Lab 2:  User → Lambda → asks Verified Permissions (Cedar policies)
+                ↕               ↕
+              S3 data     evaluates user attrs
+            + labels      vs data labels
+                ↓
+         returns data if allowed, 403 if not
+```
 
-| Aspect | Lab 1 (Level 1) | Lab 2 (Level 2) |
-|--------|-----------------|-----------------|
-| User identity | IAM user tags | Cognito user pools with JWT tokens |
-| Access logic | Hard-coded in Lambda | Declarative Cedar policies in Verified Permissions |
-| Policy changes | Requires code change + deploy | Update policy in console, instant effect |
-| Data store | S3 with object tags | DynamoDB with label attributes |
-| Multiple orgs | Single set of IAM users | Separate Cognito pools per nation |
+The data stays in S3 with the same labels from Lab 1. The Lambda is the same function, modified to check policies before returning data. The new pieces are Cognito (identity) and Verified Permissions (policy engine).
 
 ## What you'll learn
 
-- How **ABAC** (Attribute-Based Access Control) works with a real policy engine
-- How **Cedar policies** express complex rules declaratively
-- How to **federate identity** across multiple organizations
-- How **dynamic policy updates** affect existing data without re-labeling
-- Why this is still not enough (setting you up for Level 3)
+- How a policy engine separates access logic from application code
+- How Cedar policies express clearance/nationality/SAP checks declaratively
+- How multiple identity providers (one per nation) federate into a single system
+- How you can change access rules on the fly without redeploying anything
+- Why this is still not enough (the data itself is still unencrypted)
 
 ## Architecture
 
@@ -39,25 +45,23 @@ This demonstrates **DCS Level 2** - access control driven by a proper policy eng
        +--------+---------+---------+--------+
                 |                   |
                 v                   v
-          API Gateway         Amazon Verified
-        (validates JWT)       Permissions (AVP)
-                |             [Cedar policies]
-                v                   ^
-          Lambda Service            |
-          - extracts user attrs     |
-          - gets data labels -------+--- evaluates
-          - calls AVP                    user attrs
-          - returns data or 403          vs data labels
-                |
-                v
-            DynamoDB
-          (labeled data)
+          Lambda Data           Amazon Verified
+          Service               Permissions (AVP)
+          (from Lab 1,          [Cedar policies]
+           now with                   ^
+           access checks)             |
+                |              evaluates user attrs
+                v              vs data labels
+            S3 Bucket
+          (labeled objects
+           from Lab 1)
 ```
 
 ## Before you start
 
+- Completed Lab 1 (you need the S3 bucket with labeled objects and the Lambda function)
 - AWS Console access with admin permissions
-- Same region as Lab 1 (eu-west-2 recommended)
+- Same region as Lab 1
 - About 45 minutes
 
 Let's go. **[Step 1: Set Up Identity Providers](step1-cognito.md)**

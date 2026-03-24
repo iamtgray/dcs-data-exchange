@@ -1,10 +1,10 @@
 # Step 5: Test ABAC Scenarios
 
-Let's test our DCS Level 2 system by making requests as different users against different data items.
+Let's test the updated data service. The requests now include user attributes alongside the object key. Compare the responses to Lab 1 — when access is allowed, you get the same data and labels. When it's denied, you get the labels but not the content.
 
 ## Test using curl
 
-Replace `YOUR_FUNCTION_URL` with your Lambda Function URL.
+Use the same Function URL from Lab 1.
 
 ### Test 1: UK analyst reads coalition intelligence
 
@@ -12,15 +12,17 @@ Replace `YOUR_FUNCTION_URL` with your Lambda Function URL.
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "uk-analyst-01",
+    "objectKey": "intel-report.txt",
+    "username": "uk-analyst-01",
     "clearanceLevel": 2,
     "nationality": "GBR",
-    "saps": ["WALL"],
-    "dataId": "intel-report-001"
+    "saps": ["WALL"]
   }' | python3 -m json.tool
 ```
 
-**Expected: ALLOW** - UK analyst has SECRET (level 2), GBR is in releasable-to, no SAP required.
+**Expected: ALLOWED** — clearance 2 >= classification SECRET (2), GBR in releasable-to, no SAP required.
+
+The response includes the data content and labels, just like Lab 1, plus `determiningPolicies` showing which Cedar policy allowed it.
 
 ### Test 2: Polish analyst reads WALL report
 
@@ -28,81 +30,98 @@ curl -s -X POST YOUR_FUNCTION_URL \
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "pol-analyst-01",
+    "objectKey": "operation-wall.txt",
+    "username": "pol-analyst-01",
     "clearanceLevel": 2,
     "nationality": "POL",
-    "saps": [],
-    "dataId": "wall-report-003"
+    "saps": []
   }' | python3 -m json.tool
 ```
 
-**Expected: DENY** - Polish analyst doesn't have the WALL SAP.
+**Expected: DENIED** — Polish analyst doesn't have the WALL SAP.
 
-### Test 3: US analyst reads UK-eyes-only
+```json
+{
+  "object": "operation-wall.txt",
+  "labels": {
+    "dcs:classification": "SECRET",
+    "dcs:releasable-to": "GBR,USA,POL",
+    "dcs:sap": "WALL",
+    "dcs:originator": "GBR"
+  },
+  "allowed": false,
+  "user": "pol-analyst-01",
+  "determiningPolicies": []
+}
+```
+
+Notice: the labels are returned (the caller can see what the data requires) but the content is not. This is the difference from Lab 1 — the same request in Lab 1 would have returned the full content.
+
+### Test 3: UK analyst reads WALL report
 
 ```bash
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "us-analyst-01",
-    "clearanceLevel": 2,
-    "nationality": "USA",
-    "saps": ["WALL"],
-    "dataId": "uk-eyes-only-002"
-  }' | python3 -m json.tool
-```
-
-**Expected: DENY** - USA is not in the releasable-to list (GBR only), and USA is not the originator (GBR is).
-
-### Test 4: UK analyst reads UK-eyes-only
-
-```bash
-curl -s -X POST YOUR_FUNCTION_URL \
-  -H "Content-Type: application/json" \
-  -d '{
-    "userId": "uk-analyst-01",
+    "objectKey": "operation-wall.txt",
+    "username": "uk-analyst-01",
     "clearanceLevel": 2,
     "nationality": "GBR",
-    "saps": ["WALL"],
-    "dataId": "uk-eyes-only-002"
+    "saps": ["WALL"]
   }' | python3 -m json.tool
 ```
 
-**Expected: ALLOW** - GBR is in releasable-to, AND GBR is the originator (both policies match).
+**Expected: ALLOWED** — UK analyst has SECRET clearance, GBR nationality, and the WALL SAP.
 
-### Test 5: Revoked clearance
+### Test 4: Contractor with no clearance
 
 ```bash
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "revoked-user",
+    "objectKey": "intel-report.txt",
+    "username": "contractor-01",
     "clearanceLevel": 0,
     "nationality": "GBR",
-    "saps": ["WALL"],
-    "dataId": "logistics-004"
+    "saps": []
   }' | python3 -m json.tool
 ```
 
-**Expected: DENY** - Even though the logistics report is UNCLASSIFIED and released to ALL, the forbid policy blocks users with clearance level 0.
+**Expected: DENIED** — clearance level 0 is blocked by the `forbid` policy, even though GBR is in the releasable-to list.
+
+### Test 5: Everyone can read unclassified data
+
+```bash
+curl -s -X POST YOUR_FUNCTION_URL \
+  -H "Content-Type: application/json" \
+  -d '{
+    "objectKey": "logistics-report.txt",
+    "username": "pol-analyst-01",
+    "clearanceLevel": 2,
+    "nationality": "POL",
+    "saps": []
+  }' | python3 -m json.tool
+```
+
+**Expected: ALLOWED** — UNCLASSIFIED, releasable to ALL.
 
 ## Full results matrix
 
-| Data Item | UK (SECRET, GBR, WALL) | Poland (NS, POL, none) | US (IL-6, USA, WALL) |
-|-----------|:---:|:---:|:---:|
-| intel-report-001 (SECRET, GBR/USA/POL) | ALLOW | ALLOW | ALLOW |
-| wall-report-003 (SECRET, GBR/USA/POL, SAP:WALL) | ALLOW | **DENY** | ALLOW |
-| uk-eyes-only-002 (SECRET, GBR only) | ALLOW | **DENY** | **DENY** |
-| logistics-004 (UNCLASS, ALL) | ALLOW | ALLOW | ALLOW |
+| Object | UK (SECRET, GBR, WALL) | Poland (NS, POL, none) | US (IL-6, USA, WALL) |
+|--------|:---:|:---:|:---:|
+| logistics-report.txt (UNCLASS, ALL) | ALLOW | ALLOW | ALLOW |
+| intel-report.txt (SECRET, GBR/USA/POL) | ALLOW | ALLOW | ALLOW |
+| operation-wall.txt (SECRET, GBR/USA/POL, SAP:WALL) | ALLOW | **DENY** | ALLOW |
 
 ## What's different from Lab 1
 
-The results are the same, but the mechanism is fundamentally different:
+In Lab 1, every request returned the data. Now:
 
-1. **The Lambda has no access logic.** It doesn't know what SECRET means or how to compare clearances. It just passes attributes to Verified Permissions and acts on the response.
+- The Lambda checks Verified Permissions before returning content
+- Denied requests get a 403 with labels but no content
+- Allowed requests include `determiningPolicies` showing which Cedar policy permitted access
+- The Lambda has no access logic of its own — it just relays the policy engine's decision
 
-2. **The policies are separate from the code.** You can see them in the Verified Permissions console, test them in the test bench, and change them without touching the Lambda.
-
-3. **The response tells you which policy decided.** The `authorizedBy` field in the ALLOW response shows which Cedar policy(ies) permitted the access. This is much better for auditing.
+The data hasn't changed. The labels haven't changed. The only new thing is the policy check.
 
 Next: **[Step 6: Change Policies Dynamically](step6-dynamic.md)**

@@ -33,11 +33,11 @@ permit(
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "swe-observer-01",
+    "objectKey": "intel-report.txt",
+    "username": "swe-observer-01",
     "clearanceLevel": 2,
     "nationality": "SWE",
-    "saps": [],
-    "dataId": "intel-report-001"
+    "saps": []
   }' | python3 -m json.tool
 ```
 
@@ -54,11 +54,11 @@ curl -s -X POST YOUR_FUNCTION_URL \
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "swe-observer-01",
+    "objectKey": "operation-wall.txt",
+    "username": "swe-observer-01",
     "clearanceLevel": 2,
     "nationality": "SWE",
-    "saps": [],
-    "dataId": "wall-report-003"
+    "saps": []
   }' | python3 -m json.tool
 ```
 
@@ -98,11 +98,11 @@ permit(
 curl -s -X POST YOUR_FUNCTION_URL \
   -H "Content-Type: application/json" \
   -d '{
-    "userId": "pol-analyst-01",
+    "objectKey": "operation-wall.txt",
+    "username": "pol-analyst-01",
     "clearanceLevel": 2,
     "nationality": "POL",
-    "saps": [],
-    "dataId": "wall-report-003"
+    "saps": []
   }' | python3 -m json.tool
 ```
 

@@ -21,7 +21,7 @@ The labs use simplified AWS implementations to teach the concepts. The table bel
 |---|---|---|
 | User attributes (clearance, nationality) | **Amazon Cognito** | Custom user attributes in user pools |
 | Policy Decision Point | **Amazon Verified Permissions** | Cedar policy language evaluates user attributes against data labels |
-| Data labels | **DynamoDB attributes** | Each data item has classification, releasability, and SAP fields |
+| Data labels | **S3 Object Tags** | Same labels from Lab 1, read by Lambda and passed to Cedar as entity attributes |
 | Classification mapping | **Lambda** | Maps between national classification systems (UK SECRET = NATO SECRET = US IL-6) |
 | Multiple organizations | **Separate Cognito User Pools** | One pool per nation, simulating federated identity |
 
@@ -32,7 +32,7 @@ The labs use simplified AWS implementations to teach the concepts. The table bel
 | Data Encryption Key (DEK) | **OpenTDF SDK** | Generates unique AES-256-GCM key per data object |
 | Key Encryption Key (KEK) | **AWS KMS** | Hardware-backed key that wraps/unwraps DEKs |
 | Key Access Server (KAS) | **OpenTDF on ECS Fargate** | Service that evaluates policies and releases DEKs |
-| Identity Provider | **Keycloak on ECS** | Issues OIDC tokens with user attributes |
+| Identity Provider | **Cognito User Pools** | Issues OIDC tokens with user attributes |
 | TDF file storage | **S3** | Stores encrypted TDF files (just ciphertext) |
 | Attribute management | **OpenTDF Platform** | Defines attribute namespaces and user entitlements |
 | Database | **RDS PostgreSQL** | Stores OpenTDF platform state |
@@ -72,8 +72,8 @@ All three labs combined will cost approximately:
 | Lab | Monthly cost | Notes |
 |-----|-------------|-------|
 | Lab 1 | ~$5 | S3, Lambda, CloudTrail (mostly free tier) |
-| Lab 2 | ~$10-15 | Adds Cognito, Verified Permissions, DynamoDB |
-| Lab 3 | ~$50-100 | Adds ECS Fargate, RDS, ALB |
+| Lab 2 | ~$10-15 | Adds Cognito, Verified Permissions |
+| Lab 3 | ~$15-25 | Adds ECS Fargate, RDS db.t3.micro, KMS |
 
 !!! warning "Remember to clean up"
     The wrap-up section includes instructions to delete all resources. Lab 3 in particular runs ECS tasks and an RDS database that will accumulate costs if left running.

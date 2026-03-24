@@ -66,10 +66,10 @@ In this workshop, Lab 1 builds basic Level 1 to teach the concepts. The architec
 
 - Even if someone steals the TDF file, they can't read it
 - Even if someone has admin access to the storage system, they can't read it
-- Even if the cloud provider is compromised, they can't read it
+- Even if a bad actor within your cloud provider, your own organization, or a partner gains access to the storage layer, they only get ciphertext
 - The only way to read the data is through the KAS, which checks the policy every time
 
-**When you need it:** When data crosses organizational boundaries, when you can't trust the infrastructure, or when you need protection that persists after data leaves your systems.
+**When you need it:** When data crosses organizational boundaries, when you need to mitigate the risk of insider threats (whether within your own organization, a partner, or a cloud provider), or when you need protection that persists after data leaves your systems.
 
 ## How the levels build on each other
 

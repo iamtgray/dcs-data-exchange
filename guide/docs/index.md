@@ -14,7 +14,7 @@ By the end, you'll understand:
 
 ## How this workshop approaches DCS
 
-This workshop takes a deliberate basics-first approach. We start by teaching the core DCS concepts using simple, approachable AWS services -- S3 tags for labels, Lambda for access checks, DynamoDB for data. This lets you focus on understanding *what* DCS does and *why* it matters, without getting tangled in XML schemas and cryptographic signatures on day one.
+This workshop takes a deliberate basics-first approach. We start by teaching the core DCS concepts using simple, approachable AWS services -- S3 tags for labels, Lambda for access checks, Verified Permissions for policy evaluation. This lets you focus on understanding *what* DCS does and *why* it matters, without getting tangled in XML schemas and cryptographic signatures on day one.
 
 Once you've built that foundation, we introduce NATO STANAG compliance -- the formal standards that make DCS interoperable across nations and organizations. You'll see how the basic concepts you already understand map to structured XML labels (STANAG 4774), cryptographic binding (STANAG 4778), and the Zero Trust Data Format (ZTDF).
 
@@ -37,7 +37,7 @@ Think of it as learning to drive before learning the highway code. Both matter, 
 
 | Lab | DCS Level | What You'll Build | Time |
 |-----|-----------|-------------------|------|
-| **Lab 1** | Level 1 - Labeling | S3 objects with security tags, a Lambda that checks labels before granting access | ~30 min |
+| **Lab 1** | Level 1 - Labeling | S3 objects with security tags, a Lambda that returns data with its labels | ~30 min |
 | **Lab 2** | Level 2 - Access Control | A proper policy engine (Amazon Verified Permissions) that evaluates user attributes against data labels | ~45 min |
 | **Lab 3** | Level 3 - Encryption | OpenTDF platform on ECS with AWS KMS, where data is encrypted and only released after policy checks | ~60 min |
 

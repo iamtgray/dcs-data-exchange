@@ -14,13 +14,16 @@ In a real deployment:
 
 ## Defence cloud migration
 
-Many defence organizations are moving workloads to commercial cloud. DCS addresses the key concern: "Can we trust the cloud provider with our classified data?"
+Many defence organizations are moving workloads to commercial cloud. DCS addresses a key concern: mitigating the risk of any bad actor — whether an insider within your own organization, a partner, or a cloud service provider — gaining access to sensitive data.
+
+!!! note "Cloud provider access models vary"
+    Some cloud services offer zero-operator access guarantees where provider employees cannot access customer data. However, not all services provide this (for example, S3 at the time of writing is not a zero-operator access service). DCS Level 3 provides protection regardless of the service's operator access model.
 
 With Level 3:
 
 - Data is encrypted before it reaches the cloud
-- The cloud provider (AWS, Azure, GCP) stores only ciphertext
-- Even if the cloud provider is compelled to hand over data, they can only provide encrypted files
+- The cloud provider stores only ciphertext
+- Even if data is exfiltrated — by an insider, a compromised credential, or a compelled disclosure — only encrypted files are exposed
 - Key management stays under the organization's control (through KMS key policies)
 
 ## Cross-domain solutions

@@ -1,58 +1,48 @@
-# What You Learned - Lab 1
+# What You Learned — Lab 1
 
 ## Key takeaways
 
 ### 1. Labels make data self-describing
 
-By adding S3 tags to each object, the data now carries its own security metadata. Any system that reads those tags knows how to handle the data: what classification it is, who can see it, and what special access is needed.
+By adding S3 tags to each object, the data now carries its own security metadata. Any system that reads those tags knows how the data should be handled: what classification it is, who should be able to see it, and what special access is needed.
 
-### 2. Access decisions come from comparing attributes
+### 2. Labels travel with data
 
-Instead of writing a separate permission for every user-object combination, we wrote one function that compares user attributes against data labels. This is the core DCS concept: security decisions are driven by the data's metadata.
+When you copied an S3 object, the tags went with it. This is the DCS principle: security metadata is attached to the data, not stored in a separate system that might get out of sync.
 
-### 3. Classification mapping enables interoperability
+### 3. Labels without enforcement are just suggestions
 
-The Polish analyst had "NATO-SECRET" and the UK analyst had "SECRET" -- different labels from different systems. By mapping them to a common numeric level, we enabled cross-national access decisions. This is what STANAG 4774 does at the NATO level.
+Our data service returned SECRET intelligence reports to anyone who asked. The labels were there in the response, but nothing stopped an unauthorized person from reading the data. Labels describe policy; they don't enforce it.
 
-### 4. Audit trails are built in
+### 4. Labels without binding can be silently changed
 
-Every access decision was logged with full context. An auditor can reconstruct exactly who accessed what, when, and why the decision was made.
+We changed a SECRET report's label to UNCLASSIFIED with a single CLI command. Nobody was alerted. The data service happily returned the mislabeled data. In a real system, STANAG 4778 cryptographic binding would make this tampering detectable.
 
-## What's missing (and why you need Level 2 and Level 3)
+### 5. Audit tells you what happened, not whether it should have
 
-### Labels can be tampered with
+The Lambda logs show which objects were accessed and what their labels were. But there's no record of who the caller was or whether they had the right clearance. Audit without identity is incomplete.
 
-Anyone with S3 PutObjectTagging permission can change a label from `SECRET` to `UNCLASSIFIED`. There's no cryptographic binding; the labels are just metadata that the system trusts. In a real DCS implementation, STANAG 4778 binds labels to data using digital signatures.
+## What's missing
 
-### Access control depends on the application
+| Gap | What it means | Fixed in |
+|-----|--------------|----------|
+| No access control | Anyone can read any data | Lab 2 |
+| No user identity | Can't attribute access to a person | Lab 2 |
+| No policy enforcement | Labels are ignored | Lab 2 |
+| No cryptographic binding | Labels can be silently changed | Assured Level 1 architecture |
+| No encryption | Data is plaintext in S3 | Lab 3 |
 
-Our Lambda authorizer enforces the labels. But anyone with direct S3 access can download `operation-wall.txt` and read it, completely bypassing our authorizer. The data itself isn't protected.
+## What Lab 2 adds
 
-### Policies are in code, not in a policy engine
+Lab 2 keeps the same data and labels but adds the pieces that make labels meaningful:
 
-The access logic is hard-coded in the Lambda function. If we want to add a new rule (e.g., "during exercise IRON SHIELD, grant temporary access to Swedish personnel"), we need to change code and redeploy.
+- **User identity** via Cognito — each person has attributes (clearance, nationality, SAPs)
+- **A policy engine** (Amazon Verified Permissions) that evaluates Cedar policies
+- **Access checking** — the Lambda asks the policy engine "should this user see this data?" before returning anything
+- **Dynamic policies** — change access rules without touching code or data
 
-### No encryption
-
-The data is stored in plain text in S3. Anyone with S3 access, including AWS support or an attacker who compromises your account, can read everything.
-
-## Moving to Level 2
-
-Lab 2 addresses the first three problems:
-
-- Policies move from hard-coded Lambda logic to a proper policy engine (Amazon Verified Permissions)
-- User attributes come from dedicated identity providers (Cognito) rather than IAM tags
-- Policies are declarative and dynamic, so you can change them without touching code
-
-## Moving to Level 3
-
-Lab 3 addresses the encryption problem:
-
-- Data is encrypted before it reaches S3, so S3 only stores ciphertext
-- A Key Access Server checks policies before releasing decryption keys
-- Even infrastructure administrators cannot read the data without KAS authorization
-- Protection persists even if the data is copied to a USB drive or another system
+The data service from this lab becomes an access-controlled service. Same data, same labels, but now someone checks the labels before handing over the data.
 
 ---
 
-Ready for the next level? Continue to **[Lab 2: Access Control (DCS Level 2)](../lab2/index.md)**.
+Ready for enforcement? Continue to **[Lab 2: Access Control (DCS Level 2)](../lab2/index.md)**.

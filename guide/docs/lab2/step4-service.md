@@ -1,19 +1,26 @@
-# Step 4: Build the Data Service
+# Step 4: Add Access Control to the Data Service
 
-Now we'll create the Lambda function that ties everything together: it takes a user's JWT token, extracts their attributes, looks up the data labels, calls Verified Permissions to check the policy, and returns the data or a denial.
+Now we'll modify the Lambda from Lab 1. Instead of returning data to anyone who asks, it will check the caller's attributes against the data's labels using Verified Permissions before returning anything.
 
-## Create the Lambda execution role
+The Lambda is still plumbing. It reads user attributes from the request, reads data labels from S3 tags, passes both to Verified Permissions, and returns the data or a denial. It has no opinion about what SECRET means or how clearance comparisons work. That's all in the Cedar policies from Step 2.
 
-1. Go to **IAM Console** > **Roles** > **Create role**
-2. **Trusted entity**: AWS service > Lambda
-3. Click **Next**
-4. **Role name**: `dcs-level2-service-role`
-5. Click **Create role**
+## Update the Lambda execution role
 
-Add an inline policy:
+The Lambda needs two new permissions: calling Verified Permissions and reading S3 object tags (it already has GetObject from Lab 1, but let's make sure GetObjectTagging is there too).
 
-1. Click the new role > **Add permissions** > **Create inline policy** > JSON editor
-2. Paste:
+1. Go to **IAM Console** > **Roles** > find `dcs-lab-data-service-role`
+2. Click on the inline policy > **Edit**
+3. Add these statements to the existing policy:
+
+```json
+{
+  "Effect": "Allow",
+  "Action": "verifiedpermissions:IsAuthorized",
+  "Resource": "*"
+}
+```
+
+The full policy should now look like:
 
 ```json
 {
@@ -21,16 +28,16 @@ Add an inline policy:
   "Statement": [
     {
       "Effect": "Allow",
-      "Action": "verifiedpermissions:IsAuthorized",
-      "Resource": "*"
+      "Action": [
+        "s3:GetObject",
+        "s3:GetObjectTagging"
+      ],
+      "Resource": "arn:aws:s3:::dcs-lab-data-*/*"
     },
     {
       "Effect": "Allow",
-      "Action": [
-        "dynamodb:GetItem",
-        "dynamodb:Scan"
-      ],
-      "Resource": "arn:aws:dynamodb:*:*:table/dcs-level2-data"
+      "Action": "verifiedpermissions:IsAuthorized",
+      "Resource": "*"
     },
     {
       "Effect": "Allow",
@@ -45,18 +52,11 @@ Add an inline policy:
 }
 ```
 
-3. **Policy name**: `dcs-level2-service-policy`
-4. Click **Create policy**
+4. Click **Save changes**
 
-## Create the Lambda function
+## Update the Lambda function code
 
-1. Go to **Lambda Console** > **Create function**
-2. **Function name**: `dcs-level2-data-service`
-3. **Runtime**: Python 3.12
-4. **Execution role**: Use existing > `dcs-level2-service-role`
-5. Click **Create function**
-
-## Add the function code
+Go to your `dcs-lab-data-service` function in the Lambda console and replace the code with the following. Compare it to the Lab 1 version — the `get_object_labels` and `get_object_content` functions are the same. What's new is `check_access_avp` and the classification mapping.
 
 ```python
 import json
@@ -66,161 +66,212 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+s3 = boto3.client('s3')
 avp = boto3.client('verifiedpermissions')
-dynamodb = boto3.resource('dynamodb')
-table = dynamodb.Table('dcs-level2-data')
+
+# Your data bucket name - same as Lab 1
+DATA_BUCKET = 'dcs-lab-data-YOUR-ACCOUNT-ID'
 
 # UPDATE THIS with your Policy Store ID from Step 2
 POLICY_STORE_ID = 'YOUR_POLICY_STORE_ID'
 
+# Classification levels mapped to numbers for Cedar comparison.
+CLASSIFICATION_MAP = {
+    'UNCLASSIFIED': 0,
+    'OFFICIAL': 1,
+    'NATO-RESTRICTED': 1,
+    'SECRET': 2,
+    'NATO-SECRET': 2,
+    'IL-5': 2,
+    'IL-6': 2,
+    'TOP-SECRET': 3,
+    'COSMIC-TOP-SECRET': 3,
+}
+
+
+def get_object_labels(object_key):
+    """Read a data object's DCS labels from its S3 tags."""
+    response = s3.get_object_tagging(
+        Bucket=DATA_BUCKET,
+        Key=object_key
+    )
+    labels = {}
+    for tag in response['TagSet']:
+        if tag['Key'].startswith('dcs:'):
+            labels[tag['Key']] = tag['Value']
+    return labels
+
+
+def get_object_content(object_key):
+    """Read the data object's content from S3."""
+    response = s3.get_object(
+        Bucket=DATA_BUCKET,
+        Key=object_key
+    )
+    return response['Body'].read().decode('utf-8')
+
+
+def check_access_avp(user_id, clearance_level, nationality, saps, object_key, labels):
+    """Ask Verified Permissions whether this access should be allowed."""
+    # Parse releasable-to into a set
+    releasable_raw = labels.get('dcs:releasable-to', '')
+    releasable_to = [r.strip() for r in releasable_raw.split(',') if r.strip()]
+    if 'ALL' in releasable_to:
+        releasable_to.append(nationality)
+
+    # Map classification string to number
+    classification = labels.get('dcs:classification', 'TOP-SECRET')
+    classification_level = CLASSIFICATION_MAP.get(classification.upper(), 99)
+
+    sap = labels.get('dcs:sap', 'NONE')
+    originator = labels.get('dcs:originator', '')
+
+    response = avp.is_authorized(
+        policyStoreId=POLICY_STORE_ID,
+        principal={
+            'entityType': 'DCS::User',
+            'entityId': user_id,
+        },
+        action={
+            'actionType': 'DCS::Action',
+            'actionId': 'read',
+        },
+        resource={
+            'entityType': 'DCS::DataObject',
+            'entityId': object_key,
+        },
+        entities={
+            'entityList': [
+                {
+                    'identifier': {
+                        'entityType': 'DCS::User',
+                        'entityId': user_id,
+                    },
+                    'attributes': {
+                        'clearanceLevel': {'long': clearance_level},
+                        'nationality': {'string': nationality},
+                        'saps': {'set': [{'string': s} for s in saps]},
+                    },
+                },
+                {
+                    'identifier': {
+                        'entityType': 'DCS::DataObject',
+                        'entityId': object_key,
+                    },
+                    'attributes': {
+                        'classificationLevel': {'long': classification_level},
+                        'releasableTo': {'set': [{'string': n} for n in releasable_to]},
+                        'requiredSap': {'string': sap if sap != 'NONE' else ''},
+                        'originator': {'string': originator},
+                    },
+                },
+            ]
+        },
+    )
+
+    decision = response.get('decision', 'DENY')
+    determining = [p['policyId'] for p in response.get('determiningPolicies', [])]
+    return decision == 'ALLOW', determining
+
 
 def lambda_handler(event, context):
-    """Handle data access requests with ABAC authorization."""
+    """
+    Entry point. Now expects user attributes alongside the object key:
+    {
+      "objectKey": "intel-report.txt",
+      "username": "uk-analyst-01",
+      "clearanceLevel": 2,
+      "nationality": "GBR",
+      "saps": ["WALL"]
+    }
+    """
     try:
         body = json.loads(event.get('body', '{}'))
-        action = body.get('action', 'read')
-        data_id = body.get('dataId', '')
-
-        # User attributes (in production, these come from the JWT token)
-        user_id = body.get('userId', '')
+        object_key = body.get('objectKey', '')
+        username = body.get('username', '')
         clearance_level = int(body.get('clearanceLevel', 0))
         nationality = body.get('nationality', '')
         saps = body.get('saps', [])
         if isinstance(saps, str):
             saps = [s.strip() for s in saps.split(',') if s.strip()]
 
-        if not user_id or not data_id:
-            return respond(400, {'error': 'Provide userId and dataId'})
+        if not object_key or not username:
+            return {
+                'statusCode': 400,
+                'body': json.dumps({'error': 'Must provide objectKey and username'})
+            }
 
-        # Get the data item and its labels from DynamoDB
-        result = table.get_item(Key={'dataId': data_id})
-        item = result.get('Item')
-        if not item:
-            return respond(404, {'error': f'Data item {data_id} not found'})
+        # Get the data labels from S3 tags (same as Lab 1)
+        labels = get_object_labels(object_key)
 
-        # Build entity information for Verified Permissions
-        releasable_to = list(item.get('releasableTo', set()))
-        if 'ALL' in releasable_to:
-            # If releasable to ALL, add the user's nationality so the check passes
-            releasable_to.append(nationality)
+        # NEW: Check access via Verified Permissions
+        allowed, determining_policies = check_access_avp(
+            username, clearance_level, nationality, saps, object_key, labels
+        )
 
-        avp_request = {
-            'policyStoreId': POLICY_STORE_ID,
-            'principal': {
-                'entityType': 'DCS::User',
-                'entityId': user_id,
-            },
-            'action': {
-                'actionType': 'DCS::Action',
-                'actionId': action,
-            },
-            'resource': {
-                'entityType': 'DCS::DataObject',
-                'entityId': data_id,
-            },
-            'entities': {
-                'entityList': [
-                    {
-                        'identifier': {
-                            'entityType': 'DCS::User',
-                            'entityId': user_id,
-                        },
-                        'attributes': {
-                            'clearanceLevel': {'long': clearance_level},
-                            'nationality': {'string': nationality},
-                            'saps': {'set': [{'string': s} for s in saps]},
-                        },
-                    },
-                    {
-                        'identifier': {
-                            'entityType': 'DCS::DataObject',
-                            'entityId': data_id,
-                        },
-                        'attributes': {
-                            'classificationLevel': {
-                                'long': int(item.get('classificationLevel', 0))
-                            },
-                            'releasableTo': {
-                                'set': [{'string': n} for n in releasable_to]
-                            },
-                            'requiredSap': {
-                                'string': item.get('requiredSap', '')
-                            },
-                            'originator': {
-                                'string': item.get('originator', '')
-                            },
-                        },
-                    },
-                ]
-            },
-        }
+        if allowed:
+            # Get the data content (only if allowed)
+            content = get_object_content(object_key)
 
-        # Call Verified Permissions
-        avp_response = avp.is_authorized(**avp_request)
-        decision = avp_response.get('decision', 'DENY')
+            result = {
+                'object': object_key,
+                'labels': labels,
+                'content': content,
+                'allowed': True,
+                'user': username,
+                'determiningPolicies': determining_policies,
+            }
+            logger.info(f"DCS_ACCESS_DECISION: {json.dumps({**result, 'content': '(omitted)'})}")
 
-        # Get the policies that determined this decision
-        determining = [
-            p['policyId']
-            for p in avp_response.get('determiningPolicies', [])
-        ]
-
-        # Log the decision
-        log_entry = {
-            'event': 'DCS_ABAC_DECISION',
-            'user': user_id,
-            'nationality': nationality,
-            'clearanceLevel': clearance_level,
-            'saps': saps,
-            'dataId': data_id,
-            'classification': item.get('classification'),
-            'decision': decision,
-            'determiningPolicies': determining,
-        }
-        logger.info(json.dumps(log_entry))
-
-        if decision == 'ALLOW':
-            return respond(200, {
-                'decision': 'ALLOW',
-                'dataId': data_id,
-                'classification': item.get('classification'),
-                'originator': item.get('originator'),
-                'payload': item.get('payload'),
-                'authorizedBy': determining,
-            })
+            return {
+                'statusCode': 200,
+                'headers': {'Content-Type': 'application/json'},
+                'body': json.dumps(result, indent=2)
+            }
         else:
-            return respond(403, {
-                'decision': 'DENY',
-                'dataId': data_id,
-                'classification': item.get('classification'),
-                'message': 'Access denied by DCS ABAC policy',
-                'evaluatedPolicies': determining,
-            })
+            result = {
+                'object': object_key,
+                'labels': labels,
+                'allowed': False,
+                'user': username,
+                'determiningPolicies': determining_policies,
+            }
+            logger.info(f"DCS_ACCESS_DECISION: {json.dumps(result)}")
+
+            return {
+                'statusCode': 403,
+                'headers': {'Content-Type': 'application/json'},
+                'body': json.dumps(result, indent=2)
+            }
 
     except Exception as e:
         logger.error(f"Error: {str(e)}")
-        return respond(500, {'error': str(e)})
-
-
-def respond(status, body):
-    return {
-        'statusCode': status,
-        'headers': {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-        },
-        'body': json.dumps(body, default=str),
-    }
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
+        }
 ```
 
-!!! warning "Update the Policy Store ID"
-    Replace `YOUR_POLICY_STORE_ID` on line 12 with the ID from Step 2.
+!!! warning "Update both values"
+    - `DATA_BUCKET` on line 12: your bucket name from Lab 1
+    - `POLICY_STORE_ID` on line 15: the ID from Step 2
 
-## Deploy and configure
+## What changed from Lab 1
 
-1. Paste the code and click **Deploy**
-2. Go to **Configuration** > **General** > set **Timeout** to 15 seconds
-3. Go to **Configuration** > **Function URL** > **Create function URL** > Auth type: NONE
-4. Copy the Function URL
+Look at what's different:
+
+- The `lambda_handler` now expects `username`, `clearanceLevel`, `nationality`, and `saps` in the request (in production, these would come from a JWT token)
+- Before reading the S3 object content, it calls `check_access_avp` to ask Verified Permissions for a decision
+- If denied, it returns the labels but not the content — the caller can see what the data is labeled as, but can't read it
+- If allowed, it returns everything (same as Lab 1) plus `determiningPolicies` showing which Cedar policy allowed the access
+
+What didn't change: `get_object_labels` and `get_object_content` are identical to Lab 1. The data is still in S3 with the same tags. The only new thing is the policy check in the middle.
+
+## Deploy
+
+1. Paste the updated code and click **Deploy**
+2. Make sure the timeout is still 15 seconds (the Verified Permissions call adds latency)
+
+The Function URL from Lab 1 still works — no need to create a new one.
 
 Next: **[Step 5: Test ABAC Scenarios](step5-test.md)**

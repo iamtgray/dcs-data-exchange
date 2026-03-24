@@ -4,11 +4,10 @@ To avoid ongoing charges, delete the resources you created. Work backwards throu
 
 ## Lab 3 resources (delete first - these cost the most)
 
-### ECS Services and Cluster
+### ECS Task and Cluster
 1. Go to **ECS Console** > cluster `dcs-level3`
-2. Delete the `opentdf` service (set desired count to 0 first, then delete)
-3. Delete the `keycloak` service if you created one
-4. Delete the cluster
+2. Stop the running task (select it > **Stop**)
+3. Delete the cluster once the task has stopped
 
 ### RDS Database
 1. Go to **RDS Console** > Databases
@@ -16,19 +15,13 @@ To avoid ongoing charges, delete the resources you created. Work backwards throu
 3. Uncheck "Create final snapshot" for a demo environment
 4. Type "delete me" and confirm
 
-### Load Balancer and Target Groups
-1. Go to **EC2** > **Load Balancers** > delete `dcs-level3-alb`
-2. Go to **Target Groups** > delete `dcs-level3-opentdf-tg`
-
 ### ECS Task Definitions
 1. Go to **ECS** > **Task definitions**
-2. Deregister all revisions of `dcs-level3-opentdf` and `dcs-level3-keycloak`
+2. Deregister all revisions of `dcs-level3-opentdf`
 
-### VPC
-1. Go to **VPC Console**
-2. Delete the NAT Gateway first (this has an hourly charge)
-3. Release the Elastic IP
-4. Delete the VPC `dcs-level3` (this will delete subnets, route tables, etc.)
+### Security Groups
+1. Go to **EC2** > **Security Groups**
+2. Delete `dcs-level3-ecs-sg` and `dcs-level3-rds-sg`
 
 ### KMS Key
 1. Go to **KMS Console**
@@ -41,10 +34,6 @@ To avoid ongoing charges, delete the resources you created. Work backwards throu
 
 ## Lab 2 resources
 
-### DynamoDB
-1. Go to **DynamoDB Console** > Tables
-2. Delete `dcs-level2-data`
-
 ### Verified Permissions
 1. Go to **Verified Permissions Console**
 2. Delete your policy store
@@ -54,26 +43,22 @@ To avoid ongoing charges, delete the resources you created. Work backwards throu
 2. Delete `dcs-level2-uk-idp`, `dcs-level2-pol-idp`, `dcs-level2-us-idp`
 
 ### Lambda
-1. Delete `dcs-level2-data-service`
-2. Delete the execution role `dcs-level2-service-role`
+1. Go to **Lambda Console**
+2. Delete `dcs-lab-data-service` (the modified version from Lab 2)
+3. Delete the execution role `dcs-lab-data-service-role`
 
 ## Lab 1 resources
 
 ### S3 Buckets
-1. Empty `dcs-level1-data-...` bucket (select all objects > delete)
+1. Empty `dcs-lab-data-...` bucket (select all objects > delete)
 2. Delete the bucket
-3. Empty and delete `dcs-level1-audit-...` bucket
 
 ### CloudTrail
 1. Go to **CloudTrail Console**
-2. Delete trail `dcs-level1-audit`
+2. Check for any `dcs-*` trails and delete them
 
-### Lambda
-1. Delete `dcs-level1-authorizer`
-2. Delete role `dcs-level1-authorizer-role`
-
-### IAM Users
-1. Delete `dcs-user-gbr-secret`, `dcs-user-pol-ns`, `dcs-user-contractor`
+### IAM Roles
+1. Delete any remaining `dcs-*` roles
 
 ## Verify cleanup
 
