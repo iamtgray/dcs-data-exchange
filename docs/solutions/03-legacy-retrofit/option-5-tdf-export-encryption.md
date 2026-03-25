@@ -39,36 +39,7 @@ The batch export gateway (Option 4) already does this for each outbound data flo
 
 This option adds a step between 4 and 5:
 
-```
-COBOL batch output
-       │
-       ▼
-┌─────────────────┐
-│  Export Gateway  │
-│  (Option 4)     │
-│                  │
-│  Filter + Label  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  TDF Encryption  │
-│  Service         │
-│                  │
-│  - Generate DEK  │
-│  - Encrypt data  │
-│  - Build policy  │
-│  - Wrap DEK with │
-│    KAS public key│
-│  - Produce .tdf  │
-└────────┬────────┘
-         │
-         ▼
-┌─────────────────┐
-│  Delivery       │
-│  (FTP / email)  │
-└─────────────────┘
-```
+![TDF Export Encryption Pipeline](diagrams/tdf-export-pipeline.drawio.png)
 
 ### Policy derivation
 
@@ -104,22 +75,7 @@ For JLTS, the centralised model is simpler to start with. Federation can come la
 
 ### Key hierarchy
 
-```
-AWS KMS (or on-premise HSM at NATO facility)
-       │
-       ▼
-  Key Encryption Key (KEK)
-  - One per KAS instance
-  - Never leaves the HSM/KMS
-  - Used to wrap/unwrap DEKs
-       │
-       ▼
-  Data Encryption Key (DEK)
-  - Generated per TDF file
-  - Encrypts the actual export data (AES-256-GCM)
-  - Wrapped with KEK and stored in TDF manifest
-  - Released by KAS only after ABAC policy check
-```
+![TDF Key Hierarchy](diagrams/tdf-key-hierarchy.drawio.png)
 
 ### What the receiving system needs
 

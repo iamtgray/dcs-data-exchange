@@ -4,7 +4,7 @@
 
 NATO STANAGs are generally **not publicly downloadable**. They are NATO UNCLASSIFIED or NATO RESTRICTED documents distributed through official NATO channels. This document provides reference information about each relevant STANAG based on publicly available summaries, academic papers, and defence industry publications.
 
-To obtain full STANAG documents, contact your national NATO delegation or access via the NATO Standardization Office (NSO) portal at https://nso.nato.int.
+To obtain full STANAG documents, contact your national NATO delegation or search the NATO Standardization Office (NSO) standards database at [https://nso.nato.int/nso/nsdd/main/standards](https://nso.nato.int/nso/nsdd/main/standards) (search by standard number, e.g. `4778` for STANAG 4778).
 
 ## Core DCS STANAGs
 ### STANAG 4774 - Confidentiality Metadata Label Syntax
@@ -106,20 +106,22 @@ my-document.tdf (ZIP archive)
 
 ---
 
-### ACP-240 - NATO Cryptographic Interoperability Strategy
-- **Title**: NATO Cryptographic Interoperability Strategy
-- **Status**: Active
+### ACP-240 - Data-Centric Security Interoperability
+- **Title**: Allied Communications Publication 240
+- **Origin**: Combined Communications-Electronics Board (CCEB), Five Eyes (FVEY) alliance
+- **Status**: Active; adopted by NATO and the U.S. Joint Chiefs of Staff
 - **Classification**: Varies by section
 
 **What it covers**:
-ACP-240 defines NATO's approach to cryptographic interoperability across member nations, including:
-- Approved cryptographic algorithms for NATO use
-- Key management interoperability requirements
-- Cryptographic equipment interoperability standards
-- Migration paths for algorithm transitions (including post-quantum)
-- Certificate management for cross-national operations
+ACP-240 is an Allied Communications Publication developed under the CCEB within the FVEY alliance (Australia, Canada, New Zealand, United Kingdom, United States). It defines data-centric security interoperability for coalition operations, including:
+- How the Zero Trust Data Format (ZTDF) is used for persistent data protection
+- Data-centric governance controls for legacy and next-generation applications
+- Interoperability requirements for multi-national data sharing
+- Integration with the Trusted Data Format (TDF) open standard
 
-**Relevance to DCS**: ACP-240 governs which cryptographic algorithms can be used in ZTDF implementations for NATO operations. When one nation encrypts data, all other authorized nations can decrypt it using interoperable cryptographic implementations.
+**Note on origin**: ACP-240 is not a NATO STANAG. It originated from the FVEY intelligence community through the CCEB. NATO has subsequently adopted the standard, and it also supports the Combined Joint All-Domain Command and Control (CJADC2) initiative. The "ACP" prefix denotes an Allied Communications Publication, a document series managed by the CCEB.
+
+**Relevance to DCS**: ACP-240 describes how ZTDF enables data-centric interoperability across coalition partners. It is the operational standard that validated data-centric security during exercises such as Operation HIGHMAST (UK carrier strike group deployment), where classified data was shared across multiple command boundaries using ZTDF.
 
 ---
 
@@ -163,42 +165,7 @@ The NCMS defines a common set of metadata elements for describing NATO informati
 
 ## How these standards work together
 
-```
-                     STANAG 4774                    STANAG 4778
-                  (Label Syntax)                 (Label Binding)
-                        |                              |
-                        v                              v
-              +------------------+          +---------------------+
-              | Classification:  |          | Digital Signature   |
-              |   NATO SECRET    |--------->| binds label to data |
-              | Releasable To:   |          | using PKI           |
-              |   GBR, USA, POL  |          +---------------------+
-              +------------------+                    |
-                                                      v
-                                              +---------------+
-                                              | ZTDF Wrapper  |
-                                              | (March 2024)  |
-                                              |               |
-                                              | - Encrypted   |
-                                              |   payload     |
-                                              | - Labels      |
-                                              | - KAS refs    |
-                                              | - ABAC policy |
-                                              +---------------+
-                                                      |
-                                    ACP-240            |
-                                (Crypto Standards)     |
-                                        |              |
-                                        v              v
-                              +---------------------------+
-                              | Interoperable Coalition   |
-                              | Data Sharing              |
-                              | - Each nation's KAS       |
-                              | - Common label vocabulary  |
-                              | - Federated key mgmt      |
-                              | - Cross-border audit       |
-                              +---------------------------+
-```
+![How NATO DCS Standards Work Together](diagrams/standards-relationship.drawio.png)
 
 ## DCS maturity levels mapped to standards
 
@@ -212,9 +179,10 @@ The NCMS defines a common set of metadata elements for describing NATO informati
 ## Academic and industry references
 
 These publications provide additional context on NATO DCS standards:
-1. Nexor - "The Data-Centric Security Interoperability Dilemma" (publicly available whitepaper)
-2. Springer - "Towards Data-Centric Security for NATO Operations" (academic paper)
-3. NATO Allied Command Transformation - DCS documentation
-4. OpenTDF Specification - https://github.com/opentdf/spec (open source, implements ZTDF)
-5. Stormshield ZTDF Documentation - https://documentation.stormshield.com/SEP/en/Content/SDK_doc/ztdf.html
-6. NATO Communications and Information Agency (NCIA) - DCS programme publications
+
+1. Nexor — "The Data-Centric Security Interoperability Dilemma" (publicly available whitepaper)
+2. Springer — "Towards Data-Centric Security for NATO Operations" (academic paper)
+3. NATO Allied Command Transformation — DCS documentation
+4. [OpenTDF Specification](https://github.com/opentdf/spec) — open source, implements ZTDF
+5. [Stormshield ZTDF Documentation](https://documentation.stormshield.com/SEP/en/Content/SDK_doc/ztdf.html)
+6. NATO Communications and Information Agency (NCIA) — DCS programme publications

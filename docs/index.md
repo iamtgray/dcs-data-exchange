@@ -47,4 +47,5 @@ Three progressive labs that teach DCS by building it on AWS:
 
 - [OpenTDF Specification](https://github.com/opentdf/spec) - Official TDF standard
 - [OpenTDF Platform](https://github.com/opentdf/platform) - Reference implementation
-- ACP-240
+- [ACP-240](documents/nato-stanags/README.md#acp-240---data-centric-security-interoperability) - FVEY/CCEB data-centric security interoperability standard (adopted by NATO)
+- [NATO STANAGs](documents/nato-stanags/README.md) - Search the [NSO standards database](https://nso.nato.int/nso/nsdd/main/standards) by standard number

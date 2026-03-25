@@ -19,22 +19,7 @@ The retrofit is broken into six components. The first four handle labeling and a
 
 ### Dependency map
 
-```
-Option 1: Shadow Label Store ──────────┬──────> Option 3: TN3270 Proxy
-  (DCS Level 1 - basic labeling)       │          (DCS Level 2 - interactive)
-                                        │
-                                        ├──────> Option 4: Batch Gateway
-                                        │          (DCS Level 1 assured + Level 2)
-                                        │
-                                        ├──────> Option 5: TDF on Export
-                                        │          (DCS Level 3 - outbound)
-                                        │
-                                        ├──────> Option 6: Encrypted Mirror
-                                        │          (DCS Level 3 - at rest)
-                                        │
-Option 2: User Attribute Store ────────┘
-  (DCS Level 2 prerequisite)
-```
+![Legacy Retrofit Dependency Map](diagrams/dependency-map.drawio.png)
 
 Options 1 and 2 can be built in parallel. Option 3 depends on both. Option 4 depends on Option 1. Option 5 builds on Option 4. Option 6 depends on Option 1 and can be built independently of Options 3-5.
 

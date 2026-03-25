@@ -1,0 +1,31 @@
+<mxfile host="drawio-jsapi" modified="2026-03-25T10:00:00.000Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="TDF Export Encryption Pipeline">
+  <mxGraphModel background="#FFFFFF" dx="1000" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="600" pageHeight="700">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="cobol" value="COBOL batch output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="180" y="30" width="200" height="50" as="geometry" />
+      </mxCell>
+      <mxCell id="gateway" value="Export Gateway&#xa;(Option 4)&#xa;&#xa;Filter + Label" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="180" y="140" width="200" height="80" as="geometry" />
+      </mxCell>
+      <mxCell id="tdf-enc" value="TDF Encryption Service&#xa;&#xa;- Generate DEK&#xa;- Encrypt data&#xa;- Build policy&#xa;- Wrap DEK with KAS public key&#xa;- Produce .tdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="160" y="290" width="240" height="120" as="geometry" />
+      </mxCell>
+      <mxCell id="delivery" value="Delivery&#xa;(FTP / email)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="195" y="480" width="170" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="cobol" target="gateway">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="gateway" target="tdf-enc">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="tdf-enc" target="delivery">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

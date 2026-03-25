@@ -41,45 +41,7 @@ Occasionally, JLTS administrators extract data using DB2 utilities (DSNTEP2, SPU
 
 The gateway sits between JLTS batch output and the delivery mechanisms (FTP, email, file transfer):
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                        z/OS Mainframe                        │
-│                                                              │
-│  ┌────────────┐     ┌──────────────┐     ┌───────────────┐ │
-│  │ COBOL      │     │ Raw output   │     │ DCS Export    │ │
-│  │ Batch      │────>│ files        │────>│ Gateway       │ │
-│  │ Programs   │     │ (flat files, │     │               │ │
-│  │ (JCL)      │     │  reports)    │     │ - Read labels │ │
-│  └────────────┘     └──────────────┘     │ - Filter      │ │
-│                                           │ - Label       │ │
-│                                           │ - Sign        │ │
-│  ┌────────────┐                          │               │ │
-│  │ Shadow     │─────────────────────────>│               │ │
-│  │ Label      │                          └───────┬───────┘ │
-│  │ Store      │                                  │         │
-│  │ (Opt. 1)   │                                  │         │
-│  └────────────┘                                  │         │
-│                                                  ▼         │
-│                                    ┌──────────────────────┐│
-│                                    │ Labeled + filtered   ││
-│                                    │ output files         ││
-│                                    │                      ││
-│                                    │ - Per-nation feeds   ││
-│                                    │ - Filtered reports   ││
-│                                    │ - STANAG 4778 labels ││
-│                                    └──────────┬───────────┘│
-│                                               │            │
-└───────────────────────────────────────────────┼────────────┘
-                                                │
-                                                ▼
-                                    ┌───────────────────────┐
-                                    │ Delivery              │
-                                    │ - FTP to national     │
-                                    │   systems             │
-                                    │ - Secure email        │
-                                    │ - File transfer       │
-                                    └───────────────────────┘
-```
+![Batch Export Gateway Architecture](diagrams/batch-export-gateway.drawio.png)
 
 ### Gateway processing pipeline
 

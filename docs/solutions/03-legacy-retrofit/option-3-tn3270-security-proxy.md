@@ -35,24 +35,7 @@ The critical property is that screens are deterministic: a given CICS transactio
 
 The proxy sits in the TN3270 TCP stream between CICS and the terminal emulator:
 
-```
-┌──────────┐     TN3270      ┌──────────────┐     TN3270      ┌──────────┐
-│          │    data stream   │              │    data stream   │          │
-│   CICS   │ ──────────────> │  DCS Proxy   │ ──────────────> │ Terminal │
-│          │                  │              │                  │ Emulator │
-│          │ <────────────── │              │ <────────────── │          │
-│          │   user input     │              │   user input     │          │
-└──────────┘                  └──────────────┘                  └──────────┘
-                                     │
-                              ┌──────┴──────┐
-                              │             │
-                        ┌─────▼─────┐ ┌────▼─────┐
-                        │  Shadow   │ │  User    │
-                        │  Label    │ │ Attribute│
-                        │  Store    │ │  Store   │
-                        │ (Opt. 1)  │ │ (Opt. 2) │
-                        └───────────┘ └──────────┘
-```
+![TN3270 Security Proxy Architecture](diagrams/tn3270-proxy.drawio.png)
 
 The proxy parses the outbound 3270 data stream (CICS → terminal) and can:
 - Read all field positions and values

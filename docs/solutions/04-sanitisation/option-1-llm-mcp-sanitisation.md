@@ -18,83 +18,7 @@ This solution uses Large Language Models (LLMs) with Model Context Protocol (MCP
 
 ## High-level architecture
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                        HIGH-SIDE (TS).                          │
-│                                                                 │
-│  ┌──────────────┐         ┌─────────────────────────────────┐ │
-│  │  Document    │────────>│   LLM Sanitisation Engine       │ │
-│  │  to Transfer │         │   (GPT-4, Claude, Llama, etc.)  │ │
-│  └──────────────┘         │                                 │ │
-│                           │   - Content analysis            │ │
-│                           │   - Classification reasoning    │ │
-│                           │   - Redaction recommendations   │ │
-│                           └─────────┬───────────────────────┘ │
-│                                     │                          │
-│                                     │ MCP Protocol             │
-│                                     │                          │
-│                    ┌────────────────┴────────────────┐        │
-│                    │                                  │        │
-│         ┌──────────▼──────────┐         ┌───────────▼────────┐│
-│         │  MCP Server:        │         │  MCP Server:       ││
-│         │  Project Context    │         │  Classification    ││
-│         │                     │         │  Guides            ││
-│         │  - Project docs     │         │                    ││
-│         │  - Codewords        │         │  - Classification  ││
-│         │  - Capabilities     │         │    rules           ││
-│         │  - Operations       │         │  - Downgrade       ││
-│         │  - Personnel        │         │    procedures      ││
-│         └─────────────────────┘         │  - Releasability   ││
-│                                         └────────────────────┘│
-│                                                                 │
-│         ┌─────────────────────────────────────────────┐       │
-│         │  MCP Server: Historical Sanitisations       │       │
-│         │                                              │       │
-│         │  - Previous sanitisation decisions          │       │
-│         │  - Reviewer feedback                         │       │
-│         │  - Common patterns                           │       │
-│         └──────────────────────────────────────────────┘      │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐ │
-│  │           Human Review Interface                         │ │
-│  │                                                          │ │
-│  │  - Original document (TS)                               │ │
-│  │  - LLM-sanitised version (proposed SECRET)             │ │
-│  │  - LLM reasoning explanation                            │ │
-│  │  - Approve / Modify / Reject                            │ │
-│  └──────────────────────────────────────────────────────────┘ │
-│                                     │                          │
-└─────────────────────────────────────┼──────────────────────────┘
-                                      │
-                                      │ Approved Sanitised Doc
-                                      │
-┌─────────────────────────────────────▼──────────────────────────┐
-│                    CROSS-DOMAIN SOLUTION                        │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐ │
-│  │  Traditional CDS Controls                                │ │
-│  │  - Format validation                                     │ │
-│  │  - Malware scanning                                      │ │
-│  │  - Dirty word check (backup)                             │ │
-│  │  - Metadata stripping                                    │ │
-│  └──────────────────────────────────────────────────────────┘ │
-│                                     │                          │
-└─────────────────────────────────────┼──────────────────────────┘
-                                      │
-                                      │ Sanitised Document
-                                      │
-┌─────────────────────────────────────▼──────────────────────────┐
-│                        LOW-SIDE (SECRET)                        │
-│                                                                 │
-│  ┌──────────────────────────────────────────────────────────┐ │
-│  │  Sanitised Document + Metadata                           │ │
-│  │  - Classification: SECRET                                │ │
-│  │  - Derived from: [TS document ID]                        │ │
-│  │  - Sanitisation date: [timestamp]                        │ │
-│  │  - Reviewer: [name]                                      │ │
-│  └──────────────────────────────────────────────────────────┘ │
-└─────────────────────────────────────────────────────────────────┘
-```
+![LLM-MCP Cross-Domain Sanitisation Architecture](diagrams/llm-mcp-sanitisation.drawio.png)
 
 ## Component Details
 ### 1. LLM Sanitisation Engine (High-Side)
@@ -335,36 +259,7 @@ OUTPUT FORMAT:
 - Feedback mechanism (improve LLM over time)
 
 **Interface Layout**:
-```
-┌─────────────────────────────────────────────────────────────────┐
-│  Document Sanitisation Review                                   │
-├─────────────────────────────────────────────────────────────────┤
-│                                                                 │
-│  Original (TS/SCI)              │  Sanitised (SECRET - Proposed)│
-│  ─────────────────              │  ───────────────────────────  │
-│                                 │                               │
-│  Enemy forces observed          │  Enemy forces observed        │
-│  moving through                 │  moving through               │
-│  [GRID 12345678]                │  [NORTHERN SECTOR]            │
-│  ▲ Specific location (TS)       │  ▲ Generalised location       │
-│                                 │                               │
-│  Movement detected by           │  Movement detected by         │
-│  [SIGINT platform BLACKBIRD]    │  [intelligence sources]       │
-│  ▲ Source/method (TS/SCI)       │  ▲ Generalised source         │
-│                                 │                               │
-├─────────────────────────────────────────────────────────────────┤
-│  LLM Reasoning:                                                 │
-│  - GRID 12345678: Specific location reveals operational area   │
-│    (Classification Guide 2.1.3). Replaced with general area.   │
-│  - SIGINT platform BLACKBIRD: Reveals collection capability    │
-│    (Classification Guide 3.2.1). Replaced with generic source. │
-│                                                                 │
-│  Confidence: HIGH                                               │
-│  Recommended Classification: SECRET                             │
-├─────────────────────────────────────────────────────────────────┤
-│  [Approve]  [Modify]  [Reject]  [Request Re-sanitisation]      │
-└─────────────────────────────────────────────────────────────────┘
-```
+The interface shows the original (TS) and sanitised (SECRET) documents side-by-side, with highlighted changes, LLM reasoning for each change, a confidence score, and Approve/Modify/Reject/Request Re-sanitisation actions.
 
 ### 6. Traditional CDS (Defence in Depth)
 

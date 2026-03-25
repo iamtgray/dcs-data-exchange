@@ -92,9 +92,9 @@ ZTDF is built on the open-source **OpenTDF** specification, which means there's 
 
 **Why it matters:** ZTDF is the implementation of DCS Level 3. It's the standard format for data that protects itself.
 
-### ACP-240: cryptographic interoperability
+### ACP-240: data-centric security interoperability
 
-This standard governs which encryption algorithms NATO nations can use and how they should interoperate. When one nation encrypts data, other authorized nations can decrypt it.
+ACP-240 is an Allied Communications Publication developed under the Combined Communications-Electronics Board (CCEB) within the Five Eyes (FVEY) alliance. It defines how ZTDF is used for data-centric interoperability across coalition partners. NATO and the U.S. Joint Chiefs of Staff have adopted the standard. Note: ACP-240 is not a NATO STANAG — it originates from the FVEY community.
 
 ## How these standards map to our labs and architectures
 
@@ -103,7 +103,7 @@ This standard governs which encryption algorithms NATO nations can use and how t
 | STANAG 4774 (labels) | Level 1 | S3 tags as simplified labels | Full XML labels with PolicyIdentifier, typed Categories |
 | STANAG 4778 (binding) | Level 1+ | Not implemented, labels are advisory | KMS digital signatures binding labels to data hashes |
 | ZTDF (encryption) | Level 3 | OpenTDF deployment (already ZTDF-compliant) | Same, OpenTDF implements the NATO standard directly |
-| ACP-240 (crypto) | Level 3 | AWS KMS with AES-256-GCM | Same, KMS is FIPS 140-3 Level 3 validated |
+| ACP-240 (DCS interop) | Level 3 | AWS KMS with AES-256-GCM | Same, KMS is FIPS 140-3 Level 3 validated |
 
 Notice that Lab 3 is already close to STANAG-compliant because OpenTDF implements ZTDF directly. The biggest gap is in Level 1, where the labs use simplified S3 tags instead of proper 4774/4778 labels. The **Assured DCS Level 1** architecture reference closes that gap.
 

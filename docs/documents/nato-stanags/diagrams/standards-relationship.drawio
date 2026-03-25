@@ -1,0 +1,49 @@
+<mxfile host="drawio-jsapi" modified="2026-03-25T10:00:00.000Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="How NATO DCS Standards Work Together">
+  <mxGraphModel background="#FFFFFF" dx="1200" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="800" pageHeight="700">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="stanag4774" value="STANAG 4774&#xa;(Label Syntax)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="80" y="40" width="200" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="stanag4778" value="STANAG 4778&#xa;(Label Binding)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="480" y="40" width="200" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="label-box" value="Classification:&#xa;  NATO SECRET&#xa;Releasable To:&#xa;  GBR, USA, POL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="80" y="150" width="200" height="80" as="geometry" />
+      </mxCell>
+      <mxCell id="sig-box" value="Digital Signature&#xa;binds label to data&#xa;using PKI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+        <mxGeometry x="480" y="150" width="200" height="80" as="geometry" />
+      </mxCell>
+      <mxCell id="ztdf-box" value="ZTDF Wrapper&#xa;(March 2024)&#xa;&#xa;- Encrypted payload&#xa;- Labels&#xa;- KAS refs&#xa;- ABAC policy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="280" y="300" width="200" height="120" as="geometry" />
+      </mxCell>
+      <mxCell id="acp240" value="ACP-240&#xa;(FVEY DCS Interop)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+        <mxGeometry x="100" y="480" width="200" height="60" as="geometry" />
+      </mxCell>
+      <mxCell id="coalition-box" value="Interoperable Coalition&#xa;Data Sharing&#xa;&#xa;- Each nation's KAS&#xa;- Common label vocabulary&#xa;- Federated key mgmt&#xa;- Cross-border audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="230" y="480" width="250" height="120" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="stanag4774" target="label-box">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="stanag4778" target="sig-box">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="label-box" target="sig-box">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="sig-box" target="ztdf-box">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="ztdf-box" target="coalition-box">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="acp240" target="coalition-box">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -4,19 +4,7 @@
 
 Combine batch classification for existing and historical data with classify-on-write for new data entering the system. Fast rule-based methods run at write time; expensive methods (ML, LLM, human review) are reserved for the batch pipeline. This closes the gap problem from pure batch (new data has no labels) without putting a full classification engine in the query path.
 
-```
-                    ┌─────────────────────┐
-Existing data ───→  │  Batch Pipeline     │──→ Label Store
-                    │  (rules + ML + LLM) │        ↑
-                    └─────────────────────┘        │
-                                                   │
-New data ───→ Write Hook ───→ fast rules ──────────┘
-                    │                              ↑
-                    │   (low confidence?)           │
-                    └──→ Queue for batch ───────────┘
-                    
-User query ───→ Read data + lookup labels ───→ filtered response
-```
+![Hybrid Batch + Classify-on-Write](diagrams/hybrid-classification.drawio.png)
 
 ## How it works
 

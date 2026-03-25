@@ -1,0 +1,39 @@
+<mxfile host="drawio-jsapi" modified="2026-03-25T10:00:00.000Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="Scenario to Architecture Workflow">
+  <mxGraphModel background="#FFFFFF" dx="1200" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1000" pageHeight="400">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="scenario" value="1. SCENARIO&#xa;(Problem)&#xa;&#xa;- Actors&#xa;- Flow&#xa;- Constraints&#xa;- Challenges&#xa;- Acceptance Criteria" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="30" y="40" width="190" height="150" as="geometry" />
+      </mxCell>
+      <mxCell id="solutions" value="2. SOLUTIONS&#xa;(Options)&#xa;&#xa;- Option 1&#xa;- Option 2&#xa;- Option 3&#xa;- Comparison" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="280" y="40" width="190" height="150" as="geometry" />
+      </mxCell>
+      <mxCell id="architecture" value="3. ARCHITECTURE&#xa;(Design)&#xa;&#xa;- Components&#xa;- Sequences&#xa;- Deployment&#xa;- Security&#xa;- Testing" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="530" y="40" width="190" height="150" as="geometry" />
+      </mxCell>
+      <mxCell id="validate" value="4. VALIDATE&#xa;(Test)&#xa;&#xa;- AC1 ✓&#xa;- AC2 ✓&#xa;- AC3 ✗&#xa;- Iterate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+        <mxGeometry x="780" y="40" width="190" height="150" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="Select Best" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="scenario" target="solutions">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="Design Arch" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="solutions" target="architecture">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="Implement" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="architecture" target="validate">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e4" value="Iterate" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;dashed=1;fontSize=10;" edge="1" parent="1" source="validate" target="architecture">
+        <mxGeometry relative="1" as="geometry">
+          <Array as="points">
+            <mxPoint x="875" y="250" />
+            <mxPoint x="625" y="250" />
+          </Array>
+        </mxGeometry>
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

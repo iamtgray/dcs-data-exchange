@@ -50,7 +50,8 @@ NATO STANAG documentation, gap analysis between architectures and scenarios, and
 
 - [OpenTDF Specification](https://github.com/opentdf/spec) - Official TDF standard
 - [OpenTDF Platform](https://github.com/opentdf/platform) - Reference implementation
-- ACP-240
+- [ACP-240](docs/documents/nato-stanags/README.md#acp-240---data-centric-security-interoperability) - FVEY/CCEB data-centric security interoperability standard (adopted by NATO)
+- [NATO STANAGs](docs/documents/nato-stanags/README.md) - Search the [NSO standards database](https://nso.nato.int/nso/nsdd/main/standards) by standard number
 
 ## Serving locally
 

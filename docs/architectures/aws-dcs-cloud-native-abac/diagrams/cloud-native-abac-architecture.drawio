@@ -1,0 +1,64 @@
+<mxfile host="drawio-jsapi" modified="2026-03-25T10:00:00.000Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+  <diagram id="diagram-1" name="Cloud-Native DCS with AWS IAM ABAC">
+  <mxGraphModel background="#FFFFFF" dx="1400" dy="1100" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="900">
+    <root>
+      <mxCell id="0" />
+      <mxCell id="1" parent="0" />
+      <mxCell id="org-bg" value="AWS Organization" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#232F3E;fontSize=16;fontStyle=1;verticalAlign=top;dashed=0;strokeWidth=2;" vertex="1" parent="1">
+        <mxGeometry x="20" y="10" width="1060" height="870" as="geometry" />
+      </mxCell>
+      <mxCell id="mgmt-bg" value="Management Account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
+        <mxGeometry x="40" y="50" width="1020" height="130" as="geometry" />
+      </mxCell>
+      <mxCell id="scp" value="SCPs: Deny PutObject without tags,&#xa;Deny DeleteObjectTagging on dcs:*,&#xa;Deny AssumeRole without session tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="60" y="85" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="rcp" value="RCPs: Deny access from untagged principals,&#xa;Require TLS for all S3 operations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="380" y="85" width="280" height="70" as="geometry" />
+      </mxCell>
+      <mxCell id="data-bg" value="&quot;Coalition Data&quot; Account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
+        <mxGeometry x="40" y="200" width="1020" height="380" as="geometry" />
+      </mxCell>
+      <mxCell id="s3-bucket" value="S3 Data Bucket (dcs-data)&#xa;&#xa;Bucket Policy: ABAC conditions&#xa;- GetObject: clearance ≥ classification AND nationality in releasable-to&#xa;- PutObject: must include dcs:* tags&#xa;- Deny tag tampering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="60" y="240" width="400" height="100" as="geometry" />
+      </mxCell>
+      <mxCell id="obj1" value="intel-001.pdf&#xa;class:2 rel:GBR,USA&#xa;sap:WALL orig:GBR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+        <mxGeometry x="80" y="360" width="130" height="55" as="geometry" />
+      </mxCell>
+      <mxCell id="obj2" value="sitrep-042&#xa;class:2 rel:GBR,USA&#xa;sap:NONE orig:POL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+        <mxGeometry x="230" y="360" width="130" height="55" as="geometry" />
+      </mxCell>
+      <mxCell id="obj3" value="logistics.csv&#xa;class:0 rel:ALL&#xa;sap:NONE orig:USA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+        <mxGeometry x="380" y="360" width="130" height="55" as="geometry" />
+      </mxCell>
+      <mxCell id="iam-roles" value="IAM Roles (one per access pattern)&#xa;&#xa;dcs-data-reader: Allow GetObject with ABAC conditions&#xa;dcs-data-writer: Allow PutObject + PutObjectTagging with required tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="540" y="240" width="400" height="80" as="geometry" />
+      </mxCell>
+      <mxCell id="cloudtrail" value="CloudTrail&#xa;- Logs all S3 data events&#xa;- Logs STS AssumeRole with session tags&#xa;- Logs IAM authorization failures&#xa;- Immutable trail in separate audit bucket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="540" y="350" width="400" height="80" as="geometry" />
+      </mxCell>
+      <mxCell id="identity-bg" value="Identity Accounts (one per nation)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede7f6;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
+        <mxGeometry x="40" y="600" width="1020" height="260" as="geometry" />
+      </mxCell>
+      <mxCell id="uk" value="&quot;UK&quot; Account&#xa;&#xa;Cognito Pool / SAML IdP&#xa;&#xa;Session tags:&#xa;  clearance: 2&#xa;  nationality: GBR&#xa;  sap: WALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="80" y="640" width="200" height="130" as="geometry" />
+      </mxCell>
+      <mxCell id="pol" value="&quot;Poland&quot; Account&#xa;&#xa;Cognito Pool / SAML IdP&#xa;&#xa;Session tags:&#xa;  clearance: 2&#xa;  nationality: POL&#xa;  sap: (none)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="380" y="640" width="200" height="130" as="geometry" />
+      </mxCell>
+      <mxCell id="us" value="&quot;US&quot; Account&#xa;&#xa;Cognito Pool / SAML IdP&#xa;&#xa;Session tags:&#xa;  clearance: 2&#xa;  nationality: USA&#xa;  sap: WALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+        <mxGeometry x="680" y="640" width="200" height="130" as="geometry" />
+      </mxCell>
+      <mxCell id="e1" value="STS federation&#xa;with session tags" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="uk" target="iam-roles">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="pol" target="iam-roles">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="us" target="iam-roles">
+        <mxGeometry relative="1" as="geometry" />
+      </mxCell>
+    </root>
+  </mxGraphModel>
+  </diagram>
+</mxfile>

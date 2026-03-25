@@ -35,29 +35,7 @@ A batch process runs on a schedule (nightly, or more frequently for high-priorit
 6. Stores the TDF object in the mirror (S3, on-premise object store, or a database with TDF blobs)
 7. Maintains an index mapping JLTS primary keys to TDF object locations
 
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────────────┐
-│              │     │              │     │                      │
-│  JLTS DB2   │────>│  Replication  │────>│  Encrypted Mirror    │
-│  (plaintext) │     │  Pipeline     │     │  (TDF objects)       │
-│              │     │              │     │                      │
-│  380 GB      │     │  - Read DB2  │     │  S3 bucket or        │
-│  active      │     │  - Lookup    │     │  object store        │
-│              │     │    labels    │     │                      │
-│  2.1 TB      │     │  - Convert   │     │  Each record is a    │
-│  archive     │     │    EBCDIC    │     │  TDF with ABAC       │
-│              │     │  - Encrypt   │     │  policy               │
-│              │     │    as TDF    │     │                      │
-└──────────────┘     │  - Store     │     │  KAS required to     │
-                     └──────────────┘     │  decrypt any record  │
-                            │              │                      │
-                     ┌──────▼──────┐      └──────────────────────┘
-                     │  Shadow     │
-                     │  Label      │
-                     │  Store      │
-                     │  (Opt. 1)   │
-                     └─────────────┘
-```
+![Encrypted Data Mirror Replication Pipeline](diagrams/encrypted-data-mirror.drawio.png)
 
 ### Granularity: what becomes a TDF object?
 

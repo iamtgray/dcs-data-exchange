@@ -89,19 +89,7 @@ architectures/01-strategic-tdf-federation/
 
 ## Workflow
 
-```
-1. SCENARIO          2. SOLUTIONS           3. ARCHITECTURE        4. VALIDATE
-   (Problem)            (Options)              (Design)               (Test)
-      │                    │                      │                     │
-      ├─ Actors           ├─ Option 1            ├─ Components         ├─ AC1 ✓
-      ├─ Flow             ├─ Option 2            ├─ Sequences          ├─ AC2 ✓
-      ├─ Constraints      ├─ Option 3            ├─ Deployment         ├─ AC3 ✗
-      ├─ Challenges       └─ Comparison          ├─ Security           └─ Iterate
-      └─ Acceptance           ↓                  └─ Testing
-         Criteria          Select Best               ↓
-                              ↓                   Implement
-                          Design Arch
-```
+![Scenario to Architecture Workflow](diagrams/workflow.drawio.png)
 
 ## Current State
 ### Scenarios (Defined)
