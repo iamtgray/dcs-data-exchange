@@ -4,43 +4,43 @@
     <root>
       <mxCell id="0" />
       <mxCell id="1" parent="0" />
-      <mxCell id="stanag4774" value="STANAG 4774&#xa;(Label Syntax)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="stanag4774" value="STANAG 4774&lt;br&gt;(Label Syntax)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="80" y="40" width="200" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="stanag4778" value="STANAG 4778&#xa;(Label Binding)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="stanag4778" value="STANAG 4778&lt;br&gt;(Label Binding)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=13;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="480" y="40" width="200" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="label-box" value="Classification:&#xa;  NATO SECRET&#xa;Releasable To:&#xa;  GBR, USA, POL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="label-box" value="Classification:&lt;br&gt;  NATO SECRET&lt;br&gt;Releasable To:&lt;br&gt;  GBR, USA, POL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="80" y="150" width="200" height="80" as="geometry" />
       </mxCell>
-      <mxCell id="sig-box" value="Digital Signature&#xa;binds label to data&#xa;using PKI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;" vertex="1" parent="1">
+      <mxCell id="sig-box" value="Digital Signature&lt;br&gt;binds label to data&lt;br&gt;using PKI" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;" vertex="1" parent="1">
         <mxGeometry x="480" y="150" width="200" height="80" as="geometry" />
       </mxCell>
-      <mxCell id="ztdf-box" value="ZTDF Wrapper&#xa;(March 2024)&#xa;&#xa;- Encrypted payload&#xa;- Labels&#xa;- KAS refs&#xa;- ABAC policy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="ztdf-box" value="ZTDF Wrapper&lt;br&gt;(March 2024)&lt;br&gt;&lt;br&gt;- Encrypted payload&lt;br&gt;- Labels&lt;br&gt;- KAS refs&lt;br&gt;- ABAC policy" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="280" y="300" width="200" height="120" as="geometry" />
       </mxCell>
-      <mxCell id="acp240" value="ACP-240&#xa;(FVEY DCS Interop)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="acp240" value="ACP-240&lt;br&gt;(FVEY DCS Interop)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="100" y="480" width="200" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="coalition-box" value="Interoperable Coalition&#xa;Data Sharing&#xa;&#xa;- Each nation's KAS&#xa;- Common label vocabulary&#xa;- Federated key mgmt&#xa;- Cross-border audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="coalition-box" value="Interoperable Coalition&lt;br&gt;Data Sharing&lt;br&gt;&lt;br&gt;- Each nation's KAS&lt;br&gt;- Common label vocabulary&lt;br&gt;- Federated key mgmt&lt;br&gt;- Cross-border audit" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="230" y="480" width="250" height="120" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="stanag4774" target="label-box">
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="stanag4774" target="label-box">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="stanag4778" target="sig-box">
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="stanag4778" target="sig-box">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="label-box" target="sig-box">
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="label-box" target="sig-box">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="sig-box" target="ztdf-box">
+      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="sig-box" target="ztdf-box">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="ztdf-box" target="coalition-box">
+      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="ztdf-box" target="coalition-box">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="acp240" target="coalition-box">
+      <mxCell id="e6" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="acp240" target="coalition-box">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>

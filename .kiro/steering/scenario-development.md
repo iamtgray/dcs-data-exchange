@@ -332,3 +332,43 @@ When designing architectures:
 ---
 
 *This guide helps maintain consistency and quality across scenario development, solution exploration, and architecture design.*
+
+
+## Diagrams
+
+Diagrams are created as draw.io (`.drawio`) files and rendered to PNG for use in markdown.
+
+### Rendering drawio to PNG
+
+Run the render script from the repo root:
+
+```bash
+./scripts/render-drawio.sh
+```
+
+This finds the draw.io desktop app at `/Applications/draw.io.app/Contents/MacOS/draw.io` and exports all `.drawio` files under `docs/` to `.drawio.png` at 2x scale. You can also render a single file:
+
+```bash
+./scripts/render-drawio.sh docs/path/to/diagram.drawio
+```
+
+### Drawio authoring rules
+
+When creating `.drawio` files programmatically:
+
+- Use `html=1` in cell styles and `<br>` (escaped as `&lt;br&gt;` in XML attributes) for line breaks. Do NOT use `&#xa;` with `html=1` — the CLI renderer shows literal `<br>` text instead of line breaks.
+- Use `whiteSpace=wrap` so text wraps within cells.
+- Use `edgeStyle=orthogonalEdgeStyle` for connector routing.
+- Add `strokeColor=#000000` to edges and `labelBackgroundColor=#FFFFFF` to edge labels for readability.
+- Place diagrams in a `diagrams/` subfolder next to the markdown that references them.
+- Reference in markdown as `![Alt text](diagrams/name.drawio.png)`.
+
+### Diagram locations
+
+| Area | Diagram folder |
+|------|---------------|
+| Labs | `docs/labs/diagrams/` |
+| Architectures | `docs/architectures/<name>/diagrams/` |
+| Solutions | `docs/solutions/<name>/diagrams/` |
+| NATO STANAGs | `docs/documents/nato-stanags/diagrams/` |
+| General | `docs/diagrams/` |

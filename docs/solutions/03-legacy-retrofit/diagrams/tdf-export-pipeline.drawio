@@ -4,25 +4,25 @@
     <root>
       <mxCell id="0" />
       <mxCell id="1" parent="0" />
-      <mxCell id="cobol" value="COBOL batch output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="cobol" value="COBOL batch output" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="180" y="30" width="200" height="50" as="geometry" />
       </mxCell>
-      <mxCell id="gateway" value="Export Gateway&#xa;(Option 4)&#xa;&#xa;Filter + Label" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="gateway" value="Export Gateway&lt;br&gt;(Option 4)&lt;br&gt;&lt;br&gt;Filter + Label" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="180" y="140" width="200" height="80" as="geometry" />
       </mxCell>
-      <mxCell id="tdf-enc" value="TDF Encryption Service&#xa;&#xa;- Generate DEK&#xa;- Encrypt data&#xa;- Build policy&#xa;- Wrap DEK with KAS public key&#xa;- Produce .tdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="tdf-enc" value="TDF Encryption Service&lt;br&gt;&lt;br&gt;- Generate DEK&lt;br&gt;- Encrypt data&lt;br&gt;- Build policy&lt;br&gt;- Wrap DEK with KAS public key&lt;br&gt;- Produce .tdf" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="160" y="290" width="240" height="120" as="geometry" />
       </mxCell>
-      <mxCell id="delivery" value="Delivery&#xa;(FTP / email)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="delivery" value="Delivery&lt;br&gt;(FTP / email)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="195" y="480" width="170" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="cobol" target="gateway">
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="cobol" target="gateway">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="gateway" target="tdf-enc">
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="gateway" target="tdf-enc">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="tdf-enc" target="delivery">
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="tdf-enc" target="delivery">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>

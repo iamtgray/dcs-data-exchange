@@ -4,25 +4,25 @@
     <root>
       <mxCell id="0" />
       <mxCell id="1" parent="0" />
-      <mxCell id="db2" value="JLTS DB2&#xa;(plaintext)&#xa;&#xa;380 GB active&#xa;2.1 TB archive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="db2" value="JLTS DB2&lt;br&gt;(plaintext)&lt;br&gt;&lt;br&gt;380 GB active&lt;br&gt;2.1 TB archive" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="40" y="80" width="160" height="100" as="geometry" />
       </mxCell>
-      <mxCell id="pipeline" value="Replication Pipeline&#xa;&#xa;- Read DB2&#xa;- Lookup labels&#xa;- Convert EBCDIC&#xa;- Encrypt as TDF&#xa;- Store" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="pipeline" value="Replication Pipeline&lt;br&gt;&lt;br&gt;- Read DB2&lt;br&gt;- Lookup labels&lt;br&gt;- Convert EBCDIC&lt;br&gt;- Encrypt as TDF&lt;br&gt;- Store" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="310" y="60" width="180" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="mirror" value="Encrypted Mirror&#xa;(TDF objects)&#xa;&#xa;S3 bucket or&#xa;object store&#xa;&#xa;Each record is a TDF&#xa;with ABAC policy&#xa;&#xa;KAS required to&#xa;decrypt any record" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="mirror" value="Encrypted Mirror&lt;br&gt;(TDF objects)&lt;br&gt;&lt;br&gt;S3 bucket or&lt;br&gt;object store&lt;br&gt;&lt;br&gt;Each record is a TDF&lt;br&gt;with ABAC policy&lt;br&gt;&lt;br&gt;KAS required to&lt;br&gt;decrypt any record" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="610" y="40" width="210" height="180" as="geometry" />
       </mxCell>
-      <mxCell id="shadow" value="Shadow Label&#xa;Store (Opt. 1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;" vertex="1" parent="1">
+      <mxCell id="shadow" value="Shadow Label&lt;br&gt;Store (Opt. 1)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;" vertex="1" parent="1">
         <mxGeometry x="330" y="290" width="140" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="db2" target="pipeline">
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="db2" target="pipeline">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="pipeline" target="mirror">
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="pipeline" target="mirror">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="pipeline" target="shadow">
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="pipeline" target="shadow">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>

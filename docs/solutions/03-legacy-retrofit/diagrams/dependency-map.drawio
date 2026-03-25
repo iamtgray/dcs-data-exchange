@@ -4,37 +4,37 @@
     <root>
       <mxCell id="0" />
       <mxCell id="1" parent="0" />
-      <mxCell id="opt1" value="Option 1: Shadow Label Store&#xa;(DCS Level 1 - basic labeling)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="opt1" value="Option 1: Shadow Label Store&lt;br&gt;(DCS Level 1 - basic labeling)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="40" y="120" width="250" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="opt2" value="Option 2: User Attribute Store&#xa;(DCS Level 2 prerequisite)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="opt2" value="Option 2: User Attribute Store&lt;br&gt;(DCS Level 2 prerequisite)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="40" y="300" width="250" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="opt3" value="Option 3: TN3270 Proxy&#xa;(DCS Level 2 - interactive)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="opt3" value="Option 3: TN3270 Proxy&lt;br&gt;(DCS Level 2 - interactive)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="580" y="60" width="250" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="opt4" value="Option 4: Batch Gateway&#xa;(DCS Level 1 assured + Level 2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="opt4" value="Option 4: Batch Gateway&lt;br&gt;(DCS Level 1 assured + Level 2)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="580" y="160" width="250" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="opt5" value="Option 5: TDF on Export&#xa;(DCS Level 3 - outbound)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="opt5" value="Option 5: TDF on Export&lt;br&gt;(DCS Level 3 - outbound)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="580" y="260" width="250" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="opt6" value="Option 6: Encrypted Mirror&#xa;(DCS Level 3 - at rest)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="opt6" value="Option 6: Encrypted Mirror&lt;br&gt;(DCS Level 3 - at rest)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="580" y="360" width="250" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt3">
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;exitX=1;exitY=0.25;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt3">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt4">
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt4">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt5">
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt5">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt6">
+      <mxCell id="e4" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;exitX=1;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt1" target="opt6">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt2" target="opt3">
+      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="opt2" target="opt3">
         <mxGeometry relative="1" as="geometry">
           <Array as="points">
             <mxPoint x="400" y="330" />
@@ -42,7 +42,7 @@
           </Array>
         </mxGeometry>
       </mxCell>
-      <mxCell id="e6" value="builds on" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;dashed=1;fontStyle=2;fontSize=10;" edge="1" parent="1" source="opt4" target="opt5">
+      <mxCell id="e6" value="builds on" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;dashed=1;fontStyle=2;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=10;" edge="1" parent="1" source="opt4" target="opt5">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>

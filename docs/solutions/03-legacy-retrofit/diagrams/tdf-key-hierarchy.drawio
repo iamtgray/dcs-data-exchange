@@ -4,19 +4,19 @@
     <root>
       <mxCell id="0" />
       <mxCell id="1" parent="0" />
-      <mxCell id="kms" value="AWS KMS (or on-premise HSM&#xa;at NATO facility)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="kms" value="AWS KMS (or on-premise HSM&lt;br&gt;at NATO facility)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="100" y="30" width="280" height="50" as="geometry" />
       </mxCell>
-      <mxCell id="kek" value="Key Encryption Key (KEK)&#xa;- One per KAS instance&#xa;- Never leaves the HSM/KMS&#xa;- Used to wrap/unwrap DEKs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="kek" value="Key Encryption Key (KEK)&lt;br&gt;- One per KAS instance&lt;br&gt;- Never leaves the HSM/KMS&lt;br&gt;- Used to wrap/unwrap DEKs" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="110" y="140" width="260" height="80" as="geometry" />
       </mxCell>
-      <mxCell id="dek" value="Data Encryption Key (DEK)&#xa;- Generated per TDF file&#xa;- Encrypts data (AES-256-GCM)&#xa;- Wrapped with KEK in manifest&#xa;- Released by KAS after ABAC check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="dek" value="Data Encryption Key (DEK)&lt;br&gt;- Generated per TDF file&lt;br&gt;- Encrypts data (AES-256-GCM)&lt;br&gt;- Wrapped with KEK in manifest&lt;br&gt;- Released by KAS after ABAC check" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="90" y="290" width="300" height="100" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="kms" target="kek">
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="kms" target="kek">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;" edge="1" parent="1" source="kek" target="dek">
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;" edge="1" parent="1" source="kek" target="dek">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>

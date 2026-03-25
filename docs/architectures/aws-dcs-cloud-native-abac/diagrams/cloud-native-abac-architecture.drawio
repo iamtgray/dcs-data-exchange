@@ -10,52 +10,52 @@
       <mxCell id="mgmt-bg" value="Management Account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fce4ec;strokeColor=#b85450;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
         <mxGeometry x="40" y="50" width="1020" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="scp" value="SCPs: Deny PutObject without tags,&#xa;Deny DeleteObjectTagging on dcs:*,&#xa;Deny AssumeRole without session tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="scp" value="SCPs: Deny PutObject without tags,&lt;br&gt;Deny DeleteObjectTagging on dcs:*,&lt;br&gt;Deny AssumeRole without session tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="60" y="85" width="280" height="70" as="geometry" />
       </mxCell>
-      <mxCell id="rcp" value="RCPs: Deny access from untagged principals,&#xa;Require TLS for all S3 operations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="rcp" value="RCPs: Deny access from untagged principals,&lt;br&gt;Require TLS for all S3 operations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="380" y="85" width="280" height="70" as="geometry" />
       </mxCell>
       <mxCell id="data-bg" value="&quot;Coalition Data&quot; Account" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e8f5e9;strokeColor=#82b366;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
         <mxGeometry x="40" y="200" width="1020" height="380" as="geometry" />
       </mxCell>
-      <mxCell id="s3-bucket" value="S3 Data Bucket (dcs-data)&#xa;&#xa;Bucket Policy: ABAC conditions&#xa;- GetObject: clearance ≥ classification AND nationality in releasable-to&#xa;- PutObject: must include dcs:* tags&#xa;- Deny tag tampering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="s3-bucket" value="S3 Data Bucket (dcs-data)&lt;br&gt;&lt;br&gt;Bucket Policy: ABAC conditions&lt;br&gt;- GetObject: clearance ≥ classification AND nationality in releasable-to&lt;br&gt;- PutObject: must include dcs:* tags&lt;br&gt;- Deny tag tampering" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="60" y="240" width="400" height="100" as="geometry" />
       </mxCell>
-      <mxCell id="obj1" value="intel-001.pdf&#xa;class:2 rel:GBR,USA&#xa;sap:WALL orig:GBR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+      <mxCell id="obj1" value="intel-001.pdf&lt;br&gt;class:2 rel:GBR,USA&lt;br&gt;sap:WALL orig:GBR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
         <mxGeometry x="80" y="360" width="130" height="55" as="geometry" />
       </mxCell>
-      <mxCell id="obj2" value="sitrep-042&#xa;class:2 rel:GBR,USA&#xa;sap:NONE orig:POL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+      <mxCell id="obj2" value="sitrep-042&lt;br&gt;class:2 rel:GBR,USA&lt;br&gt;sap:NONE orig:POL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
         <mxGeometry x="230" y="360" width="130" height="55" as="geometry" />
       </mxCell>
-      <mxCell id="obj3" value="logistics.csv&#xa;class:0 rel:ALL&#xa;sap:NONE orig:USA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=9;" vertex="1" parent="1">
+      <mxCell id="obj3" value="logistics.csv&lt;br&gt;class:0 rel:ALL&lt;br&gt;sap:NONE orig:USA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=9;" vertex="1" parent="1">
         <mxGeometry x="380" y="360" width="130" height="55" as="geometry" />
       </mxCell>
-      <mxCell id="iam-roles" value="IAM Roles (one per access pattern)&#xa;&#xa;dcs-data-reader: Allow GetObject with ABAC conditions&#xa;dcs-data-writer: Allow PutObject + PutObjectTagging with required tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="iam-roles" value="IAM Roles (one per access pattern)&lt;br&gt;&lt;br&gt;dcs-data-reader: Allow GetObject with ABAC conditions&lt;br&gt;dcs-data-writer: Allow PutObject + PutObjectTagging with required tags" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="540" y="240" width="400" height="80" as="geometry" />
       </mxCell>
-      <mxCell id="cloudtrail" value="CloudTrail&#xa;- Logs all S3 data events&#xa;- Logs STS AssumeRole with session tags&#xa;- Logs IAM authorization failures&#xa;- Immutable trail in separate audit bucket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="cloudtrail" value="CloudTrail&lt;br&gt;- Logs all S3 data events&lt;br&gt;- Logs STS AssumeRole with session tags&lt;br&gt;- Logs IAM authorization failures&lt;br&gt;- Immutable trail in separate audit bucket" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="540" y="350" width="400" height="80" as="geometry" />
       </mxCell>
       <mxCell id="identity-bg" value="Identity Accounts (one per nation)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ede7f6;strokeColor=#9673a6;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;" vertex="1" parent="1">
         <mxGeometry x="40" y="600" width="1020" height="260" as="geometry" />
       </mxCell>
-      <mxCell id="uk" value="&quot;UK&quot; Account&#xa;&#xa;Cognito Pool / SAML IdP&#xa;&#xa;Session tags:&#xa;  clearance: 2&#xa;  nationality: GBR&#xa;  sap: WALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="uk" value="&quot;UK&quot; Account&lt;br&gt;&lt;br&gt;Cognito Pool / SAML IdP&lt;br&gt;&lt;br&gt;Session tags:&lt;br&gt;  clearance: 2&lt;br&gt;  nationality: GBR&lt;br&gt;  sap: WALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="80" y="640" width="200" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="pol" value="&quot;Poland&quot; Account&#xa;&#xa;Cognito Pool / SAML IdP&#xa;&#xa;Session tags:&#xa;  clearance: 2&#xa;  nationality: POL&#xa;  sap: (none)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="pol" value="&quot;Poland&quot; Account&lt;br&gt;&lt;br&gt;Cognito Pool / SAML IdP&lt;br&gt;&lt;br&gt;Session tags:&lt;br&gt;  clearance: 2&lt;br&gt;  nationality: POL&lt;br&gt;  sap: (none)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="380" y="640" width="200" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="us" value="&quot;US&quot; Account&#xa;&#xa;Cognito Pool / SAML IdP&#xa;&#xa;Session tags:&#xa;  clearance: 2&#xa;  nationality: USA&#xa;  sap: WALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="us" value="&quot;US&quot; Account&lt;br&gt;&lt;br&gt;Cognito Pool / SAML IdP&lt;br&gt;&lt;br&gt;Session tags:&lt;br&gt;  clearance: 2&lt;br&gt;  nationality: USA&lt;br&gt;  sap: WALL" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="680" y="640" width="200" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="STS federation&#xa;with session tags" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;fontSize=9;" edge="1" parent="1" source="uk" target="iam-roles">
+      <mxCell id="e1" value="STS federation&lt;br&gt;with session tags" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=9;" edge="1" parent="1" source="uk" target="iam-roles">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="pol" target="iam-roles">
+      <mxCell id="e2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="pol" target="iam-roles">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="us" target="iam-roles">
+      <mxCell id="e3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="us" target="iam-roles">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>

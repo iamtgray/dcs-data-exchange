@@ -7,49 +7,49 @@
       <mxCell id="high-bg" value="HIGH-SIDE (TS)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#b85450;fontSize=14;fontStyle=1;verticalAlign=top;dashed=1;dashPattern=8 4;strokeWidth=2;" vertex="1" parent="1">
         <mxGeometry x="30" y="20" width="1040" height="520" as="geometry" />
       </mxCell>
-      <mxCell id="doc" value="Document&#xa;to Transfer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxCell id="doc" value="Document&lt;br&gt;to Transfer" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontColor=#000000;fontSize=12;fontStyle=1;" vertex="1" parent="1">
         <mxGeometry x="60" y="70" width="140" height="60" as="geometry" />
       </mxCell>
-      <mxCell id="llm" value="LLM Sanitisation Engine&#xa;(GPT-4, Claude, Llama, etc.)&#xa;&#xa;- Content analysis&#xa;- Classification reasoning&#xa;- Redaction recommendations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="llm" value="LLM Sanitisation Engine&lt;br&gt;(GPT-4, Claude, Llama, etc.)&lt;br&gt;&lt;br&gt;- Content analysis&lt;br&gt;- Classification reasoning&lt;br&gt;- Redaction recommendations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="340" y="50" width="280" height="100" as="geometry" />
       </mxCell>
-      <mxCell id="mcp-project" value="MCP Server:&#xa;Project Context&#xa;&#xa;- Project docs&#xa;- Codewords&#xa;- Capabilities&#xa;- Operations&#xa;- Personnel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="mcp-project" value="MCP Server:&lt;br&gt;Project Context&lt;br&gt;&lt;br&gt;- Project docs&lt;br&gt;- Codewords&lt;br&gt;- Capabilities&lt;br&gt;- Operations&lt;br&gt;- Personnel" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="200" y="220" width="170" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="mcp-class" value="MCP Server:&#xa;Classification Guides&#xa;&#xa;- Classification rules&#xa;- Downgrade procedures&#xa;- Releasability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="mcp-class" value="MCP Server:&lt;br&gt;Classification Guides&lt;br&gt;&lt;br&gt;- Classification rules&lt;br&gt;- Downgrade procedures&lt;br&gt;- Releasability" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="430" y="220" width="180" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="mcp-hist" value="MCP Server:&#xa;Historical Sanitisations&#xa;&#xa;- Previous decisions&#xa;- Reviewer feedback&#xa;- Common patterns" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxCell id="mcp-hist" value="MCP Server:&lt;br&gt;Historical Sanitisations&lt;br&gt;&lt;br&gt;- Previous decisions&lt;br&gt;- Reviewer feedback&lt;br&gt;- Common patterns" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontColor=#000000;fontSize=10;align=left;spacingLeft=8;" vertex="1" parent="1">
         <mxGeometry x="670" y="220" width="190" height="130" as="geometry" />
       </mxCell>
-      <mxCell id="review" value="Human Review Interface&#xa;&#xa;- Original document (TS)&#xa;- LLM-sanitised version (proposed SECRET)&#xa;- LLM reasoning explanation&#xa;- Approve / Modify / Reject" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="review" value="Human Review Interface&lt;br&gt;&lt;br&gt;- Original document (TS)&lt;br&gt;- LLM-sanitised version (proposed SECRET)&lt;br&gt;- LLM reasoning explanation&lt;br&gt;- Approve / Modify / Reject" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontColor=#000000;fontSize=11;fontStyle=1;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="250" y="410" width="350" height="100" as="geometry" />
       </mxCell>
       <mxCell id="cds-bg" value="CROSS-DOMAIN SOLUTION" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;dashPattern=8 4;" vertex="1" parent="1">
         <mxGeometry x="200" y="590" width="500" height="120" as="geometry" />
       </mxCell>
-      <mxCell id="cds" value="Traditional CDS Controls&#xa;- Format validation  - Malware scanning&#xa;- Dirty word check    - Metadata stripping" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="cds" value="Traditional CDS Controls&lt;br&gt;- Format validation  - Malware scanning&lt;br&gt;- Dirty word check    - Metadata stripping" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#000000;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="260" y="630" width="380" height="60" as="geometry" />
       </mxCell>
       <mxCell id="low-bg" value="LOW-SIDE (SECRET)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#82b366;fontSize=13;fontStyle=1;verticalAlign=top;dashed=1;dashPattern=8 4;strokeWidth=2;" vertex="1" parent="1">
         <mxGeometry x="200" y="770" width="500" height="100" as="geometry" />
       </mxCell>
-      <mxCell id="sanitised" value="Sanitised Document + Metadata&#xa;Classification: SECRET | Derived from: [TS doc ID]&#xa;Sanitisation date: [timestamp] | Reviewer: [name]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
+      <mxCell id="sanitised" value="Sanitised Document + Metadata&lt;br&gt;Classification: SECRET | Derived from: [TS doc ID]&lt;br&gt;Sanitisation date: [timestamp] | Reviewer: [name]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontColor=#000000;fontSize=11;align=left;spacingLeft=10;" vertex="1" parent="1">
         <mxGeometry x="250" y="800" width="400" height="55" as="geometry" />
       </mxCell>
-      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="doc" target="llm">
+      <mxCell id="e1" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="doc" target="llm">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e2" value="MCP Protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;fontSize=10;" edge="1" parent="1" source="llm" target="mcp-project">
+      <mxCell id="e2" value="MCP Protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=10;" edge="1" parent="1" source="llm" target="mcp-project">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e3" value="MCP Protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;fontSize=10;" edge="1" parent="1" source="llm" target="mcp-class">
+      <mxCell id="e3" value="MCP Protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=10;" edge="1" parent="1" source="llm" target="mcp-class">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e4" value="MCP Protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;fontSize=10;" edge="1" parent="1" source="llm" target="mcp-hist">
+      <mxCell id="e4" value="MCP Protocol" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=10;" edge="1" parent="1" source="llm" target="mcp-hist">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;" edge="1" parent="1" source="llm" target="review">
+      <mxCell id="e5" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;" edge="1" parent="1" source="llm" target="review">
         <mxGeometry relative="1" as="geometry">
           <Array as="points">
             <mxPoint x="480" y="190" />
@@ -58,10 +58,10 @@
           </Array>
         </mxGeometry>
       </mxCell>
-      <mxCell id="e6" value="Approved&#xa;Sanitised Doc" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="review" target="cds">
+      <mxCell id="e6" value="Approved&lt;br&gt;Sanitised Doc" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=10;" edge="1" parent="1" source="review" target="cds">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
-      <mxCell id="e7" value="Sanitised&#xa;Document" style="edgeStyle=orthogonalEdgeStyle;rounded=1;endArrow=block;endFill=1;strokeWidth=2;fontSize=10;" edge="1" parent="1" source="cds" target="sanitised">
+      <mxCell id="e7" value="Sanitised&lt;br&gt;Document" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;endArrow=block;endFill=1;strokeColor=#000000;strokeWidth=2;labelBackgroundColor=#FFFFFF;fontColor=#000000;fontSize=10;" edge="1" parent="1" source="cds" target="sanitised">
         <mxGeometry relative="1" as="geometry" />
       </mxCell>
     </root>
