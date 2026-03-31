@@ -106,7 +106,7 @@ my-document.tdf (ZIP archive)
 
 ---
 
-### ACP-240 - Data-Centric Security Interoperability
+### ACP-240: Data-Centric Security Interoperability
 - **Title**: Allied Communications Publication 240
 - **Origin**: Combined Communications-Electronics Board (CCEB), Five Eyes (FVEY) alliance
 - **Status**: Active; adopted by NATO and the U.S. Joint Chiefs of Staff

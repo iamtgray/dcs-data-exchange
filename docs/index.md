@@ -1,51 +1,58 @@
-# Data-Centric Security: Coalition Data Exchange
+# Data-Centric Security on AWS
 
-Everything you need to learn and implement **Data-Centric Security (DCS)** on AWS: concepts, reference architectures, operational scenarios, solution patterns, and hands-on labs for coalition data sharing.
+Security embedded in the data itself -- not the network, not the perimeter. Protection that persists wherever data travels, whoever holds it.
 
-## What's inside
+This site covers **concepts, hands-on labs, reference architectures, and operational scenarios** for implementing Data-Centric Security (DCS) in coalition and defence environments using AWS.
 
-### [What is Data-Centric Security?](labs/overview/index.md)
+---
 
-Understand what DCS is, why it matters, the three DCS levels, NATO standards, and how it maps to AWS services.
+## Where should I start?
 
-### [Reference Architectures](architectures/index.md)
+??? question "I'm new to DCS and want to understand the basics"
+    Start with **[What is Data-Centric Security?](labs/overview/index.md)** -- a plain-language introduction covering the problem DCS solves, the three protection levels, and how NATO standards fit in.
 
-Five architecture designs with Terraform, covering all three DCS levels including STANAG-compliant and cloud-native approaches.
+    Then try **[Lab 1](labs/lab1/index.md)** (~30 min) to build a working DCS Level 1 system on AWS and see the concepts in action.
 
-### [Operational Scenarios](scenarios/index.md)
+??? question "I want to build something on AWS"
+    The **[Hands-On Labs](labs/index.md)** walk you through building all three DCS levels step by step:
 
-Nine scenarios describing coalition data sharing challenges, from strategic intelligence sharing to tactical DDIL environments, legacy system retrofits, and real-time air operations.
+    | Lab | What you build | Time |
+    |-----|---------------|------|
+    | [Lab 1: Labeling](labs/lab1/index.md) | S3 objects with security tags, Lambda data service, CloudTrail audit | ~30 min |
+    | [Lab 2: Access Control](labs/lab2/index.md) | Cognito identity, Verified Permissions with Cedar policies, ABAC enforcement | ~45 min |
+    | [Lab 3: Encryption](labs/lab3/index.md) | OpenTDF on ECS Fargate, KMS key management, policy-gated decryption | ~60 min |
 
-### [Solution Options](solutions/index.md)
+    When you're ready for production, the **[Reference Architectures](architectures/index.md)** provide STANAG-compliant designs with Terraform.
 
-Proposed approaches to solve scenario challenges, with trade-off analysis and acceptance criteria mapping.
+??? question "I'm planning an integration or evaluating DCS for a programme"
+    Start with the **[Operational Scenarios](scenarios/index.md)** -- 17 problem definitions covering coalition sharing, tactical operations, legacy systems, and emerging domains. Each includes actors, constraints, and measurable acceptance criteria.
 
-### [Hands-On Labs](labs/index.md)
+    Then review **[Solution Patterns](solutions/index.md)** for approach options, and **[Reference Architectures](architectures/index.md)** for concrete AWS implementations.
 
-Three progressive labs that teach DCS by building it on AWS:
+??? question "I need to understand the NATO standards"
+    See **[NATO Standards and DCS](labs/overview/nato-standards.md)** for how STANAG 4774, 4778, ZTDF, and ACP-240 relate to each other, or the full **[NATO STANAGs Reference](documents/nato-stanags/README.md)** for detailed coverage of each standard.
 
-| Lab | DCS Level | What You'll Build | Time |
-|-----|-----------|-------------------|------|
-| [Lab 1](labs/lab1/index.md) | Level 1 - Labeling | S3 objects with security tags, a Lambda that returns data with its labels | ~30 min |
-| [Lab 2](labs/lab2/index.md) | Level 2 - Access Control | A policy engine (Amazon Verified Permissions) evaluating user attributes against data labels | ~45 min |
-| [Lab 3](labs/lab3/index.md) | Level 3 - Encryption | OpenTDF platform on ECS with AWS KMS, data encrypted and released only after policy checks | ~60 min |
-
-### Reference Material
-- [NATO STANAGs](documents/nato-stanags/README.md) -- Standards underpinning data-centric security
-- [Gap Analysis](NEXT-STEPS.md) -- What the current architectures cover and what's still needed
-- [Repository Structure](STRUCTURE.md) -- How this project is organized
+---
 
 ## Key concepts
 
-**Data-Centric Security (DCS)** -- Security embedded in the data itself, not the perimeter. Protection persists wherever data travels.
+**Data-Centric Security (DCS)**
+:   Security embedded in the data itself. Protection persists wherever data travels -- across networks, organizations, and classification domains.
 
-**Zero Trust Data Format (ZTDF)** -- NATO-standardized (March 2024) data wrapper built on OpenTDF. Supports secure cross-border data sharing with persistent access controls.
+**The Three DCS Levels**
+:   **Level 1** labels data with classification metadata. **Level 2** enforces access control based on those labels. **Level 3** encrypts data so only authorized parties can decrypt it.
 
-**Federated Key Management** -- Multiple organizations operate independent Key Access Servers (KAS) that collaboratively manage access to shared data while each maintains sovereignty.
+**Zero Trust Data Format (ZTDF)**
+:   NATO-standardized (March 2024) data wrapper built on OpenTDF. Combines labels, encryption, and federated key management into a single interoperable format.
+
+**Federated Key Management**
+:   Each nation operates its own Key Access Server (KAS). Data can require approval from one KAS (AnyOf) or all of them (AllOf) before decryption.
+
+---
 
 ## References
 
-- [OpenTDF Specification](https://github.com/opentdf/spec) - Official TDF standard
-- [OpenTDF Platform](https://github.com/opentdf/platform) - Reference implementation
-- [ACP-240](documents/nato-stanags/README.md#acp-240---data-centric-security-interoperability) - FVEY/CCEB data-centric security interoperability standard (adopted by NATO)
-- [NATO STANAGs](documents/nato-stanags/README.md) - Search the [NSO standards database](https://nso.nato.int/nso/nsdd/main/standards) by standard number
+- [OpenTDF Specification](https://github.com/opentdf/spec) -- Official TDF standard
+- [OpenTDF Platform](https://github.com/opentdf/platform) -- Reference implementation
+- [ACP-240](documents/nato-stanags/README.md#acp-240-data-centric-security-interoperability) -- FVEY/CCEB data-centric security interoperability standard (adopted by NATO)
+- [NATO STANAGs](documents/nato-stanags/README.md) -- Search the [NSO standards database](https://nso.nato.int/nso/nsdd/main/standards) by standard number

@@ -13,6 +13,7 @@ theme:
     - navigation.indexes
     - navigation.top
     - navigation.sections
+    - navigation.expand
     - toc.integrate
     - content.code.copy
   icon:
@@ -39,12 +40,51 @@ markdown_extensions:
 
 nav:
   - Home: index.md
-  - What is Data-Centric Security?:
+
+  # --- LEARN ---
+  - Understanding DCS:
     - labs/overview/index.md
     - The Problem DCS Solves: labs/overview/the-problem.md
     - The Three DCS Levels: labs/overview/three-levels.md
     - NATO Standards: labs/overview/nato-standards.md
-    - DCS on AWS - How It Maps: labs/overview/aws-mapping.md
+    - DCS on AWS: labs/overview/aws-mapping.md
+
+  - "Hands-On Labs":
+    - labs/index.md
+    - "Lab 1: Data Labeling (Level 1)":
+      - labs/lab1/index.md
+      - "Step 1: Create the S3 Data Bucket": labs/lab1/step1-s3-bucket.md
+      - "Step 2: Set Up Security Labels": labs/lab1/step2-labels.md
+      - "Step 3: Build the Data Service": labs/lab1/step3-service.md
+      - "Step 4: Test the Data Service": labs/lab1/step4-test.md
+      - "Step 5: Review the Audit Trail": labs/lab1/step5-audit.md
+      - "What You Learned": labs/lab1/summary.md
+    - "Lab 2: Access Control (Level 2)":
+      - labs/lab2/index.md
+      - "Step 1: Set Up Identity Providers": labs/lab2/step1-cognito.md
+      - "Step 2: Create the Policy Engine": labs/lab2/step2-policies.md
+      - "Step 3: Confirm Your Labeled Data": labs/lab2/step3-data.md
+      - "Step 4: Add Access Control to the Data Service": labs/lab2/step4-service.md
+      - "Step 5: Test ABAC Scenarios": labs/lab2/step5-test.md
+      - "Step 6: Change Policies Dynamically": labs/lab2/step6-dynamic.md
+      - "What You Learned": labs/lab2/summary.md
+    - "Lab 3: Encryption (Level 3)":
+      - labs/lab3/index.md
+      - "Step 1: Create the Key Store": labs/lab3/step1-kms.md
+      - "Step 2: Deploy the Key Access Server": labs/lab3/step2-kas.md
+      - "Step 3: Configure Identity and Attributes": labs/lab3/step3-identity.md
+      - "Step 4: Encrypt Your First TDF File": labs/lab3/step4-encrypt.md
+      - "Step 5: Decrypt with Policy Checks": labs/lab3/step5-decrypt.md
+      - "Step 6: Test Federation and Denial": labs/lab3/step6-test.md
+      - "What You Learned": labs/lab3/summary.md
+    - Wrap-Up:
+      - labs/wrapup/index.md
+      - Comparing the Three Levels: labs/wrapup/comparison.md
+      - Real-World Applications: labs/wrapup/real-world.md
+      - Automate with Terraform: labs/wrapup/terraform.md
+      - Clean Up Your AWS Resources: labs/wrapup/cleanup.md
+
+  # --- BUILD ---
   - Reference Architectures:
     - architectures/index.md
     - "Level 1 - Data Labeling":
@@ -62,18 +102,39 @@ nav:
     - "Level 3 - Encryption (OpenTDF)":
       - Overview: architectures/aws-dcs-level-3-encryption/overview.md
       - Terraform: architectures/aws-dcs-level-3-encryption/terraform.md
+    - Deployment Guide: architectures/dcs-levels-deployment-guide.md
+    - Threat Model: architectures/dcs-levels-threat-model.md
+
+  # --- PLAN ---
   - Operational Scenarios:
     - scenarios/index.md
-    - "01: Coalition Strategic Sharing": scenarios/01-coalition-strategic-sharing.md
-    - "02: Tactical Unit-to-Unit": scenarios/02-tactical-unit-to-unit.md
-    - "03: Legacy System Retrofit": scenarios/03-legacy-system-dcs-retrofit.md
-    - "04: Cross-Domain Sanitisation": scenarios/04-cross-domain-automated-sanitisation.md
-    - "05: Mission-Based Coalition Sharing": scenarios/05-mission-based-coalition-sharing.md
-    - "06: Intelligence Fusion Centre": scenarios/06-intelligence-fusion-centre.md
-    - "07: Coalition Air Operations": scenarios/07-coalition-air-operations.md
-    - "08: Maritime Domain Awareness": scenarios/08-maritime-domain-awareness.md
-    - "09: Disaster Recovery and Backup": scenarios/09-disaster-recovery-backup.md
-  - Solution Options:
+    - "Intelligence and Strategic Sharing":
+      - "01: Coalition Strategic Sharing": scenarios/01-coalition-strategic-sharing.md
+      - "05: Mission-Based Coalition Sharing": scenarios/05-mission-based-coalition-sharing.md
+      - "06: Intelligence Fusion Centre": scenarios/06-intelligence-fusion-centre.md
+      - "12: Cyber Threat Intelligence": scenarios/12-cyber-threat-intelligence-sharing.md
+      - "15: Counter-Hybrid Threats": scenarios/15-counter-hybrid-threat-intelligence.md
+    - "Tactical and Real-Time":
+      - "02: Tactical Unit-to-Unit": scenarios/02-tactical-unit-to-unit.md
+      - "07: Coalition Air Operations": scenarios/07-coalition-air-operations.md
+      - "08: Maritime Domain Awareness": scenarios/08-maritime-domain-awareness.md
+      - "10: Sensor-to-Shooter": scenarios/10-sensor-to-shooter-data-chain.md
+    - "Emerging and Specialist Domains":
+      - "11: Military Messaging (STANAG 4406)": scenarios/11-military-messaging-stanag-4406.md
+      - "13: Space Domain Awareness": scenarios/13-space-domain-awareness.md
+      - "14: AI/ML Data Sharing": scenarios/14-ai-ml-data-sharing.md
+    - "Enterprise and Lifecycle":
+      - "03: Legacy System Retrofit": scenarios/03-legacy-system-dcs-retrofit.md
+      - "04: Cross-Domain Sanitisation": scenarios/04-cross-domain-automated-sanitisation.md
+      - "09: Disaster Recovery": scenarios/09-disaster-recovery-backup.md
+      - "16: Defence Industrial Base": scenarios/16-defence-industrial-base.md
+      - "17: Multinational Logistics": scenarios/17-multinational-logistics.md
+    - "DCS Level Acceptance Criteria":
+      - "Level 1: Basic Labelling": scenarios/dcs-levels/level-1-basic-labelling.md
+      - "Level 2: Enhanced Labelling": scenarios/dcs-levels/level-2-enhanced-labelling.md
+      - "Level 3: Cryptographic Protection": scenarios/dcs-levels/level-3-cryptographic-protection.md
+
+  - Solution Patterns:
     - solutions/index.md
     - "Classification and Labelling":
       - solutions/cross-cutting/classification-labelling/index.md
@@ -89,41 +150,10 @@ nav:
       - "Option 4: Batch Export Gateway": solutions/03-legacy-retrofit/option-4-batch-export-gateway.md
       - "Option 5: TDF Encryption on Export": solutions/03-legacy-retrofit/option-5-tdf-export-encryption.md
       - "Option 6: Encrypted Data Mirror": solutions/03-legacy-retrofit/option-6-encrypted-data-mirror.md
+      - "Context: Classification Engine": solutions/03-legacy-retrofit/context-classification-engine.md
     - "LLM-Based Sanitisation": solutions/04-sanitisation/option-1-llm-mcp-sanitisation.md
-  - "Hands-On Labs":
-    - labs/index.md
-    - "Lab 1: Data Labeling (DCS Level 1)":
-      - labs/lab1/index.md
-      - "Step 1: Create the S3 Data Bucket": labs/lab1/step1-s3-bucket.md
-      - "Step 2: Set Up Security Labels": labs/lab1/step2-labels.md
-      - "Step 3: Build the Data Service": labs/lab1/step3-service.md
-      - "Step 4: Test the Data Service": labs/lab1/step4-test.md
-      - "Step 5: Review the Audit Trail": labs/lab1/step5-audit.md
-      - "What You Learned": labs/lab1/summary.md
-    - "Lab 2: Access Control (DCS Level 2)":
-      - labs/lab2/index.md
-      - "Step 1: Set Up Identity Providers": labs/lab2/step1-cognito.md
-      - "Step 2: Create the Policy Engine": labs/lab2/step2-policies.md
-      - "Step 3: Confirm Your Labeled Data": labs/lab2/step3-data.md
-      - "Step 4: Add Access Control to the Data Service": labs/lab2/step4-service.md
-      - "Step 5: Test ABAC Scenarios": labs/lab2/step5-test.md
-      - "Step 6: Change Policies Dynamically": labs/lab2/step6-dynamic.md
-      - "What You Learned": labs/lab2/summary.md
-    - "Lab 3: Encryption (DCS Level 3)":
-      - labs/lab3/index.md
-      - "Step 1: Create the Key Store": labs/lab3/step1-kms.md
-      - "Step 2: Deploy the Key Access Server": labs/lab3/step2-kas.md
-      - "Step 3: Configure Identity and Attributes": labs/lab3/step3-identity.md
-      - "Step 4: Encrypt Your First TDF File": labs/lab3/step4-encrypt.md
-      - "Step 5: Decrypt with Policy Checks": labs/lab3/step5-decrypt.md
-      - "Step 6: Test Federation and Denial": labs/lab3/step6-test.md
-      - "What You Learned": labs/lab3/summary.md
-    - Wrap-Up:
-      - labs/wrapup/index.md
-      - Comparing the Three Levels: labs/wrapup/comparison.md
-      - Real-World Applications: labs/wrapup/real-world.md
-      - Automate with Terraform: labs/wrapup/terraform.md
-      - Clean Up Your AWS Resources: labs/wrapup/cleanup.md
+
+  # --- REFERENCE ---
   - Reference:
     - NATO STANAGs: documents/nato-stanags/README.md
     - Gap Analysis: NEXT-STEPS.md

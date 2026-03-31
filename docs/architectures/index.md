@@ -12,5 +12,12 @@ The architectures progress through the three DCS levels, with multiple implement
 | [Level 2 - Cloud-Native ABAC](aws-dcs-cloud-native-abac/overview.md) | Level 1+2 | IAM, S3, STS | IAM-native ABAC with no custom authorization code |
 | [Level 3 - Encryption](aws-dcs-level-3-encryption/overview.md) | Level 3 | ECS Fargate, KMS, RDS, Cognito | OpenTDF platform with federated key management |
 
+### Cross-cutting guides
+
+| Guide | Description |
+|---|---|
+| [Deployment Guide](dcs-levels-deployment-guide.md) | Sequential deployment and testing across all three DCS levels |
+| [Threat Model](dcs-levels-threat-model.md) | Per-level threat analysis with mitigations and residual risk |
+
 !!! tip "Labs vs Reference Architectures"
     The [hands-on labs](../labs/lab1/index.md) teach DCS concepts step-by-step using simplified implementations. These reference architectures show production-grade designs with full STANAG compliance, Terraform automation, and security analysis.
