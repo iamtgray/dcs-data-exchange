@@ -18,3 +18,8 @@ variable "cognito_uk_pool_id" {
   description = "Cognito User Pool ID for the UK IdP (from Lab 2)"
   type        = string
 }
+
+variable "cognito_uk_client_id" {
+  description = "Cognito User Pool Client ID for the UK IdP (from Level 2)"
+  type        = string
+}

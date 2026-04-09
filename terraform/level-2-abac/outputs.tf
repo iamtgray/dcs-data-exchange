@@ -22,3 +22,8 @@ output "cognito_us_pool_id" {
   description = "US Cognito User Pool ID"
   value       = aws_cognito_user_pool.us.id
 }
+
+output "cognito_uk_client_id" {
+  description = "UK Cognito User Pool Client ID"
+  value       = aws_cognito_user_pool_client.uk.id
+}

@@ -75,32 +75,40 @@ Set up the attribute namespace. These define what attributes exist and how they'
 ```bash
 KAS_IP="YOUR-TASK-PUBLIC-IP"
 
-curl -X POST "http://$KAS_IP:8080/api/attributes/namespaces" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
+# The OpenTDF platform uses Connect RPC (POST with Connect-Protocol-Version header)
+curl -X POST "http://$KAS_IP:8080/policy.namespaces.NamespaceService/CreateNamespace" \
+  -H "Authorization: Bearer $ID_TOKEN" \
+  -H "Connect-Protocol-Version: 1" \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "https://dcs.example.com/attr/classification",
-    "values": ["UNCLASSIFIED", "OFFICIAL", "SECRET", "TOP-SECRET"],
-    "rule": "hierarchy"
-  }'
+  -d '{"name":"dcs.example.com"}'
+```
 
-curl -X POST "http://$KAS_IP:8080/api/attributes/namespaces" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "https://dcs.example.com/attr/releasable",
-    "values": ["GBR", "USA", "POL"],
-    "rule": "anyOf"
-  }'
+Then create the attributes under that namespace:
 
-curl -X POST "http://$KAS_IP:8080/api/attributes/namespaces" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
+```bash
+# Get the namespace ID from the response above
+NS_ID="YOUR-NAMESPACE-ID"
+
+# Classification (hierarchy: UNCLASSIFIED < OFFICIAL < SECRET < TOP-SECRET)
+curl -X POST "http://$KAS_IP:8080/policy.attributes.AttributesService/CreateAttribute" \
+  -H "Authorization: Bearer $ID_TOKEN" \
+  -H "Connect-Protocol-Version: 1" \
   -H "Content-Type: application/json" \
-  -d '{
-    "name": "https://dcs.example.com/attr/sap",
-    "values": ["WALL"],
-    "rule": "allOf"
-  }'
+  -d "{\"name\":\"classification\",\"namespaceId\":\"$NS_ID\",\"rule\":\"ATTRIBUTE_RULE_TYPE_ENUM_HIERARCHY\",\"values\":[\"UNCLASSIFIED\",\"OFFICIAL\",\"SECRET\",\"TOP-SECRET\"]}"
+
+# Releasable (anyOf: user must have at least one matching nationality)
+curl -X POST "http://$KAS_IP:8080/policy.attributes.AttributesService/CreateAttribute" \
+  -H "Authorization: Bearer $ID_TOKEN" \
+  -H "Connect-Protocol-Version: 1" \
+  -H "Content-Type: application/json" \
+  -d "{\"name\":\"releasable\",\"namespaceId\":\"$NS_ID\",\"rule\":\"ATTRIBUTE_RULE_TYPE_ENUM_ANY_OF\",\"values\":[\"GBR\",\"USA\",\"POL\"]}"
+
+# SAP (allOf: user must have all required SAPs)
+curl -X POST "http://$KAS_IP:8080/policy.attributes.AttributesService/CreateAttribute" \
+  -H "Authorization: Bearer $ID_TOKEN" \
+  -H "Connect-Protocol-Version: 1" \
+  -H "Content-Type: application/json" \
+  -d "{\"name\":\"sap\",\"namespaceId\":\"$NS_ID\",\"rule\":\"ATTRIBUTE_RULE_TYPE_ENUM_ALL_OF\",\"values\":[\"WALL\"]}"
 ```
 
 The `rule` field defines how attributes are evaluated:
@@ -115,19 +123,21 @@ Subject mappings connect JWT claims to attribute entitlements. This is how the C
 
 ```bash
 # Map custom:nationality = "GBR" to the GBR releasable attribute
-curl -X POST "http://$KAS_IP:8080/api/subject-mappings" \
-  -H "Authorization: Bearer $ACCESS_TOKEN" \
+curl -X POST "http://$KAS_IP:8080/policy.subjectmapping.SubjectMappingService/CreateSubjectMapping" \
+  -H "Authorization: Bearer $ID_TOKEN" \
+  -H "Connect-Protocol-Version: 1" \
   -H "Content-Type: application/json" \
   -d '{
-    "attribute_value_id": "RELEASABLE_GBR_ATTRIBUTE_VALUE_ID",
-    "subject_condition_set": {
-      "subject_sets": [{
-        "condition_groups": [{
-          "boolean_operator": "AND",
+    "attributeValueId": "RELEASABLE_GBR_ATTRIBUTE_VALUE_ID",
+    "actions": [{"name": "STANDARD_ACTION_DECRYPT"}, {"name": "STANDARD_ACTION_TRANSMIT"}],
+    "newSubjectConditionSet": {
+      "subjectSets": [{
+        "conditionGroups": [{
+          "booleanOperator": "CONDITION_BOOLEAN_TYPE_ENUM_AND",
           "conditions": [{
-            "subject_external_selector_value": ".custom:nationality",
-            "operator": "IN",
-            "subject_external_values": ["GBR"]
+            "subjectExternalSelectorValue": ".custom:nationality",
+            "operator": "SUBJECT_MAPPING_OPERATOR_ENUM_IN",
+            "subjectExternalValues": ["GBR"]
           }]
         }]
       }]
@@ -139,8 +149,11 @@ curl -X POST "http://$KAS_IP:8080/api/subject-mappings" \
     When you created the attribute namespaces above, the API returned IDs for each value. Use those IDs in the subject mappings. List them with:
 
     ```bash
-    curl "http://$KAS_IP:8080/api/attributes/namespaces" \
-      -H "Authorization: Bearer $ACCESS_TOKEN" | python3 -m json.tool
+    curl -X POST "http://$KAS_IP:8080/policy.attributes.AttributesService/ListAttributes" \
+      -H "Authorization: Bearer $ID_TOKEN" \
+      -H "Connect-Protocol-Version: 1" \
+      -H "Content-Type: application/json" \
+      -d '{}' | python3 -m json.tool
     ```
 
 Repeat for each mapping:

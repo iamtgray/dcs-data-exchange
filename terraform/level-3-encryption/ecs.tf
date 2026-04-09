@@ -134,7 +134,15 @@ services:
 server:
   port: 8080
   auth:
-    enabled: false
+    enabled: true
+    enforceDPoP: false
+    audience: ${var.cognito_uk_client_id}
+    issuer: https://cognito-idp.${var.aws_region}.amazonaws.com/${var.cognito_uk_pool_id}
+    policy:
+      csv: |
+        p, role:admin, *, *, allow
+        p, role:standard, *, *, allow
+        p, role:unknown, *, *, allow
   cryptoProvider:
     standard:
       keys:

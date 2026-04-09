@@ -118,7 +118,7 @@ This is where we configure the OpenTDF platform. We point the auth issuer at you
 7. **Task execution role**: `dcs-level3-ecs-execution-role`
 8. **Container**:
     - Name: `opentdf`
-    - Image: `ghcr.io/opentdf/platform:latest`
+    - Image: `registry.opentdf.io/platform:nightly`
     - Port mappings: 8080 TCP
     - Environment variables:
 
@@ -131,7 +131,7 @@ This is where we configure the OpenTDF platform. We point the auth issuer at you
 | `OPENTDF_DB_PASSWORD` | Your database password |
 | `OPENTDF_SERVER_PORT` | `8080` |
 | `OPENTDF_SERVER_AUTH_ISSUER` | `https://cognito-idp.YOUR-REGION.amazonaws.com/YOUR-UK-POOL-ID` |
-| `OPENTDF_SERVER_AUTH_AUDIENCE` | `http://localhost:8080` |
+| `OPENTDF_SERVER_AUTH_AUDIENCE` | Your Cognito app client ID (e.g., `75n9gqu87lcj0n7io98kplt30a`) |
 | `OPENTDF_SERVICES_ENTITYRESOLUTION_MODE` | `claims` |
 
 9. Click **Create**
