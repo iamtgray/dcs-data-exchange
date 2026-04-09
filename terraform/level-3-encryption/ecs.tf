@@ -99,12 +99,15 @@ resource "aws_ecs_task_definition" "opentdf" {
       command = [
         "sh", "-c",
         <<-CMD
-        apk add --no-cache openssl &&
         mkdir -p /configs /configs/keys &&
-        openssl genpkey -algorithm RSA -out /configs/keys/kas-private.pem -pkeyopt rsa_keygen_bits:2048 &&
-        openssl req -new -x509 -key /configs/keys/kas-private.pem -out /configs/keys/kas-cert.pem -days 365 -subj "/CN=kas" &&
-        openssl ecparam -name prime256v1 -genkey -noout -out /configs/keys/kas-ec-private.pem &&
-        openssl req -new -x509 -key /configs/keys/kas-ec-private.pem -out /configs/keys/kas-ec-cert.pem -days 365 -subj "/CN=kas-ec" &&
+        cat > /configs/keys/kas-private.pem <<'RSAKEY'
+${tls_private_key.kas_rsa.private_key_pem}RSAKEY
+        cat > /configs/keys/kas-cert.pem <<'RSACERT'
+${tls_self_signed_cert.kas_rsa.cert_pem}RSACERT
+        cat > /configs/keys/kas-ec-private.pem <<'ECKEY'
+${tls_private_key.kas_ec.private_key_pem}ECKEY
+        cat > /configs/keys/kas-ec-cert.pem <<'ECCERT'
+${tls_self_signed_cert.kas_ec.cert_pem}ECCERT
         chmod -R 755 /configs &&
         cat > /configs/opentdf.yaml <<'EOF'
 logger:
@@ -131,6 +134,9 @@ services:
       - kid: e1
         alg: ec:secp256r1
         legacy: true
+    preview:
+      key_management: true
+    root_key: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 server:
   port: 8080
   auth:

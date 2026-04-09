@@ -27,3 +27,21 @@ output "cognito_uk_pool_id" {
   description = "Cognito User Pool ID (pass-through from Level 2)"
   value       = var.cognito_uk_pool_id
 }
+
+output "kas_rsa_public_key_pem" {
+  description = "KAS RSA public key certificate (PEM)"
+  value       = tls_self_signed_cert.kas_rsa.cert_pem
+  sensitive   = true
+}
+
+output "kas_ec_public_key_pem" {
+  description = "KAS EC public key certificate (PEM)"
+  value       = tls_self_signed_cert.kas_ec.cert_pem
+  sensitive   = true
+}
+
+output "kas_rsa_private_key_pem" {
+  description = "KAS RSA private key (PEM) - for key wrapping during provisioning"
+  value       = tls_private_key.kas_rsa.private_key_pem
+  sensitive   = true
+}

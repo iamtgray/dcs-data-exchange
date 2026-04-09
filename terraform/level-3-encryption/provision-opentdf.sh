@@ -177,16 +177,94 @@ VID=$(get_value_id "sap/WALL")
 create_mapping "$VID" "custom:saps" "SUBJECT_MAPPING_OPERATOR_ENUM_IN" "WALL" "saps=WALL -> sap/WALL"
 
 echo ""
-echo "5. Registering KAS..."
+echo "5. Registering KAS with public keys..."
 
-# Register the in-process KAS so the public key endpoint works
+KAS_RSA_PEM=$(terraform output -raw kas_rsa_public_key_pem 2>/dev/null)
+KAS_EC_PEM=$(terraform output -raw kas_ec_public_key_pem 2>/dev/null)
+
+# Register or get the KAS server
 KAS_REG=$(rpc "policy.kasregistry.KeyAccessServerRegistryService/CreateKeyAccessServer" \
-  "{\"uri\":\"http://${KAS_IP}:8080\",\"name\":\"local-kas\"}" \
-  || echo '{"code":"already_exists"}')
+  "{\"uri\":\"${KAS}\",\"name\":\"local-kas\"}")
 if echo "$KAS_REG" | grep -q '"keyAccessServer"'; then
-  echo "   KAS registered"
+  KAS_SERVER_ID=$(echo "$KAS_REG" | python3 -c "import sys,json; print(json.load(sys.stdin)['keyAccessServer']['id'])")
+  echo "   KAS registered: $KAS_SERVER_ID"
 else
-  echo "   KAS registration: $(echo "$KAS_REG" | head -c 100)"
+  echo "   KAS exists, fetching ID..."
+  KAS_SERVER_ID=$(rpc "policy.kasregistry.KeyAccessServerRegistryService/ListKeyAccessServers" '{}' | \
+    python3 -c "import sys,json; servers=json.load(sys.stdin).get('keyAccessServers',[]); print(servers[0]['id'] if servers else '')")
+  echo "   KAS ID: $KAS_SERVER_ID"
+fi
+
+echo ""
+echo "6. Creating KAS keys..."
+
+KAS_RSA_PEM=$(terraform output -raw kas_rsa_public_key_pem 2>/dev/null)
+KAS_RSA_PRIVATE=$(terraform output -raw kas_rsa_private_key_pem 2>/dev/null)
+ROOT_KEY_HEX="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+
+# Wrap the private key with the root key and create the API request
+python3 -c "
+import json, base64, os
+from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+
+root_key = bytes.fromhex('$ROOT_KEY_HEX')
+rsa_pub_pem = '''$KAS_RSA_PEM'''.strip()
+rsa_priv_pem = '''$KAS_RSA_PRIVATE'''.strip()
+
+# Wrap private key with AES-256-GCM
+aesgcm = AESGCM(root_key)
+nonce = os.urandom(12)
+wrapped = aesgcm.encrypt(nonce, rsa_priv_pem.encode(), None)
+# Format: nonce + ciphertext (base64 encoded)
+wrapped_b64 = base64.b64encode(nonce + wrapped).decode()
+
+pub_b64 = base64.b64encode(rsa_pub_pem.encode()).decode()
+
+body = json.dumps({
+    'kasId': '$KAS_SERVER_ID',
+    'keyId': 'r1',
+    'keyAlgorithm': 1,
+    'keyMode': 1,
+    'publicKeyCtx': {'pem': pub_b64},
+    'privateKeyCtx': {'keyId': 'config', 'wrappedKey': wrapped_b64},
+    'legacy': True
+})
+with open('/tmp/kas_key_req.json', 'w') as f:
+    f.write(body)
+print('OK')
+" 2>/dev/null
+
+if [ -f /tmp/kas_key_req.json ]; then
+  RSA_KEY_RESULT=$(rpc "policy.kasregistry.KeyAccessServerRegistryService/CreateKey" "$(cat /tmp/kas_key_req.json)")
+  if echo "$RSA_KEY_RESULT" | grep -q '"kasKey"'; then
+    RSA_KEY_UUID=$(echo "$RSA_KEY_RESULT" | python3 -c "import sys,json; print(json.load(sys.stdin)['kasKey']['key']['id'])" 2>/dev/null)
+    echo "   RSA key created: $RSA_KEY_UUID"
+  elif echo "$RSA_KEY_RESULT" | grep -q 'already_exists'; then
+    echo "   RSA key already exists"
+    RSA_KEY_UUID=$(rpc "policy.kasregistry.KeyAccessServerRegistryService/ListKeys" '{}' | \
+      python3 -c "import sys,json; keys=json.load(sys.stdin).get('kasKeys',[]); print(next((k['key']['id'] for k in keys if k['key'].get('keyId')=='r1'),''))" 2>/dev/null)
+  else
+    echo "   WARN RSA key: $(echo "$RSA_KEY_RESULT" | head -c 200)"
+  fi
+else
+  echo "   WARN: Python cryptography module not available, skipping key wrapping"
+  echo "   Install with: pip install cryptography"
+fi
+
+echo ""
+echo "7. Setting base key..."
+
+# Set the RSA key as the base/default key
+if [ -n "${RSA_KEY_UUID:-}" ]; then
+  BASE_RESULT=$(rpc "policy.kasregistry.KeyAccessServerRegistryService/SetBaseKey" \
+    "{\"id\":\"$RSA_KEY_UUID\"}")
+  if echo "$BASE_RESULT" | grep -q '"newBaseKey"'; then
+    echo "   Base key set to RSA key"
+  else
+    echo "   WARN base key: $(echo "$BASE_RESULT" | head -c 200)"
+  fi
+else
+  echo "   Skipping (no RSA key UUID available)"
 fi
 
 echo ""

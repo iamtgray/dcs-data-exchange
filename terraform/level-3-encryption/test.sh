@@ -247,6 +247,17 @@ print(d.get('configuration',{}).get('platform_issuer',''))
 
   sm_count=$(echo "$sm_json" | python3 -c "import sys,json; print(len(json.load(sys.stdin).get('subjectMappings',[])))" 2>/dev/null || echo "0")
   check "Subject mappings exist ($sm_count found, need 8)" "$([ "$sm_count" -ge 8 ] && echo 0 || echo 1)"
+
+  # Verify KAS key is registered and base key is set
+  base_key_json=$(curl -s --max-time 5 -X POST \
+    -H "Authorization: Bearer ${ID_TOKEN}" \
+    -H "Connect-Protocol-Version: 1" \
+    -H "Content-Type: application/json" \
+    -d '{}' \
+    "${PLATFORM_URL}/policy.kasregistry.KeyAccessServerRegistryService/GetBaseKey" 2>/dev/null || echo '{}')
+
+  has_base_key=$(echo "$base_key_json" | python3 -c "import sys,json; d=json.load(sys.stdin); print('yes' if d.get('baseKey',{}).get('publicKey',{}).get('kid') else 'no')" 2>/dev/null || echo "no")
+  check "KAS base key is set (for encrypt/decrypt)" "$([ "$has_base_key" = "yes" ] && echo 0 || echo 1)"
 else
   echo -e "${YELLOW}  SKIP${NC} Skipping API tests - no Cognito token available"
 fi
