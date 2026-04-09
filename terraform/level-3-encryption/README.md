@@ -1,6 +1,6 @@
 # DCS Level 3: OpenTDF on AWS - Terraform
 
-Deploys the DCS Level 3 architecture with OpenTDF platform on ECS Fargate, KMS key encryption keys, RDS PostgreSQL, and Cognito integration.
+Deploys OpenTDF on ECS Fargate with KMS, RDS PostgreSQL, and Cognito.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ terraform apply -var="db_password=YOUR_SECURE_PASSWORD" -var="cognito_uk_pool_id
 
 ## Post-deploy: provision OpenTDF
 
-Terraform creates the infrastructure but the OpenTDF platform needs its attribute definitions, subject mappings, and KAS keys configured via its API. Once the ECS task is healthy:
+Terraform creates the infrastructure, but OpenTDF still needs its attributes, subject mappings, and KAS keys configured via the API. Once the ECS task is healthy:
 
 ```bash
 ./provision-opentdf.sh
@@ -33,7 +33,7 @@ This creates the `dcs.example.com` namespace, classification/releasable/SAP attr
 ./test.sh
 ```
 
-Runs an end-to-end encrypt/decrypt cycle against the deployed platform.
+Encrypts a test file and decrypts it against the running platform.
 
 ## Architecture
 
