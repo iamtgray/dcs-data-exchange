@@ -73,6 +73,6 @@ In this workshop, Lab 1 builds basic Level 1 to teach the concepts. The architec
 
 ## How the levels build on each other
 
-![Three DCS Levels](../diagrams/three-levels-overview.png)
+![Three DCS Levels](../diagrams/three-levels-overview.drawio.png)
 
 In this workshop, you'll build all three levels on AWS so you can see exactly how they work and how they fit together.

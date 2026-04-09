@@ -1,6 +1,6 @@
 <mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
   <diagram id="diagram-1" name="Lab 1 - Data Labeling Architecture">
-    <mxGraphModel dx="642" dy="545" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#FFFFFF" math="0" shadow="0">
+    <mxGraphModel dx="706" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#FFFFFF" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -59,8 +59,14 @@
             <mxPoint y="-11" as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="e3" edge="1" parent="1" source="lambda-svc" style="edgeStyle=orthogonalEdgeStyle;rounded=1;" target="json-response" value="">
-          <mxGeometry relative="1" as="geometry" />
+        <mxCell id="e3" edge="1" parent="1" source="lambda-svc" style="edgeStyle=orthogonalEdgeStyle;rounded=1;strokeColor=#000000;" target="json-response" value="">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="160" y="250" />
+              <mxPoint x="160" y="325" />
+              <mxPoint x="210" y="325" />
+            </Array>
+          </mxGeometry>
         </mxCell>
         <mxCell id="no-access-note" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=11;fontColor=#FF0000;" value="No access control — labels only" vertex="1">
           <mxGeometry height="30" width="200" x="300" y="140" as="geometry" />

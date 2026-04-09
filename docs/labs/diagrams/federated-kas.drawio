@@ -1,43 +1,43 @@
-<mxfile host="drawio-jsapi" modified="2026-03-24T16:02:40.783Z" agent="DrawioJSAPI/1.0.0" version="1.0.0">
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.6.1 Chrome/142.0.7444.265 Electron/39.8.0 Safari/537.36" version="29.6.1">
   <diagram id="diagram-1" name="Federated KAS Architecture">
-  <mxGraphModel background="#FFFFFF" dx="1426" dy="798" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850">
-    <root>
-      <mxCell id="0" />
-      <mxCell id="1" parent="0" />
-      <mxCell id="bg-rect" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" vertex="1" parent="1">
-        <mxGeometry x="20" y="20" width="810" height="350" as="geometry" />
-      </mxCell>
-      <mxCell id="uk-account" value="UK Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264" vertex="1" parent="1">
-        <mxGeometry x="50" y="50" width="220" height="200" as="geometry" />
-      </mxCell>
-      <mxCell id="pl-account" value="Poland Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264" vertex="1" parent="1">
-        <mxGeometry x="310" y="50" width="220" height="200" as="geometry" />
-      </mxCell>
-      <mxCell id="us-account" value="US Account" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264" vertex="1" parent="1">
-        <mxGeometry x="570" y="50" width="220" height="200" as="geometry" />
-      </mxCell>
-      <mxCell id="uk-kas" value="UK-KAS&amp;lt;br&amp;gt;(OpenTDF + UK KMS)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" vertex="1" parent="1">
-        <mxGeometry x="85" y="100" width="50" height="50" as="geometry" />
-      </mxCell>
-      <mxCell id="pl-kas" value="PL-KAS&amp;lt;br&amp;gt;(OpenTDF + PL KMS)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" vertex="1" parent="1">
-        <mxGeometry x="345" y="100" width="50" height="50" as="geometry" />
-      </mxCell>
-      <mxCell id="us-kas" value="US-KAS&amp;lt;br&amp;gt;(OpenTDF + US KMS)" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" vertex="1" parent="1">
-        <mxGeometry x="605" y="100" width="50" height="50" as="geometry" />
-      </mxCell>
-      <mxCell id="uk-cognito" value="UK Cognito/IdP" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;" vertex="1" parent="1">
-        <mxGeometry x="90" y="180" width="40" height="40" as="geometry" />
-      </mxCell>
-      <mxCell id="pl-cognito" value="PL Cognito/IdP" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;" vertex="1" parent="1">
-        <mxGeometry x="350" y="180" width="40" height="40" as="geometry" />
-      </mxCell>
-      <mxCell id="us-cognito" value="US Cognito/IdP" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;" vertex="1" parent="1">
-        <mxGeometry x="610" y="180" width="40" height="40" as="geometry" />
-      </mxCell>
-      <mxCell id="sovereignty-note" value="Each nation maintains sovereignty over their keys and access decisions" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=12;" vertex="1" parent="1">
-        <mxGeometry x="160" y="300" width="500" height="30" as="geometry" />
-      </mxCell>
-    </root>
-  </mxGraphModel>
+    <mxGraphModel dx="706" dy="600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" background="#FFFFFF" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bg-rect" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#CCCCCC;shadow=0;strokeWidth=1;" value="" vertex="1">
+          <mxGeometry height="350" width="810" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="uk-account" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264" value="UK Account" vertex="1">
+          <mxGeometry height="200" width="220" x="50" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uk-cognito" parent="uk-account" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;" value="UK Cognito/IdP" vertex="1">
+          <mxGeometry height="40" width="40" x="140" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="uk-kas" parent="uk-account" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" value="UK-KAS&lt;br&gt;(OpenTDF + UK KMS)" vertex="1">
+          <mxGeometry height="40" width="40" x="50" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pl-account" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264" value="Poland Account" vertex="1">
+          <mxGeometry height="200" width="220" x="310" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="us-account" parent="1" style="points=[[0,0],[0.25,0],[0.5,0],[0.75,0],[1,0],[1,0.25],[1,0.5],[1,0.75],[1,1],[0.75,1],[0.5,1],[0.25,1],[0,1],[0,0.75],[0,0.5],[0,0.25]];outlineConnect=0;gradientColor=none;html=1;whiteSpace=wrap;fontSize=12;fontStyle=0;container=1;pointerEvents=0;collapsible=0;recursiveResize=0;shape=mxgraph.aws4.group;grIcon=mxgraph.aws4.group_account;strokeColor=#CD2264;fillColor=none;verticalAlign=top;align=left;spacingLeft=30;fontColor=#CD2264" value="US Account" vertex="1">
+          <mxGeometry height="200" width="220" x="570" y="50" as="geometry" />
+        </mxCell>
+        <mxCell id="us-cognito" parent="us-account" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;" value="US Cognito/IdP" vertex="1">
+          <mxGeometry height="40" width="40" x="150" y="55" as="geometry" />
+        </mxCell>
+        <mxCell id="us-kas" parent="us-account" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" value="US-KAS&lt;br&gt;(OpenTDF + US KMS)" vertex="1">
+          <mxGeometry height="40" width="40" x="50" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="pl-kas" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F78E04;gradientDirection=north;fillColor=#D05C17;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.fargate;" value="PL-KAS&lt;br&gt;(OpenTDF + PL KMS)" vertex="1">
+          <mxGeometry height="40" width="40" x="360" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="pl-cognito" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=#F54749;gradientDirection=north;fillColor=#C7131F;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.cognito;" value="PL Cognito/IdP" vertex="1">
+          <mxGeometry height="40" width="40" x="460" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="sovereignty-note" parent="1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=12;fontColor=#000000;" value="Each nation maintains sovereignty over their keys and access decisions" vertex="1">
+          <mxGeometry height="30" width="500" x="160" y="300" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
   </diagram>
 </mxfile>

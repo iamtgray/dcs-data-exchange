@@ -15,7 +15,7 @@ We'll deploy the OpenTDF platform as a single container and connect it to the Co
 3. **Cognito** (from Lab 2) as the identity provider, authenticates users and asserts their attributes
 4. **OpenTDF CLI** on your workstation, encrypts and decrypts TDF files locally
 
-![Lab 3 Architecture](../diagrams/lab3-architecture.png)
+![Lab 3 Architecture](../diagrams/lab3-architecture.drawio.png)
 
 ## What you'll learn
 

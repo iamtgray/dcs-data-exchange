@@ -11,7 +11,7 @@ After building it, you'll understand:
 - How to implement the "share" pillar of DCS with multiple organizations using different attribute schemas
 
 ## Architecture Overview
-![DCS Level 2 - ABAC Architecture](../../labs/diagrams/level2-abac-architecture.png)
+![DCS Level 2 - ABAC Architecture](../../labs/diagrams/level2-abac-architecture.drawio.png)
 
 ## How It Demonstrates DCS Level 2
 | DCS Concept | AWS Implementation |

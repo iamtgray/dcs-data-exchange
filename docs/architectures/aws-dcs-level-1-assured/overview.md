@@ -34,7 +34,7 @@ The DynamoDB approach also aligns with the well-established AWS pattern of using
 
 ## Architecture Overview
 
-![Assured DCS Level 1 Architecture](../../labs/diagrams/level1-assured-architecture.png)
+![Assured DCS Level 1 Architecture](../../labs/diagrams/level1-assured-architecture.drawio.png)
 
 ## How it achieves assured DCS Level 1
 
@@ -185,7 +185,7 @@ Every label in this architecture follows the STANAG 4774 XML structure:
 
 The binding ties the label to the data cryptographically. This architecture uses a detached signature approach:
 
-![STANAG 4778 Binding Mechanism](../../labs/diagrams/stanag4778-binding.png)
+![STANAG 4778 Binding Mechanism](../../labs/diagrams/stanag4778-binding.drawio.png)
 
 **Verification** reverses this process:
 1. Read label XML and data hash from DynamoDB

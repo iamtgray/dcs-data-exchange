@@ -14,7 +14,7 @@ After building it, you'll understand:
 
 ## Architecture overview
 
-![DCS Level 3 - Encryption Architecture](../../labs/diagrams/level3-encryption-architecture.png)
+![DCS Level 3 - Encryption Architecture](../../labs/diagrams/level3-encryption-architecture.drawio.png)
 
 ## Design philosophy: minimal infrastructure
 
@@ -96,7 +96,7 @@ OPENTDF_SERVICES_ENTITYRESOLUTION_MODE=claims
 
 KMS provides the root key hierarchy:
 
-![Key Hierarchy](../../labs/diagrams/key-hierarchy.png)
+![Key Hierarchy](../../labs/diagrams/key-hierarchy.drawio.png)
 
 **Key policy** restricts usage to the OpenTDF ECS task role:
 ```json
@@ -235,7 +235,7 @@ Security properties:
 
 For true coalition operations, each nation runs its own KAS:
 
-![Federated KAS Architecture](../../labs/diagrams/federated-kas.png)
+![Federated KAS Architecture](../../labs/diagrams/federated-kas.drawio.png)
 
 Each nation maintains sovereignty over their keys and access decisions.
 

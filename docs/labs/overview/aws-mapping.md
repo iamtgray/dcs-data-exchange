@@ -42,11 +42,11 @@ The labs use simplified AWS implementations to teach the concepts. The table bel
 
 ## The key difference at each level
 
-![Three DCS Levels](../diagrams/three-levels-overview.png)
+![Three DCS Levels](../diagrams/three-levels-overview.drawio.png)
 
 And the key difference in terms of protection:
 
-![Protection Levels Comparison](../diagrams/protection-levels-comparison.png)
+![Protection Levels Comparison](../diagrams/protection-levels-comparison.drawio.png)
 
 This is the fundamental progression. Each level adds more protection, and Level 3 is the only one where protection doesn't depend on infrastructure access. Within Level 1, the "assured" variant adds cryptographic integrity guarantees that the basic variant lacks.
 

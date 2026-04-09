@@ -31,8 +31,7 @@
       <mxCell id="builds-on-2" value="builds on" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=11;" vertex="1" parent="1">
         <mxGeometry x="140" y="265" width="80" height="30" as="geometry" />
       </mxCell>
-      <mxCell id="uses-labels" value="uses labels from Level 1
-uses ABAC logic from Level 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=10;" vertex="1" parent="1">
+      <mxCell id="uses-labels" value="uses labels from Level 1&lt;br>uses ABAC logic from Level 2" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=10;" vertex="1" parent="1">
         <mxGeometry x="400" y="135" width="220" height="40" as="geometry" />
       </mxCell>
       <mxCell id="uses-labels-2" value="uses labels from Level 1" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontStyle=2;fontSize=10;" vertex="1" parent="1">

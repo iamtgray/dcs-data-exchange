@@ -27,7 +27,7 @@ The point of this lab is to see what labeling gives you and, just as importantly
 
 ## Architecture
 
-![Lab 1 Architecture](../diagrams/lab1-architecture.png)
+![Lab 1 Architecture](../diagrams/lab1-architecture.drawio.png)
 
 There's no access control here. Anyone who can call the Lambda gets the data. The labels come back in the response so the caller (or a downstream system) knows how the data should be handled. Enforcement comes in Lab 2.
 

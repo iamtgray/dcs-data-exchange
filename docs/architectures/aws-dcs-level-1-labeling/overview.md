@@ -12,7 +12,7 @@ After building it, you'll understand:
 
 ## Architecture Overview
 
-![DCS Level 1 - Data Labeling Architecture](../../labs/diagrams/level1-labeling-architecture.png)
+![DCS Level 1 - Data Labeling Architecture](../../labs/diagrams/level1-labeling-architecture.drawio.png)
 
 ## How it demonstrates DCS Level 1
 

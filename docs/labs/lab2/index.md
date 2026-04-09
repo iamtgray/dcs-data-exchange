@@ -13,7 +13,7 @@ We'll take the data service from Lab 1 and add three things:
 2. **A policy engine** -- Amazon Verified Permissions with Cedar policies that express the access rules
 3. **Access checking in the Lambda** -- before returning data, the Lambda asks Verified Permissions "should this user see this?"
 
-![Lab 2 Architecture](../diagrams/lab2-architecture.png)
+![Lab 2 Architecture](../diagrams/lab2-architecture.drawio.png)
 
 The data stays in S3 with the same labels from Lab 1. The Lambda is the same function, modified to check policies before returning data. The new pieces are Cognito (identity) and Verified Permissions (policy engine).
 
@@ -27,7 +27,7 @@ The data stays in S3 with the same labels from Lab 1. The Lambda is the same fun
 
 ## Architecture
 
-![Lab 2 Architecture](../diagrams/lab2-architecture.png)
+![Lab 2 Architecture](../diagrams/lab2-architecture.drawio.png)
 
 ## Before you start
 
