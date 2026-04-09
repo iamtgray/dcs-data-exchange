@@ -258,6 +258,89 @@ print(d.get('configuration',{}).get('platform_issuer',''))
 
   has_base_key=$(echo "$base_key_json" | python3 -c "import sys,json; d=json.load(sys.stdin); print('yes' if d.get('baseKey',{}).get('publicKey',{}).get('kid') else 'no')" 2>/dev/null || echo "no")
   check "KAS base key is set (for encrypt/decrypt)" "$([ "$has_base_key" = "yes" ] && echo 0 || echo 1)"
+
+  # =========================================================================
+  # 5. End-to-end encrypt/decrypt with otdfctl
+  # =========================================================================
+  echo ""
+  echo "End-to-end encrypt/decrypt"
+  echo "---------------------------"
+
+  # Install otdfctl if not present
+  OTDFCTL="/tmp/otdfctl"
+  if [ ! -x "$OTDFCTL" ]; then
+    echo -e "${YELLOW}  INFO${NC} Downloading otdfctl..."
+    OTDFCTL_URL=$(curl -s "https://api.github.com/repos/opentdf/otdfctl/releases/latest" 2>/dev/null | \
+      python3 -c "import sys,json; assets=json.load(sys.stdin).get('assets',[]); print(next((a['browser_download_url'] for a in assets if 'darwin' in a['name'] and 'arm64' in a['name']),''))" 2>/dev/null)
+    if [ -n "$OTDFCTL_URL" ]; then
+      curl -sL "$OTDFCTL_URL" -o /tmp/otdfctl.tar.gz 2>/dev/null
+      tar -xzf /tmp/otdfctl.tar.gz -C /tmp/ 2>/dev/null
+      # Find the binary (it's in a target/ subdirectory)
+      OTDFCTL_BIN=$(find /tmp/target -name 'otdfctl*' -type f 2>/dev/null | head -1)
+      if [ -n "$OTDFCTL_BIN" ]; then
+        cp "$OTDFCTL_BIN" "$OTDFCTL"
+        chmod +x "$OTDFCTL"
+      fi
+    fi
+  fi
+
+  if [ -x "$OTDFCTL" ]; then
+    export GRPC_ENFORCE_ALPN_ENABLED=false
+
+    # Create test file
+    echo "SECRET: Enemy forces at GRID 12345678. UK EYES ONLY." > /tmp/dcs-test-plaintext.txt
+
+    # Encrypt with DCS attributes
+    ENCRYPT_OUT=$("$OTDFCTL" encrypt /tmp/dcs-test-plaintext.txt \
+      --host "$PLATFORM_URL" \
+      --tls-no-verify \
+      --with-access-token "$ID_TOKEN" \
+      --tdf-type ztdf \
+      --attr "https://dcs.example.com/attr/classification/value/secret" \
+      --attr "https://dcs.example.com/attr/releasable/value/gbr" \
+      --out /tmp/dcs-test-encrypted.tdf 2>&1)
+
+    if [ -f /tmp/dcs-test-encrypted.tdf ] && [ -s /tmp/dcs-test-encrypted.tdf ]; then
+      check "otdfctl encrypt produces a TDF file" 0
+
+      # Decrypt
+      DECRYPT_OUT=$("$OTDFCTL" decrypt /tmp/dcs-test-encrypted.tdf \
+        --host "$PLATFORM_URL" \
+        --tls-no-verify \
+        --with-access-token "$ID_TOKEN" \
+        --tdf-type ztdf \
+        --out /tmp/dcs-test-decrypted.txt 2>&1)
+
+      if [ -f /tmp/dcs-test-decrypted.txt ]; then
+        ORIGINAL=$(cat /tmp/dcs-test-plaintext.txt)
+        DECRYPTED=$(cat /tmp/dcs-test-decrypted.txt)
+        if [ "$ORIGINAL" = "$DECRYPTED" ]; then
+          check "otdfctl decrypt recovers original plaintext" 0
+        else
+          check "otdfctl decrypt recovers original plaintext" 1
+          echo -e "${RED}  Original:  $ORIGINAL${NC}"
+          echo -e "${RED}  Decrypted: $DECRYPTED${NC}"
+        fi
+      else
+        check "otdfctl decrypt recovers original plaintext" 1
+        echo -e "${RED}  Decrypt output: $DECRYPT_OUT${NC}"
+      fi
+
+      # Inspect the TDF to verify attributes are embedded
+      INSPECT_OUT=$("$OTDFCTL" inspect /tmp/dcs-test-encrypted.tdf --tdf-type ztdf 2>&1)
+      has_attr=$(echo "$INSPECT_OUT" | grep -c "classification" 2>/dev/null || echo "0")
+      check "TDF contains classification attribute" "$([ "$has_attr" -ge 1 ] && echo 0 || echo 1)"
+
+      rm -f /tmp/dcs-test-encrypted.tdf /tmp/dcs-test-decrypted.txt
+    else
+      check "otdfctl encrypt produces a TDF file" 1
+      echo -e "${RED}  Encrypt output: $ENCRYPT_OUT${NC}"
+    fi
+
+    rm -f /tmp/dcs-test-plaintext.txt
+  else
+    echo -e "${YELLOW}  SKIP${NC} otdfctl not available (download failed)"
+  fi
 else
   echo -e "${YELLOW}  SKIP${NC} Skipping API tests - no Cognito token available"
 fi
