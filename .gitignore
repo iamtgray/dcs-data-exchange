@@ -5,6 +5,6 @@ __pycache__/
 # Terraform
 **/.terraform/
 *.tfstate
-*.tfstate.backup
+*.tfstate.*
 *.tfplan
 **/*.zip
