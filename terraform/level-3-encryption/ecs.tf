@@ -139,12 +139,14 @@ services:
     root_key: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
 server:
   port: 8080
+  public_hostname: ${aws_eip.opentdf.public_ip}
   auth:
     enabled: true
     enforceDPoP: false
     audience: ${var.cognito_uk_client_id}
     issuer: https://cognito-idp.${var.aws_region}.amazonaws.com/${var.cognito_uk_pool_id}
     policy:
+      client_id_claim: aud
       csv: |
         p, role:admin, *, *, allow
         p, role:standard, *, *, allow
@@ -224,5 +226,11 @@ resource "aws_ecs_service" "opentdf" {
     subnets          = data.aws_subnets.default.ids
     security_groups  = [aws_security_group.ecs.id]
     assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_lb_target_group.opentdf.arn
+    container_name   = "opentdf"
+    container_port   = 8080
   }
 }

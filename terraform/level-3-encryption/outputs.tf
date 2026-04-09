@@ -18,6 +18,16 @@ output "cognito_issuer_url" {
   value       = "https://cognito-idp.${var.aws_region}.amazonaws.com/${var.cognito_uk_pool_id}"
 }
 
+output "platform_ip" {
+  description = "Elastic IP for the OpenTDF platform"
+  value       = aws_eip.opentdf.public_ip
+}
+
+output "platform_url" {
+  description = "OpenTDF platform URL"
+  value       = "http://${aws_eip.opentdf.public_ip}:8080"
+}
+
 output "cognito_uk_client_id" {
   description = "Cognito app client ID (pass-through from Level 2)"
   value       = var.cognito_uk_client_id

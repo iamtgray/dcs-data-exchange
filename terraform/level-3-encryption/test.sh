@@ -46,6 +46,7 @@ KMS_KEY_ID=$(terraform output -raw kms_key_id 2>/dev/null)
 CLUSTER=$(terraform output -raw ecs_cluster_name 2>/dev/null)
 COGNITO_POOL_ID=$(terraform output -raw cognito_uk_pool_id 2>/dev/null)
 COGNITO_CLIENT_ID=$(terraform output -raw cognito_uk_client_id 2>/dev/null)
+PLATFORM_URL=$(terraform output -raw platform_url 2>/dev/null)
 
 # =========================================================================
 # 1. Infrastructure checks
@@ -77,19 +78,12 @@ echo ""
 echo "OpenTDF platform"
 echo "-----------------"
 
+# Check the task is running
 task_arn=$(aws ecs list-tasks --cluster "$CLUSTER" --service-name "${PROJECT}-opentdf" \
   --region "$REGION" --desired-status RUNNING --query "taskArns[0]" --output text 2>/dev/null || echo "None")
 
-PLATFORM_IP=""
 if [ "$task_arn" != "None" ] && [ -n "$task_arn" ]; then
   check "ECS task is running" 0
-
-  eni=$(aws ecs describe-tasks --cluster "$CLUSTER" --tasks "$task_arn" --region "$REGION" \
-    --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" --output text 2>/dev/null || echo "")
-  if [ -n "$eni" ] && [ "$eni" != "None" ]; then
-    PLATFORM_IP=$(aws ec2 describe-network-interfaces --network-interface-ids "$eni" --region "$REGION" \
-      --query "NetworkInterfaces[0].Association.PublicIp" --output text 2>/dev/null || echo "")
-  fi
 else
   check "ECS task is running" 1
   echo -e "${RED}  Cannot continue without a running task.${NC}"
@@ -100,7 +94,6 @@ else
   exit 1
 fi
 
-PLATFORM_URL="http://${PLATFORM_IP}:8080"
 echo -e "${YELLOW}  INFO${NC} Platform URL: $PLATFORM_URL"
 
 # Health check

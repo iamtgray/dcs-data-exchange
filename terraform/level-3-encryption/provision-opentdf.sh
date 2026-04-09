@@ -14,15 +14,10 @@ REGION="eu-west-2"
 COGNITO_POOL_ID=$(terraform output -raw cognito_uk_pool_id 2>/dev/null)
 COGNITO_CLIENT_ID=$(terraform output -raw cognito_uk_client_id 2>/dev/null)
 
-# Find the platform IP
+# Find the platform
 CLUSTER=$(terraform output -raw ecs_cluster_name 2>/dev/null)
-TASK_ARN=$(aws ecs list-tasks --cluster "$CLUSTER" --region "$REGION" \
-  --desired-status RUNNING --query "taskArns[0]" --output text)
-ENI=$(aws ecs describe-tasks --cluster "$CLUSTER" --tasks "$TASK_ARN" --region "$REGION" \
-  --query "tasks[0].attachments[0].details[?name=='networkInterfaceId'].value" --output text)
-KAS_IP=$(aws ec2 describe-network-interfaces --network-interface-ids "$ENI" --region "$REGION" \
-  --query "NetworkInterfaces[0].Association.PublicIp" --output text)
-KAS="http://${KAS_IP}:8080"
+PLATFORM_IP=$(terraform output -raw platform_ip 2>/dev/null)
+KAS="http://${PLATFORM_IP}:8080"
 
 echo "Platform: $KAS"
 echo "Cognito:  $COGNITO_POOL_ID / $COGNITO_CLIENT_ID"

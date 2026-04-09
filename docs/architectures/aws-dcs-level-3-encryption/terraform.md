@@ -15,7 +15,10 @@ The full Terraform source code is in the repository at [`terraform/level-3-encry
 
 ## Design: simplified infrastructure
 
-This Terraform uses the default VPC, a single Fargate task with a public IP, and a db.t3.micro RDS instance. No custom VPC, no ALB, no NAT gateway. The focus is on the DCS components (KMS, OpenTDF, Cognito), not networking.
+This Terraform uses the default VPC, a single Fargate task, and a db.t3.micro RDS instance. No custom VPC, no NAT gateway. The focus is on the DCS components (KMS, OpenTDF, Cognito), not networking.
+
+!!! note "Difference from the lab"
+    The lab has you run a Fargate task with a public IP and manually note the ephemeral address. The Terraform improves on this by adding a Network Load Balancer with an Elastic IP. This gives the platform a stable address that's known at plan time, survives task restarts, and can be baked into the OpenTDF `server.public_hostname` config automatically. The NLB also means the KAS URL embedded in TDF manifests at encryption time won't break if the underlying task cycles.
 
 ## What gets deployed
 
@@ -24,10 +27,12 @@ This Terraform uses the default VPC, a single Fargate task with a public IP, and
 | `aws_kms_key` | Key Encryption Key for TDF DEK wrapping |
 | `aws_db_instance` | PostgreSQL for OpenTDF platform state |
 | `aws_ecs_cluster` + `aws_ecs_service` | Fargate cluster running OpenTDF |
-| `aws_ecs_task_definition` | OpenTDF container with KMS and Cognito config |
+| `aws_ecs_task_definition` | OpenTDF container with config init sidecar, KAS keys, and Cognito config |
+| `aws_eip` + `aws_lb` (NLB) | Stable public IP for the platform (see note above) |
 | `aws_s3_bucket` | TDF data storage |
 | `aws_security_group` (x2) | RDS and ECS security groups |
 | `aws_cloudwatch_log_group` | Container logs |
+| `tls_private_key` + `tls_self_signed_cert` | KAS RSA and EC key pairs for TDF key wrapping |
 
 ## Deploy
 
@@ -43,41 +48,37 @@ terraform apply -var="db_password=YOUR_SECURE_PASSWORD" -var="cognito_uk_pool_id
 
 ```
 terraform/level-3-encryption/
-├── main.tf        # Provider config
-├── variables.tf   # Input variables (db_password, cognito_uk_pool_id)
-├── data.tf        # Default VPC and subnets
-├── kms.tf         # Key encryption keys
-├── rds.tf         # PostgreSQL for OpenTDF
-├── ecs.tf         # OpenTDF platform on Fargate
-├── s3.tf          # TDF storage bucket
-├── outputs.tf     # Outputs
+├── main.tf                # Provider config
+├── variables.tf           # Input variables (db_password, cognito IDs)
+├── data.tf                # Default VPC and subnets
+├── kms.tf                 # Key encryption keys
+├── kas-keys.tf            # TLS key pairs for KAS (RSA + EC)
+├── rds.tf                 # PostgreSQL for OpenTDF
+├── ecs.tf                 # OpenTDF platform on Fargate (with config init sidecar)
+├── eip.tf                 # Elastic IP + NLB for stable addressing
+├── s3.tf                  # TDF storage bucket
+├── outputs.tf             # Outputs (platform_ip, platform_url, etc.)
+├── provision-opentdf.sh   # Post-deploy: create attributes + subject mappings
+├── test.sh                # End-to-end encrypt/decrypt test
 └── README.md
 ```
 
 ## Post-deployment configuration
 
-After deploying the platform, configure attributes and subject mappings via the OpenTDF API:
+After `terraform apply`, the platform IP is available as a Terraform output:
 
 ```bash
-KAS_IP="YOUR-TASK-PUBLIC-IP"
-
-# Define attribute namespaces
-curl -X POST http://$KAS_IP:8080/api/attributes/namespaces \
-  -H "Authorization: Bearer ${TOKEN}" \
-  -d '{
-    "name": "https://dcs.example.com/attr/classification",
-    "values": ["UNCLASSIFIED", "OFFICIAL", "SECRET", "TOP-SECRET"],
-    "rule": "hierarchy"
-  }'
-
-curl -X POST http://$KAS_IP:8080/api/attributes/namespaces \
-  -H "Authorization: Bearer ${TOKEN}" \
-  -d '{
-    "name": "https://dcs.example.com/attr/releasable",
-    "values": ["GBR", "USA", "POL"],
-    "rule": "anyOf"
-  }'
+terraform output platform_url
+# http://X.X.X.X:8080
 ```
+
+Then run the provisioning script to configure attributes and subject mappings:
+
+```bash
+./provision-opentdf.sh
+```
+
+This creates the DCS attribute namespace (`dcs.example.com`), classification/releasable/SAP attributes, subject mappings from Cognito JWT claims, and registers the KAS keys.
 
 ## Manual setup instructions
 
