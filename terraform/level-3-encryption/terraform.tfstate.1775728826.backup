@@ -1,0 +1,917 @@
+{
+  "version": 4,
+  "terraform_version": "1.5.7",
+  "serial": 18,
+  "lineage": "eb0d5c1a-78a1-e451-86ec-41f0e1027ab4",
+  "outputs": {
+    "ecs_cluster_name": {
+      "value": "dcs-level-3-cluster",
+      "type": "string"
+    },
+    "kms_key_id": {
+      "value": "511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817",
+      "type": "string"
+    },
+    "rds_endpoint": {
+      "value": "dcs-level-3-opentdf.cfugq4846q64.eu-west-2.rds.amazonaws.com",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "data",
+      "type": "aws_caller_identity",
+      "name": "current",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "602388495233",
+            "arn": "arn:aws:iam::602388495233:user/macbook-air-persistent",
+            "id": "602388495233",
+            "user_id": "AIDAYYQJG7OAUNGKUEHQY"
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_subnets",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "filter": [
+              {
+                "name": "default-for-az",
+                "values": [
+                  "true"
+                ]
+              },
+              {
+                "name": "vpc-id",
+                "values": [
+                  "vpc-931184fb"
+                ]
+              }
+            ],
+            "id": "eu-west-2",
+            "ids": [
+              "subnet-2c51bf60",
+              "subnet-cd67f8a4",
+              "subnet-9615ceec"
+            ],
+            "tags": null,
+            "timeouts": null
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "data",
+      "type": "aws_vpc",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-west-2:602388495233:vpc/vpc-931184fb",
+            "cidr_block": "172.31.0.0/16",
+            "cidr_block_associations": [
+              {
+                "association_id": "vpc-cidr-assoc-63d1bc0b",
+                "cidr_block": "172.31.0.0/16",
+                "state": "associated"
+              }
+            ],
+            "default": true,
+            "dhcp_options_id": "dopt-10650978",
+            "enable_dns_hostnames": true,
+            "enable_dns_support": true,
+            "enable_network_address_usage_metrics": false,
+            "filter": null,
+            "id": "vpc-931184fb",
+            "instance_tenancy": "default",
+            "ipv6_association_id": "",
+            "ipv6_cidr_block": "",
+            "main_route_table_id": "rtb-5fc18737",
+            "owner_id": "602388495233",
+            "state": null,
+            "tags": {},
+            "timeouts": null
+          },
+          "sensitive_attributes": []
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_cloudwatch_log_group",
+      "name": "opentdf",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:logs:eu-west-2:602388495233:log-group:/ecs/dcs-level-3/opentdf",
+            "id": "/ecs/dcs-level-3/opentdf",
+            "kms_key_id": "",
+            "log_group_class": "STANDARD",
+            "name": "/ecs/dcs-level-3/opentdf",
+            "name_prefix": "",
+            "retention_in_days": 30,
+            "skip_destroy": false,
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            }
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_db_instance",
+      "name": "opentdf",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 2,
+          "attributes": {
+            "address": "dcs-level-3-opentdf.cfugq4846q64.eu-west-2.rds.amazonaws.com",
+            "allocated_storage": 20,
+            "allow_major_version_upgrade": null,
+            "apply_immediately": false,
+            "arn": "arn:aws:rds:eu-west-2:602388495233:db:dcs-level-3-opentdf",
+            "auto_minor_version_upgrade": true,
+            "availability_zone": "eu-west-2a",
+            "backup_retention_period": 0,
+            "backup_target": "region",
+            "backup_window": "00:23-00:53",
+            "blue_green_update": [],
+            "ca_cert_identifier": "rds-ca-rsa2048-g1",
+            "character_set_name": "",
+            "copy_tags_to_snapshot": false,
+            "custom_iam_instance_profile": "",
+            "customer_owned_ip_enabled": false,
+            "database_insights_mode": "standard",
+            "db_name": "opentdf",
+            "db_subnet_group_name": "default",
+            "dedicated_log_volume": false,
+            "delete_automated_backups": true,
+            "deletion_protection": false,
+            "domain": "",
+            "domain_auth_secret_arn": "",
+            "domain_dns_ips": null,
+            "domain_fqdn": "",
+            "domain_iam_role_name": "",
+            "domain_ou": "",
+            "enabled_cloudwatch_logs_exports": null,
+            "endpoint": "dcs-level-3-opentdf.cfugq4846q64.eu-west-2.rds.amazonaws.com:5432",
+            "engine": "postgres",
+            "engine_lifecycle_support": "open-source-rds-extended-support",
+            "engine_version": "15",
+            "engine_version_actual": "15.14",
+            "final_snapshot_identifier": null,
+            "hosted_zone_id": "Z1TTGA775OQIYO",
+            "iam_database_authentication_enabled": false,
+            "id": "db-HALX4XA5WFYOHH2E5L2D3G5OHE",
+            "identifier": "dcs-level-3-opentdf",
+            "identifier_prefix": "",
+            "instance_class": "db.t3.micro",
+            "iops": 3000,
+            "kms_key_id": "arn:aws:kms:eu-west-2:602388495233:key/bed5a394-438c-475e-bb1b-3f03479f62cf",
+            "latest_restorable_time": "",
+            "license_model": "postgresql-license",
+            "listener_endpoint": [],
+            "maintenance_window": "sun:22:41-sun:23:11",
+            "manage_master_user_password": null,
+            "master_user_secret": [],
+            "master_user_secret_kms_key_id": null,
+            "max_allocated_storage": 0,
+            "monitoring_interval": 0,
+            "monitoring_role_arn": "",
+            "multi_az": false,
+            "nchar_character_set_name": "",
+            "network_type": "IPV4",
+            "option_group_name": "default:postgres-15",
+            "parameter_group_name": "default.postgres15",
+            "password": "DcsL3Test2025!",
+            "password_wo": null,
+            "password_wo_version": null,
+            "performance_insights_enabled": false,
+            "performance_insights_kms_key_id": "",
+            "performance_insights_retention_period": 0,
+            "port": 5432,
+            "publicly_accessible": false,
+            "replica_mode": "",
+            "replicas": [],
+            "replicate_source_db": "",
+            "resource_id": "db-HALX4XA5WFYOHH2E5L2D3G5OHE",
+            "restore_to_point_in_time": [],
+            "s3_import": [],
+            "skip_final_snapshot": true,
+            "snapshot_identifier": null,
+            "status": "available",
+            "storage_encrypted": true,
+            "storage_throughput": 125,
+            "storage_type": "gp3",
+            "tags": {
+              "DCSLevel": "3",
+              "Name": "dcs-level-3-opentdf"
+            },
+            "tags_all": {
+              "DCSLevel": "3",
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Name": "dcs-level-3-opentdf",
+              "Project": "dcs-level-3"
+            },
+            "timeouts": null,
+            "timezone": "",
+            "upgrade_storage_config": null,
+            "username": "opentdf",
+            "vpc_security_group_ids": [
+              "sg-05ef708967db0d1bf"
+            ]
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInVwZGF0ZSI6NDgwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMiJ9",
+          "dependencies": [
+            "aws_security_group.rds",
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ecs_cluster",
+      "name": "opentdf",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:ecs:eu-west-2:602388495233:cluster/dcs-level-3-cluster",
+            "configuration": [],
+            "id": "arn:aws:ecs:eu-west-2:602388495233:cluster/dcs-level-3-cluster",
+            "name": "dcs-level-3-cluster",
+            "service_connect_defaults": [],
+            "setting": [
+              {
+                "name": "containerInsights",
+                "value": "disabled"
+              }
+            ],
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            }
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ecs_service",
+      "name": "opentdf",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "alarms": [],
+            "availability_zone_rebalancing": "DISABLED",
+            "capacity_provider_strategy": [],
+            "cluster": "arn:aws:ecs:eu-west-2:602388495233:cluster/dcs-level-3-cluster",
+            "deployment_circuit_breaker": [
+              {
+                "enable": false,
+                "rollback": false
+              }
+            ],
+            "deployment_controller": [
+              {
+                "type": "ECS"
+              }
+            ],
+            "deployment_maximum_percent": 200,
+            "deployment_minimum_healthy_percent": 100,
+            "desired_count": 1,
+            "enable_ecs_managed_tags": false,
+            "enable_execute_command": false,
+            "force_delete": null,
+            "force_new_deployment": null,
+            "health_check_grace_period_seconds": 0,
+            "iam_role": "/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+            "id": "arn:aws:ecs:eu-west-2:602388495233:service/dcs-level-3-cluster/dcs-level-3-opentdf",
+            "launch_type": "FARGATE",
+            "load_balancer": [],
+            "name": "dcs-level-3-opentdf",
+            "network_configuration": [
+              {
+                "assign_public_ip": true,
+                "security_groups": [
+                  "sg-0c3b6bfd057809c11"
+                ],
+                "subnets": [
+                  "subnet-2c51bf60",
+                  "subnet-9615ceec",
+                  "subnet-cd67f8a4"
+                ]
+              }
+            ],
+            "ordered_placement_strategy": [],
+            "placement_constraints": [],
+            "platform_version": "LATEST",
+            "propagate_tags": "NONE",
+            "scheduling_strategy": "REPLICA",
+            "service_connect_configuration": [],
+            "service_registries": [],
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "task_definition": "arn:aws:ecs:eu-west-2:602388495233:task-definition/dcs-level-3-opentdf:1",
+            "timeouts": null,
+            "triggers": {},
+            "volume_configuration": [],
+            "vpc_lattice_configurations": [],
+            "wait_for_steady_state": false
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "aws_cloudwatch_log_group.opentdf",
+            "aws_db_instance.opentdf",
+            "aws_ecs_cluster.opentdf",
+            "aws_ecs_task_definition.opentdf",
+            "aws_iam_role.ecs_execution",
+            "aws_iam_role.ecs_task",
+            "aws_security_group.ecs",
+            "aws_security_group.rds",
+            "aws_ssm_parameter.db_password",
+            "data.aws_subnets.default",
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ecs_task_definition",
+      "name": "opentdf",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ecs:eu-west-2:602388495233:task-definition/dcs-level-3-opentdf:1",
+            "arn_without_revision": "arn:aws:ecs:eu-west-2:602388495233:task-definition/dcs-level-3-opentdf",
+            "container_definitions": "[{\"environment\":[{\"name\":\"OPENTDF_DB_HOST\",\"value\":\"dcs-level-3-opentdf.cfugq4846q64.eu-west-2.rds.amazonaws.com\"},{\"name\":\"OPENTDF_DB_NAME\",\"value\":\"opentdf\"},{\"name\":\"OPENTDF_DB_PORT\",\"value\":\"5432\"},{\"name\":\"OPENTDF_DB_USER\",\"value\":\"opentdf\"},{\"name\":\"OPENTDF_SERVER_AUTH_AUDIENCE\",\"value\":\"http://localhost:8080\"},{\"name\":\"OPENTDF_SERVER_AUTH_ISSUER\",\"value\":\"https://cognito-idp.eu-west-2.amazonaws.com/eu-west-2_placeholder\"},{\"name\":\"OPENTDF_SERVER_PORT\",\"value\":\"8080\"},{\"name\":\"OPENTDF_SERVICES_ENTITYRESOLUTION_MODE\",\"value\":\"claims\"}],\"essential\":true,\"image\":\"ghcr.io/opentdf/platform:latest\",\"logConfiguration\":{\"logDriver\":\"awslogs\",\"options\":{\"awslogs-group\":\"/ecs/dcs-level-3/opentdf\",\"awslogs-region\":\"eu-west-2\",\"awslogs-stream-prefix\":\"opentdf\"}},\"mountPoints\":[],\"name\":\"opentdf\",\"portMappings\":[{\"containerPort\":8080,\"hostPort\":8080,\"protocol\":\"tcp\"}],\"secrets\":[{\"name\":\"OPENTDF_DB_PASSWORD\",\"valueFrom\":\"arn:aws:ssm:eu-west-2:602388495233:parameter/dcs-level-3/db-password\"}],\"systemControls\":[],\"volumesFrom\":[]}]",
+            "cpu": "512",
+            "enable_fault_injection": false,
+            "ephemeral_storage": [],
+            "execution_role_arn": "arn:aws:iam::602388495233:role/dcs-level-3-ecs-execution-role",
+            "family": "dcs-level-3-opentdf",
+            "id": "dcs-level-3-opentdf",
+            "inference_accelerator": [],
+            "ipc_mode": "",
+            "memory": "1024",
+            "network_mode": "awsvpc",
+            "pid_mode": "",
+            "placement_constraints": [],
+            "proxy_configuration": [],
+            "requires_compatibilities": [
+              "FARGATE"
+            ],
+            "revision": 1,
+            "runtime_platform": [],
+            "skip_destroy": false,
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "task_role_arn": "arn:aws:iam::602388495233:role/dcs-level-3-ecs-task-role",
+            "track_latest": false,
+            "volume": []
+          },
+          "sensitive_attributes": [],
+          "private": "eyJzY2hlbWFfdmVyc2lvbiI6IjEifQ==",
+          "dependencies": [
+            "aws_cloudwatch_log_group.opentdf",
+            "aws_db_instance.opentdf",
+            "aws_iam_role.ecs_execution",
+            "aws_iam_role.ecs_task",
+            "aws_security_group.rds",
+            "aws_ssm_parameter.db_password",
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "ecs_execution",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::602388495233:role/dcs-level-3-ecs-execution-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2026-04-09T09:54:38Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "dcs-level-3-ecs-execution-role",
+            "inline_policy": [],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "dcs-level-3-ecs-execution-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "unique_id": "AROAYYQJG7OA5HD2YYIFX"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role",
+      "name": "ecs_task",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:iam::602388495233:role/dcs-level-3-ecs-task-role",
+            "assume_role_policy": "{\"Statement\":[{\"Action\":\"sts:AssumeRole\",\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"ecs-tasks.amazonaws.com\"}}],\"Version\":\"2012-10-17\"}",
+            "create_date": "2026-04-09T09:54:38Z",
+            "description": "",
+            "force_detach_policies": false,
+            "id": "dcs-level-3-ecs-task-role",
+            "inline_policy": [],
+            "managed_policy_arns": [],
+            "max_session_duration": 3600,
+            "name": "dcs-level-3-ecs-task-role",
+            "name_prefix": "",
+            "path": "/",
+            "permissions_boundary": "",
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "unique_id": "AROAYYQJG7OAZCISY62V7"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA=="
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy",
+      "name": "ecs_task_kms",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "dcs-level-3-ecs-task-role:dcs-level-3-ecs-kms-policy",
+            "name": "dcs-level-3-ecs-kms-policy",
+            "name_prefix": "",
+            "policy": "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Action\":[\"kms:Encrypt\",\"kms:Decrypt\",\"kms:GenerateDataKey\",\"kms:DescribeKey\"],\"Effect\":\"Allow\",\"Resource\":\"arn:aws:kms:eu-west-2:602388495233:key/511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817\"}]}",
+            "role": "dcs-level-3-ecs-task-role"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ecs_task",
+            "aws_kms_key.kas_kek",
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_iam_role_policy_attachment",
+      "name": "ecs_execution",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "id": "dcs-level-3-ecs-execution-role-20260409095439528100000001",
+            "policy_arn": "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy",
+            "role": "dcs-level-3-ecs-execution-role"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ecs_execution"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_kms_alias",
+      "name": "kas_kek",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:kms:eu-west-2:602388495233:alias/dcs-level-3-kas-kek",
+            "id": "alias/dcs-level-3-kas-kek",
+            "name": "alias/dcs-level-3-kas-kek",
+            "name_prefix": "",
+            "target_key_arn": "arn:aws:kms:eu-west-2:602388495233:key/511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817",
+            "target_key_id": "511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817"
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_iam_role.ecs_task",
+            "aws_kms_key.kas_kek",
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_kms_key",
+      "name": "kas_kek",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "arn": "arn:aws:kms:eu-west-2:602388495233:key/511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817",
+            "bypass_policy_lockout_safety_check": false,
+            "custom_key_store_id": "",
+            "customer_master_key_spec": "SYMMETRIC_DEFAULT",
+            "deletion_window_in_days": 7,
+            "description": "DCS Level 3 - KAS Key Encryption Key",
+            "enable_key_rotation": true,
+            "id": "511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817",
+            "is_enabled": true,
+            "key_id": "511b0bb2-92f9-4f3b-bf08-fdc8b8a9c817",
+            "key_usage": "ENCRYPT_DECRYPT",
+            "multi_region": false,
+            "policy": "{\"Statement\":[{\"Action\":\"kms:*\",\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::602388495233:root\"},\"Resource\":\"*\",\"Sid\":\"RootAccess\"},{\"Action\":[\"kms:Encrypt\",\"kms:Decrypt\",\"kms:GenerateDataKey\",\"kms:DescribeKey\"],\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::602388495233:role/dcs-level-3-ecs-task-role\"},\"Resource\":\"*\",\"Sid\":\"KASAccess\"}],\"Version\":\"2012-10-17\"}",
+            "rotation_period_in_days": 365,
+            "tags": {
+              "DCSLevel": "3",
+              "Purpose": "TDF DEK wrapping"
+            },
+            "tags_all": {
+              "DCSLevel": "3",
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3",
+              "Purpose": "TDF DEK wrapping"
+            },
+            "timeouts": null,
+            "xks_key_id": ""
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "aws_iam_role.ecs_task",
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket",
+      "name": "tdf_data",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "acceleration_status": "",
+            "acl": null,
+            "arn": "arn:aws:s3:::dcs-lab-data-602388495233",
+            "bucket": "dcs-lab-data-602388495233",
+            "bucket_domain_name": "dcs-lab-data-602388495233.s3.amazonaws.com",
+            "bucket_prefix": "",
+            "bucket_regional_domain_name": "dcs-lab-data-602388495233.s3.eu-west-2.amazonaws.com",
+            "cors_rule": [],
+            "force_destroy": false,
+            "grant": [
+              {
+                "id": "f741c20254ed2e0bbfb741a85b8dd3e9bf844cef3687ab51a196a273b1b64c15",
+                "permissions": [
+                  "FULL_CONTROL"
+                ],
+                "type": "CanonicalUser",
+                "uri": ""
+              }
+            ],
+            "hosted_zone_id": "Z3GKZC51ZF0DB4",
+            "id": "dcs-lab-data-602388495233",
+            "lifecycle_rule": [],
+            "logging": [],
+            "object_lock_configuration": [],
+            "object_lock_enabled": false,
+            "policy": "",
+            "region": "eu-west-2",
+            "replication_configuration": [],
+            "request_payer": "BucketOwner",
+            "server_side_encryption_configuration": [
+              {
+                "rule": [
+                  {
+                    "apply_server_side_encryption_by_default": [
+                      {
+                        "kms_master_key_id": "",
+                        "sse_algorithm": "AES256"
+                      }
+                    ],
+                    "bucket_key_enabled": false
+                  }
+                ]
+              }
+            ],
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "timeouts": null,
+            "versioning": [
+              {
+                "enabled": false,
+                "mfa_delete": false
+              }
+            ],
+            "website": [],
+            "website_domain": null,
+            "website_endpoint": null
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjM2MDAwMDAwMDAwMDAsInJlYWQiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_public_access_block",
+      "name": "tdf_data",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "block_public_acls": true,
+            "block_public_policy": true,
+            "bucket": "dcs-lab-data-602388495233",
+            "id": "dcs-lab-data-602388495233",
+            "ignore_public_acls": true,
+            "restrict_public_buckets": true
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.tdf_data",
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_s3_bucket_versioning",
+      "name": "tdf_data",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "dcs-lab-data-602388495233",
+            "expected_bucket_owner": "",
+            "id": "dcs-lab-data-602388495233",
+            "mfa": null,
+            "versioning_configuration": [
+              {
+                "mfa_delete": "",
+                "status": "Enabled"
+              }
+            ]
+          },
+          "sensitive_attributes": [],
+          "private": "bnVsbA==",
+          "dependencies": [
+            "aws_s3_bucket.tdf_data",
+            "data.aws_caller_identity.current"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "ecs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-west-2:602388495233:security-group/sg-0c3b6bfd057809c11",
+            "description": "Managed by Terraform",
+            "egress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "",
+                "from_port": 0,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "-1",
+                "security_groups": [],
+                "self": false,
+                "to_port": 0
+              }
+            ],
+            "id": "sg-0c3b6bfd057809c11",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "0.0.0.0/0"
+                ],
+                "description": "OpenTDF platform API",
+                "from_port": 8080,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 8080
+              }
+            ],
+            "name": "dcs-level-3-ecs-sg",
+            "name_prefix": "",
+            "owner_id": "602388495233",
+            "revoke_rules_on_delete": false,
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-931184fb"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_security_group",
+      "name": "rds",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "arn": "arn:aws:ec2:eu-west-2:602388495233:security-group/sg-05ef708967db0d1bf",
+            "description": "Managed by Terraform",
+            "egress": [],
+            "id": "sg-05ef708967db0d1bf",
+            "ingress": [
+              {
+                "cidr_blocks": [
+                  "172.31.0.0/16"
+                ],
+                "description": "PostgreSQL from default VPC",
+                "from_port": 5432,
+                "ipv6_cidr_blocks": [],
+                "prefix_list_ids": [],
+                "protocol": "tcp",
+                "security_groups": [],
+                "self": false,
+                "to_port": 5432
+              }
+            ],
+            "name": "dcs-level-3-rds-sg",
+            "name_prefix": "",
+            "owner_id": "602388495233",
+            "revoke_rules_on_delete": false,
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "timeouts": null,
+            "vpc_id": "vpc-931184fb"
+          },
+          "sensitive_attributes": [],
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6OTAwMDAwMDAwMDAwfSwic2NoZW1hX3ZlcnNpb24iOiIxIn0=",
+          "dependencies": [
+            "data.aws_vpc.default"
+          ]
+        }
+      ]
+    },
+    {
+      "mode": "managed",
+      "type": "aws_ssm_parameter",
+      "name": "db_password",
+      "provider": "provider[\"registry.terraform.io/hashicorp/aws\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "allowed_pattern": "",
+            "arn": "arn:aws:ssm:eu-west-2:602388495233:parameter/dcs-level-3/db-password",
+            "data_type": "text",
+            "description": "",
+            "has_value_wo": null,
+            "id": "/dcs-level-3/db-password",
+            "insecure_value": null,
+            "key_id": "alias/aws/ssm",
+            "name": "/dcs-level-3/db-password",
+            "overwrite": null,
+            "tags": null,
+            "tags_all": {
+              "Environment": "demo",
+              "ManagedBy": "terraform",
+              "Project": "dcs-level-3"
+            },
+            "tier": "Standard",
+            "type": "SecureString",
+            "value": "DcsL3Test2025!",
+            "value_wo": null,
+            "value_wo_version": null,
+            "version": 1
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "value"
+              }
+            ]
+          ],
+          "private": "bnVsbA=="
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}
