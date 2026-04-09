@@ -118,13 +118,13 @@ create_mapping() {
 import json
 print(json.dumps({
     'attributeValueId': '$value_id',
-    'actions': [{'name': 'STANDARD_ACTION_DECRYPT'}, {'name': 'STANDARD_ACTION_TRANSMIT'}],
+    'actions': [{'name': 'read'}],
     'newSubjectConditionSet': {
         'subjectSets': [{
             'conditionGroups': [{
                 'booleanOperator': 'CONDITION_BOOLEAN_TYPE_ENUM_AND',
                 'conditions': [{
-                    'subjectExternalSelectorValue': '.$claim',
+                    'subjectExternalSelectorValue': '$claim',
                     'operator': '$operator',
                     'subjectExternalValues': ['$match_value']
                 }]

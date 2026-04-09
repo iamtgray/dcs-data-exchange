@@ -320,7 +320,7 @@ print(d.get('configuration',{}).get('platform_issuer',''))
       fi
 
       # Inspect the TDF to verify attributes are embedded
-      INSPECT_OUT=$("$OTDFCTL" inspect /tmp/dcs-test-encrypted.tdf --tdf-type ztdf 2>&1)
+      INSPECT_OUT=$("$OTDFCTL" inspect /tmp/dcs-test-encrypted.tdf --json 2>&1)
       has_attr=$(echo "$INSPECT_OUT" | grep -c "classification" 2>/dev/null || echo "0")
       check "TDF contains classification attribute" "$([ "$has_attr" -ge 1 ] && echo 0 || echo 1)"
 

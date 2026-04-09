@@ -129,7 +129,7 @@ curl -X POST "http://$KAS_IP:8080/policy.subjectmapping.SubjectMappingService/Cr
   -H "Content-Type: application/json" \
   -d '{
     "attributeValueId": "RELEASABLE_GBR_ATTRIBUTE_VALUE_ID",
-    "actions": [{"name": "STANDARD_ACTION_DECRYPT"}, {"name": "STANDARD_ACTION_TRANSMIT"}],
+    "actions": [{"name": "read"}],
     "newSubjectConditionSet": {
       "subjectSets": [{
         "conditionGroups": [{

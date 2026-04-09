@@ -122,7 +122,7 @@ db:
   password: ${var.db_password}
   sslmode: require
   runMigration: true
-mode: all,-entityresolution
+mode: all
 services:
   entityresolution:
     mode: claims
@@ -146,7 +146,7 @@ server:
     audience: ${var.cognito_uk_client_id}
     issuer: https://cognito-idp.${var.aws_region}.amazonaws.com/${var.cognito_uk_pool_id}
     policy:
-      client_id_claim: aud
+      client_id_claim: sub
       csv: |
         p, role:admin, *, *, allow
         p, role:standard, *, *, allow
@@ -180,7 +180,7 @@ EOF
     },
     {
       name      = "opentdf"
-      image     = "registry.opentdf.io/platform:nightly"
+      image     = "registry.opentdf.io/platform:v0.8.1"
       essential = true
       command   = ["start", "--config-file", "/configs/opentdf.yaml"]
       portMappings = [{ containerPort = 8080, protocol = "tcp" }]

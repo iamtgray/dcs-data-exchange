@@ -153,6 +153,9 @@ nav:
       - "Context: Classification Engine": solutions/03-legacy-retrofit/context-classification-engine.md
     - "LLM-Based Sanitisation": solutions/04-sanitisation/option-1-llm-mcp-sanitisation.md
 
+  # --- AUTHOR ---
+  - Author: author.md
+
   # --- REFERENCE ---
   - Reference:
     - NATO STANAGs: documents/nato-stanags/README.md

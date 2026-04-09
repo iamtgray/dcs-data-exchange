@@ -323,7 +323,7 @@ EOF
     },
     {
       name         = "opentdf"
-      image        = "registry.opentdf.io/platform:nightly"
+      image        = "registry.opentdf.io/platform:v0.8.1"
       essential    = true
       command      = ["start", "--config-file", "/configs/opentdf.yaml"]
       portMappings = [{ containerPort = 8080, protocol = "tcp" }]

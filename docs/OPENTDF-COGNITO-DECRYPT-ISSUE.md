@@ -146,3 +146,61 @@ echo "test data" | /tmp/otdfctl encrypt --host http://<EIP>:8080 \
   --out /tmp/test-dec.txt
 # This fails with "could not perform access"
 ```
+
+## Resolution
+
+### Root cause (detailed)
+
+The bug is in `getClientIDFromToken()` in `service/internal/auth/authn.go`. When `client_id_claim` is set to `aud`, the function calls `tok.AsMap()` and does a string type assertion:
+
+```go
+found := dotNotation(claimsMap, clientIDClaim)
+clientID, isString := found.(string)
+if !isString {
+    return "", fmt.Errorf("%w at [%s]", ErrClientIDClaimNotString, clientIDClaim)
+}
+```
+
+RFC 7519 §4.1.3 defines `aud` as an array of strings. The lestrrat-go/jwx JWT library correctly returns `aud` as `[]string` from `AsMap()`, so `found.(string)` fails. The client ID never makes it into gRPC metadata.
+
+Downstream, authorization v2's `getDecisionRequestContext()` calls `GetClientIDFromContext()`, finds nothing, and returns `ErrMissingClientID` ("missing authn idP clientID"). That propagates up as "could not perform access".
+
+This isn't Cognito-specific. Any OIDC provider that omits `azp` will hit it. `azp` is optional per OpenID Connect Core §2, and Cognito, Auth0, and Azure AD all omit it in various configurations. The platform just assumes Keycloak.
+
+### Workaround applied
+
+Set `client_id_claim: sub` instead of `client_id_claim: aud`.
+
+`sub` is always a plain string in any JWT, so the type assertion passes. The extracted value is the Cognito user's subject identifier rather than the app client ID, but that's fine here. The authorization v2 flow uses this client ID to build a `PolicyEnforcementPoint` context for obligation decisioning — it's metadata, not a security gate. The actual ABAC decision runs on JWT claims matched against subject mappings, which is unaffected. And the Casbin policy grants `role:unknown` full access anyway, so role mapping doesn't matter either.
+
+Config change in `terraform/level-3-encryption/ecs.tf`:
+
+```yaml
+server:
+  auth:
+    policy:
+      client_id_claim: sub  # was: aud (fails due to []string type mismatch)
+```
+
+### Proper upstream fix
+
+The platform should handle `aud` as both `string` and `[]string` in `getClientIDFromToken()`. About 10 lines:
+
+```go
+// In service/internal/auth/authn.go, getClientIDFromToken()
+switch v := found.(type) {
+case string:
+    return v, nil
+case []interface{}:
+    if len(v) == 1 {
+        if s, ok := v[0].(string); ok {
+            return s, nil
+        }
+    }
+    return "", fmt.Errorf("%w at [%s]: aud is an array with %d elements", ErrClientIDClaimNotString, clientIDClaim, len(v))
+default:
+    return "", fmt.Errorf("%w at [%s]", ErrClientIDClaimNotString, clientIDClaim)
+}
+```
+
+This should be contributed as a PR to [opentdf/platform](https://github.com/opentdf/platform).

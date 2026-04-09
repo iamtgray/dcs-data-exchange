@@ -118,7 +118,7 @@ This is where we configure the OpenTDF platform. We point the auth issuer at you
 7. **Task execution role**: `dcs-level3-ecs-execution-role`
 8. **Container**:
     - Name: `opentdf`
-    - Image: `registry.opentdf.io/platform:nightly`
+    - Image: `registry.opentdf.io/platform:v0.8.1`
     - Port mappings: 8080 TCP
     - Environment variables:
 
@@ -133,11 +133,15 @@ This is where we configure the OpenTDF platform. We point the auth issuer at you
 | `OPENTDF_SERVER_AUTH_ISSUER` | `https://cognito-idp.YOUR-REGION.amazonaws.com/YOUR-UK-POOL-ID` |
 | `OPENTDF_SERVER_AUTH_AUDIENCE` | Your Cognito app client ID (e.g., `75n9gqu87lcj0n7io98kplt30a`) |
 | `OPENTDF_SERVICES_ENTITYRESOLUTION_MODE` | `claims` |
+| `OPENTDF_SERVER_AUTH_POLICY_CLIENT_ID_CLAIM` | `sub` |
 
 9. Click **Create**
 
 !!! tip "Finding your Cognito issuer URL"
     The issuer URL follows the pattern `https://cognito-idp.{region}.amazonaws.com/{userPoolId}`. Use the UK user pool ID from Lab 2. Verify it by opening `https://cognito-idp.{region}.amazonaws.com/{userPoolId}/.well-known/openid-configuration` in a browser.
+
+!!! warning "Why `CLIENT_ID_CLAIM` is set to `sub`"
+    The OpenTDF platform defaults to reading the client ID from the `azp` JWT claim, which Keycloak always provides. Cognito doesn't include `azp` in its tokens — it puts the client ID in `aud` instead. You might think setting the claim to `aud` would fix it, but `aud` is defined as an array in the JWT spec (RFC 7519), and the platform's extraction code does a plain string type assertion that fails on arrays. Setting it to `sub` sidesteps the issue: `sub` is always a string, and the extracted value is only used as metadata for the platform's obligation decisioning, not for the actual ABAC access check. See [the full write-up](../../OPENTDF-COGNITO-DECRYPT-ISSUE.md) for details.
 
 !!! info "Why claims mode?"
     The OpenTDF platform has three entity resolution modes: `keycloak` (calls back to Keycloak's admin API), `claims` (reads attributes directly from the JWT), and `multi-strategy` (preview). Since Cognito includes custom attributes in its OIDC tokens, `claims` mode is all we need. No extra identity infrastructure.
