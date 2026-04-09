@@ -36,7 +36,7 @@ terraform plan
 terraform apply
 ```
 
-After apply completes, Terraform prints the outputs. The ECS task takes a couple of minutes to start -- find its public IP in the ECS console under the running task's Configuration section.
+After apply completes, Terraform prints the outputs including the platform URL (backed by an NLB with an Elastic IP, so it's stable). The ECS task takes a couple of minutes to start.
 
 ## Test it
 
@@ -76,11 +76,10 @@ Expected: 403 -- Polish analyst doesn't have the WALL SAP.
 
 ### Lab 3 test (encrypt/decrypt)
 
-Once the ECS task is running, find its public IP and configure the OpenTDF CLI:
+Once the ECS task is running, the platform is reachable at the stable IP from the Terraform output:
 
 ```bash
-KAS_IP="YOUR-TASK-PUBLIC-IP"
-export OPENTDF_ENDPOINT="http://$KAS_IP:8080"
+export OPENTDF_ENDPOINT="$(terraform output -raw platform_url)"
 export OIDC_ENDPOINT="$(terraform output -raw cognito_issuer_url)"
 export OIDC_CLIENT_ID="$(terraform output -raw cognito_uk_client_id)"
 ```

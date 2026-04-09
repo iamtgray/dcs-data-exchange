@@ -49,3 +49,31 @@ output "ecs_cluster" {
 output "cognito_issuer_url" {
   value = "https://cognito-idp.${data.aws_region.current.name}.amazonaws.com/${aws_cognito_user_pool.nation["uk"].id}"
 }
+
+output "platform_ip" {
+  description = "Elastic IP for the OpenTDF platform"
+  value       = aws_eip.opentdf.public_ip
+}
+
+output "platform_url" {
+  description = "OpenTDF platform URL"
+  value       = "http://${aws_eip.opentdf.public_ip}:8080"
+}
+
+output "kas_rsa_public_key_pem" {
+  description = "KAS RSA public key certificate (PEM)"
+  value       = tls_self_signed_cert.kas_rsa.cert_pem
+  sensitive   = true
+}
+
+output "kas_ec_public_key_pem" {
+  description = "KAS EC public key certificate (PEM)"
+  value       = tls_self_signed_cert.kas_ec.cert_pem
+  sensitive   = true
+}
+
+output "kas_rsa_private_key_pem" {
+  description = "KAS RSA private key (PEM) - for key wrapping during provisioning"
+  value       = tls_private_key.kas_rsa.private_key_pem
+  sensitive   = true
+}
