@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "dcra": {
+      "type": "stdio",
+      "command": "uv",
+      "args": ["run", "--directory", "/Users/tomgray/src/aws/dcs-data-exchange/tools/dcra-mcp", "server.py"]
+    }
+  }
+}
