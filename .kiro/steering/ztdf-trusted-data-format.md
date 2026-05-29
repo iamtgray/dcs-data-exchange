@@ -10,10 +10,14 @@ description: Comprehensive guide to Zero Trust Data Format (ZTDF) and Trusted Da
 ZTDF (Zero Trust Data Format) is an interoperable data security wrapper built on the open TDF (Trusted Data Format) standard. It implements data-centric security principles where protection travels with the data itself, regardless of where it moves.
 
 **Key Facts:**
-- ZTDF was standardized by NATO in March 2024
+- ZTDF is defined in ACP-240 Supplements 3 and 4 (a CCEB/Five Eyes publication, not a NATO STANAG)
+- NATO has not adopted ZTDF and is independently pursuing federated cryptographic key management for DCS Level 3
+- There is a cooperative arrangement between CCEB and NATO, but it updated ACP-240 to align with NATO STANAGs (not the reverse)
 - Built on OpenTDF specification (JSON-based, modern evolution of IC-TDF XML format)
 - Enables secure cross-border and cross-classification data sharing
 - Provides persistent, auto-enforcing access controls
+- Positioned as one encoding specification for DCS Level 3 (others may be added)
+- Limitations from NATO's perspective: file-level only (not structured C2 data), centralised key model, skips Level 2
 
 ## Core Concepts
 
@@ -166,7 +170,7 @@ When implementing TDF-based solutions:
 ## Standards Compliance
 
 - **OpenTDF Specification**: Follow semantic versioning, JSON schema definitions
-- **ZTDF (NATO)**: Includes additional cryptographic assertions for NATO use cases
+- **ZTDF (ACP-240)**: Defined in CCEB ACP-240 Supplements 3/4; includes STANAG 4774 labels and 4778 bindings as cryptographic assertions
 - **IC-TDF**: Legacy XML format, contact OpenTDF for interoperability details
 
 ---
