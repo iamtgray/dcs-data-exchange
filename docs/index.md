@@ -30,7 +30,7 @@ This site covers **concepts, hands-on labs, reference architectures, and operati
     Then review **[Solution Patterns](solutions/index.md)** for approach options, and **[Reference Architectures](architectures/index.md)** for concrete AWS implementations.
 
 ??? question "I need to understand the NATO standards"
-    See **[NATO Standards and DCS](labs/overview/nato-standards.md)** for how STANAG 4774, 4778, ZTDF, and ACP-240 relate to each other, or the full **[NATO STANAGs Reference](documents/nato-stanags/README.md)** for detailed coverage of each standard.
+    See **[NATO Standards and DCS](labs/overview/nato-standards.md)** for how STANAG 4774, 4778, 5663, ZTDF, and ACP-240 relate to each other, or the full **[NATO STANAGs Reference](documents/nato-stanags/README.md)** for detailed coverage of each standard.
 
 ---
 
@@ -43,7 +43,7 @@ This site covers **concepts, hands-on labs, reference architectures, and operati
 :   **Level 1** labels data with classification metadata. **Level 2** enforces access control based on those labels. **Level 3** encrypts data so only authorized parties can decrypt it.
 
 **Zero Trust Data Format (ZTDF)**
-:   NATO-standardized (March 2024) data wrapper built on OpenTDF. Combines labels, encryption, and federated key management into a single interoperable format.
+:   Data packaging format defined in ACP-240 (CCEB/Five Eyes), built on OpenTDF. Combines labels, encryption, and federated key management into a single interoperable format for DCS Level 3.
 
 **Federated Key Management**
 :   Each nation operates its own Key Access Server (KAS). Data can require approval from one KAS (AnyOf) or all of them (AllOf) before decryption.
@@ -54,5 +54,5 @@ This site covers **concepts, hands-on labs, reference architectures, and operati
 
 - [OpenTDF Specification](https://github.com/opentdf/spec) -- Official TDF standard
 - [OpenTDF Platform](https://github.com/opentdf/platform) -- Reference implementation
-- [ACP-240](documents/nato-stanags/README.md#acp-240-data-centric-security-interoperability) -- FVEY/CCEB data-centric security interoperability standard (adopted by NATO)
+- [ACP-240](documents/nato-stanags/README.md#acp-240-data-centric-security-interoperability) -- CCEB (Five Eyes) data-centric security interoperability publication (cooperative arrangement with NATO)
 - [NATO STANAGs](documents/nato-stanags/README.md) -- Search the [NSO standards database](https://nso.nato.int/nso/nsdd/main/standards) by standard number

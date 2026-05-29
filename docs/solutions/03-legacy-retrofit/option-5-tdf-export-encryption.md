@@ -121,7 +121,7 @@ This is a deliberate trade-off. Encrypting data inside a running COBOL/DB2 syste
 4. ABAC policy enforcement at decryption time, not just at export time
 5. Revocable access -- KAS can stop releasing keys to compromised or deauthorised recipients
 6. Full audit trail of every decryption via KAS logs
-7. Standards-based (OpenTDF/ZTDF, NATO-standardised as of March 2024)
+7. Standards-based (OpenTDF/ZTDF, defined in ACP-240 with cooperative NATO arrangement)
 
 ## Disadvantages
 

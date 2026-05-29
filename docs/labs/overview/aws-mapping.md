@@ -37,8 +37,8 @@ The labs use simplified AWS implementations to teach the concepts. The table bel
 | Attribute management | **OpenTDF Platform** | Defines attribute namespaces and user entitlements |
 | Database | **RDS PostgreSQL** | Stores OpenTDF platform state |
 
-!!! note "Level 3 is already STANAG-compliant"
-    OpenTDF implements the NATO ZTDF standard directly. The TDF manifest supports STANAG 4774 labels as assertions with JWS binding (STANAG 4778). Unlike Level 1, there's no "basic vs assured" gap here; the lab builds the real thing.
+!!! note "Level 3 and ZTDF"
+    OpenTDF implements the ZTDF format defined in ACP-240 (CCEB/Five Eyes). The TDF manifest supports STANAG 4774 labels as assertions with JWS binding (STANAG 4778). Note that ZTDF addresses file-level encryption but does not cover granular sub-document access control for structured data (DCS Level 2). NATO has not adopted ZTDF; it is used here to demonstrate DCS Level 3 concepts (encryption with policy-gated key release).
 
 ## The key difference at each level
 
