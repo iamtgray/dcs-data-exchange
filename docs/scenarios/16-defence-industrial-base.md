@@ -211,3 +211,5 @@ Time Sensitivity: Immediate -- adversary exploitation possible
 - **Scenario 09**: Disaster recovery -- long-term technical data backup
 
 ---
+
+*This scenario extends data-centric security beyond military operations to the defence industrial base, where intellectual property, export controls, and multi-decade lifecycles create unique data protection requirements.*

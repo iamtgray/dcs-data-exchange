@@ -233,3 +233,5 @@ Format: STIX 2.1 bundle, UK EYES ONLY initially
 - **Scenario 06**: Intelligence fusion -- CTI fusion across national contributions
 
 ---
+
+*This scenario enables rapid, automated sharing of cyber threat intelligence across NATO while maintaining granular control over attribution and collection methods. Machine-speed sharing of defensive indicators combined with originator-controlled attribution intelligence protects both the alliance and national capabilities.*

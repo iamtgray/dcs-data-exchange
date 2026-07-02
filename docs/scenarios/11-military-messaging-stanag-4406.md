@@ -6,7 +6,7 @@ STANAG 4406 defines the NATO Military Message Handling System (MMHS) -- the back
 
 ## Problem Statement
 
-Military messages often contain information at multiple sensitivity levels within a single message. A situation report may contain unclassified logistics data alongside SECRET tactical positions and TOP SECRET intelligence assessments. Current MMHS marks the entire message at the highest classification of any content within it, denying access to the entire message for anyone lacking the highest clearance. This over-classification reduces information availability. Once a message is delivered, originator controls are enforced procedurally (by policy) rather than technically -- recipients can forward, copy, or extract content without the originator's knowledge or consent.
+Military messages often contain information at multiple sensitivity levels within a single message. A situation report may contain unclassified logistics data alongside SECRET tactical positions and TOP SECRET intelligence assessments. Current MMHS marks the entire message at the highest classification of any content within it, denying access to the entire message for anyone lacking the highest clearance. This over-classification reduces information availability. Additionally, once a message is delivered, originator controls are enforced procedurally (by policy) rather than technically -- recipients can forward, copy, or extract content without the originator's knowledge or consent.
 
 ## Actors
 
@@ -233,3 +233,5 @@ Content: Planned operations with timings and objectives
 5. **Backward Compatibility**: Non-DCS systems receive whole-message at highest classification
 
 ---
+
+*This scenario enables granular, content-level security within NATO's military messaging backbone, transforming whole-message classification into paragraph-level access control while maintaining compatibility with existing MMHS infrastructure.*

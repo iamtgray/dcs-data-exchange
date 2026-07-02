@@ -217,3 +217,5 @@ Conjunction Risk: Potential threat to allied communications satellites
 - **Scenario 08**: Maritime domain awareness -- satellite-based maritime surveillance
 
 ---
+
+*This scenario enables NATO's virtual constellation concept by providing data-centric security for space domain awareness. Federated key management maps naturally to the multi-national space contribution model, protecting the most sensitive national space capabilities while enabling an alliance-wide space picture.*

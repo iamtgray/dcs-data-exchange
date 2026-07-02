@@ -230,3 +230,5 @@ Releasability: Government agencies + critical infrastructure operators
 - **Scenario 12**: Cyber threat intelligence -- cyber component of hybrid threats
 
 ---
+
+*This scenario enables NATO's counter-hybrid response by bridging the classified-unclassified divide. Data-centric security allows military intelligence to inform civilian defence without revealing sources, while maintaining evidence integrity for legal and diplomatic use.*

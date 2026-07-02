@@ -233,3 +233,5 @@ Restrictions: Model weights NOT to be exported outside NATO
 - **Scenario 13**: Space domain awareness -- satellite imagery as training data
 
 ---
+
+*This scenario enables coalition AI development while maintaining data sovereignty and responsible AI governance. Federated learning with data-centric security allows nations to contribute to shared models without surrendering control of their training data.*

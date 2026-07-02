@@ -9,3 +9,7 @@ __pycache__/
 *.tfplan
 **/*.zip
 **/.terraform.lock.hcl
+
+# Local reference material (not part of docs site)
+data-mesh/
+documents/

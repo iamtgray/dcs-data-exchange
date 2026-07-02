@@ -235,3 +235,5 @@ Unit Logistics Status:
 - **Scenario 16**: Defence industrial base -- supply chain data protection
 
 ---
+
+*This scenario addresses the unique challenges of logistics data where aggregation creates classification, commercial partners need military data without context, and deployed units need supply information in DDIL environments. Data-centric security enables the right data to reach the right partner at the right classification level.*
