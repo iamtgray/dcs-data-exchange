@@ -2,7 +2,7 @@
 
 ## NATO coalition intelligence sharing
 
-The scenario running through this workshop -- Poland, UK, and US sharing intelligence -- is based on real operational requirements. DCS Level 3 with ZTDF is how NATO is standardizing cross-border data protection.
+The scenario running through this workshop -- Poland, UK, and US sharing intelligence -- is based on real operational requirements. DCS Level 3 uses encryption with federated key management to protect data across borders. NATO is developing its own standards for Level 3 interoperability; the labs use OpenTDF to demonstrate these concepts.
 
 In a real deployment:
 

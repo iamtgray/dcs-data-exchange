@@ -19,7 +19,9 @@ Why this order? Because the standards are dense. If you start with STANAG 4774 X
 
 ### STANAG 4774: how to write security labels
 
-This standard defines the format for confidentiality labels. It specifies how to express:- Classification levels (UNCLASSIFIED, NATO SECRET, COSMIC TOP SECRET, etc.)
+This standard defines the format for confidentiality labels. It specifies how to express:
+
+- Classification levels (UNCLASSIFIED, NATO SECRET, COSMIC TOP SECRET, etc.)
 - Which policy applies (NATO, national, or coalition-specific)
 - Release markings (which countries can see the data)
 - Special access requirements (codewords, programs)
@@ -55,16 +57,24 @@ The S3 tags carry the same information, but they lack the structure that makes l
 - A **PolicyIdentifier** that specifies which classification scheme applies (NATO, UK national, US national)
 - **Typed categories** -- `PERMISSIVE` means the user must match at least one value; `RESTRICTIVE` means the user must hold all values
 - A formal **namespace** so any STANAG 4774-compliant system worldwide can parse the label
+- Support for **portion-level labelling** -- different parts of a document can carry different classifications
+- A **common security policy model** with machine-readable Security Policy Information Files (SPIFs)
 
 **Why it matters:** Without a standard label format, every system invents its own way of marking data. That makes it impossible to share data between systems from different organizations or nations.
 
-### STANAG 4778: how to bind labels to data
+### STANAG 4778: how to bind metadata to data
 
-Labels are only useful if you can trust them. STANAG 4778 defines how to cryptographically bind a label to its data using digital signatures. This means:
+STANAG 4778 is more than cryptographic binding -- it defines a complete framework for formally associating metadata with data. It specifies:
 
-- Nobody can remove a label from data without being detected
-- Nobody can change a label without being detected
-- You can verify who created the label and when
+- **How to state the relationship** between metadata and data (what the metadata asserts about the data)
+- **Three binding approaches** depending on how data is structured:
+    - **Encapsulating** -- the binding wraps both data and metadata (like a signed envelope)
+    - **Embedded** -- the binding lives inside the data object itself (like a signed XML element)
+    - **Detached** -- the binding is stored separately, referencing both metadata and data (like a signed manifest)
+- **Cryptographic integrity** using digital signatures to detect tampering
+- **Non-cryptographic bindings** (algorithm="none") for environments where integrity is assured by other means
+
+A key capability is **granular sub-document binding**. Rather than labelling a whole document at one classification, 4778 lets you bind different labels to different portions of structured data. It defines four inheritance rules for how child elements relate to parent labels.
 
 This is the difference between basic and assured DCS Level 1:
 
@@ -76,11 +86,23 @@ This is the difference between basic and assured DCS Level 1:
 | Data integrity | Not checked | SHA-256 hash verified on every access |
 | Trust model | Trust the application layer | Trust the cryptography |
 
-**Why it matters:** Without binding, labels are just suggestions. With binding, labels have cryptographic proof of integrity, making them trustworthy across organizational boundaries.
+**Why it matters:** Without binding, labels are just suggestions. With binding, labels have cryptographic proof of integrity, making them trustworthy across organizational boundaries. But 4778's granular binding capability also enables **DCS Level 2** -- because you can label individual portions of structured data (e.g., fields in a C2 message), a system can redact or release specific portions based on the recipient's clearance. This "redact-before-sending" pattern is how NATO envisions sharing structured data across classification boundaries.
 
-### ZTDF: Zero Trust Data Format (NATO, March 2024)
+### STANAG 5663: identity and access control (ABAC)
 
-ZTDF is the newest NATO standard. It packages everything together:
+STANAG 5663 defines Identity, Credential, and Access Management (ICAM) including Attribute-Based Access Control (ABAC). While 4774 tells you how to label data and 4778 binds those labels, 5663 provides the framework for making access decisions based on those labels.
+
+Key concepts:
+
+- **Attributes** describe users, data, and the environment (clearance level, nationality, role, time, location)
+- **Policies** define rules that compare user attributes against data labels to produce access decisions
+- **Federation** allows attributes asserted by one nation to be trusted by another (within agreed trust frameworks)
+
+**Why it matters:** Labels alone don't enforce anything -- you need a system that reads the labels, evaluates the requester's attributes, and makes an access decision. STANAG 5663 standardises how that works across NATO. It is the standards-level answer to DCS Level 2 (access control based on labels).
+
+### ZTDF: Zero Trust Data Format
+
+ZTDF is a data packaging format defined in ACP-240 Supplements 3 and 4 (a Combined Communications-Electronics Board publication, not a NATO STANAG). It packages together:
 
 - Encrypted data (the payload)
 - Security labels (STANAG 4774 format)
@@ -88,24 +110,47 @@ ZTDF is the newest NATO standard. It packages everything together:
 - Key access information (which Key Access Server can unwrap the encryption key)
 - Access control policy (what attributes a user needs to decrypt)
 
-ZTDF is built on the open-source **OpenTDF** specification, which means there's freely available software that implements it.
+ZTDF is built on the open-source **OpenTDF** specification. ACP-240 positions ZTDF as one encoding specification for cryptographic data protection, noting that other formats may be added in future.
 
-**Why it matters:** ZTDF is the implementation of DCS Level 3. It's the standard format for data that protects itself.
+!!! warning "ZTDF and NATO"
+    NATO has not adopted ZTDF and is not working towards doing so. From NATO's perspective, ZTDF has specific technical limitations:
+
+    - **File-level encryption only** -- it cannot handle structured C2 data where individual fields need granular access control (e.g., releasing some fields of a message while withholding others)
+    - **Centralised key management model** -- assumes a single key store, which conflicts with NATO's requirement for federated key sovereignty across nations
+    - **Skips DCS Level 2** -- addresses encryption (Level 3) without solving granular labelling and ABAC enforcement (Level 2) first
+
+    NATO is independently developing federated cryptographic key management standards for DCS Level 3, through a joint CCEB-NATO working group. The result will be published as both ACP-240 Supplement 5 and a NATO Allied Data Publication.
+
+**Why it matters for this workshop:** ZTDF demonstrates DCS Level 3 *concepts* -- encryption with policy-gated key release and federated key management. The labs use OpenTDF to teach these principles. However, ZTDF should not be conflated with NATO's approach to Level 3 interoperability.
 
 ### ACP-240: data-centric security interoperability
 
-ACP-240 is an Allied Communications Publication developed under the Combined Communications-Electronics Board (CCEB) within the Five Eyes (FVEY) alliance. It defines how ZTDF is used for data-centric interoperability across coalition partners. NATO and the U.S. Joint Chiefs of Staff have adopted the standard. Note: ACP-240 is not a NATO STANAG — it originates from the FVEY community.
+ACP-240 is an Allied Communications Publication developed under the Combined Communications-Electronics Board (CCEB) within the Five Eyes (FVEY) alliance. It defines DCS principles, architecture, and key management for coalition data sharing. ACP-240 is effective on receipt for CCEB nations and requires a separate NAMILCOM directive for activation by NATO nations.
+
+The NATO STANAGs (4774, 4778) predate ACP-240 by approximately 8 years. A cooperative arrangement signed between the NATO Digital Policy Committee and the CCEB Data Working Group updated ACP-240 supplements to properly reference and align with the NATO standards -- bringing ACP-240 up to NATO's existing specifications, not introducing ACP-240 concepts into NATO. Supplements 1, 3, and 4 have been updated so far.
+
+NATO and CCEB are now co-developing federated cryptographic key management standards for DCS Level 3. The result will be published as both ACP-240 Supplement 5 and a NATO Allied Data Publication, ensuring interoperability between the two frameworks.
 
 ## How these standards map to our labs and architectures
 
-| Standard | DCS Level | In the Labs (basic) | In the Architecture References (compliant) |
+| Standard | DCS Level | In the Labs (basic) | In the Architecture References |
 |----------|-----------|--------------------|--------------------------------------------|
-| STANAG 4774 (labels) | Level 1 | S3 tags as simplified labels | Full XML labels with PolicyIdentifier, typed Categories |
-| STANAG 4778 (binding) | Level 1+ | Not implemented, labels are advisory | KMS digital signatures binding labels to data hashes |
-| ZTDF (encryption) | Level 3 | OpenTDF deployment (already ZTDF-compliant) | Same, OpenTDF implements the NATO standard directly |
-| ACP-240 (DCS interop) | Level 3 | AWS KMS with AES-256-GCM | Same, KMS is FIPS 140-3 Level 3 validated |
+| STANAG 4774 (labels) | Level 1 | S3 tags as simplified labels | Full XML labels with PolicyIdentifier, typed Categories, portion marking |
+| STANAG 4778 (binding) | Level 1-2 | Not implemented, labels are advisory | Formal relationship statements, cryptographic binding, granular sub-document labelling |
+| STANAG 5663 (ABAC) | Level 2 | Cedar policies as simplified ABAC | Federated ICAM with attribute-based access decisions |
+| ZTDF / ACP-240 (encryption) | Level 3 | OpenTDF to demonstrate encryption concepts | NATO developing federated key management standards (joint CCEB-NATO); ZTDF is one CCEB approach, not adopted by NATO |
 
-Notice that Lab 3 is already close to STANAG-compliant because OpenTDF implements ZTDF directly. The biggest gap is in Level 1, where the labs use simplified S3 tags instead of proper 4774/4778 labels. The **Assured DCS Level 1** architecture reference closes that gap.
+## NATO DCS maturity timeline
+
+NATO's Federated Mission Networking (FMN) framework defines target dates for DCS capability:
+
+| DCS Maturity | Target | Capability |
+|---|---|---|
+| DCS-1 | 2025 | Basic labelling -- metadata labels applied to data objects |
+| DCS-2 | 2028 | Enhanced labelling and access control -- granular labelling, ABAC enforcement |
+| DCS-3 | 2033 | Cryptographic protection -- data encrypted with policy-bound keys, federated key management |
+
+This timeline reflects that most NATO nations are still working towards DCS-1. The labs in this workshop let you experience all three levels using AWS services, but in practice the Alliance is on a multi-year journey from Level 1 to Level 3.
 
 !!! note "You don't need to read the STANAGs"
     The full STANAG documents are distributed through official NATO channels and aren't publicly downloadable. The labs in this workshop teach the same concepts using AWS services, without requiring access to the original standards. The architecture references show how to implement the standards correctly if you need formal compliance.

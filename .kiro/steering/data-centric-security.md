@@ -93,10 +93,16 @@ When implementing DCS:
 
 ## NATO Standards and References
 
-- **ADatP-4774**: Confidentiality Metadata Label Syntax
-- **ADatP-4778**: Metadata Binding Mechanism
-- **STANAGs**: NATO labeling standards for interoperability
+- **ADatP-4774**: Confidentiality Metadata Label Syntax -- portion-level labelling, common security policy model (SPIFs), alternative labels for cross-domain
+- **ADatP-4778**: Metadata Binding Mechanism -- three binding approaches (encapsulating, embedded, detached), granular sub-document binding with inheritance rules, enables DCS Level 2 "redact-before-sending"
+- **STANAG 5663**: Identity, Credential, and Access Management (ICAM) including ABAC -- the standards-level answer to DCS Level 2
+- **ACP-240** (CCEB/Five Eyes, not a NATO STANAG): DCS interoperability, key management architecture, ZTDF encoding. Cooperative arrangement with NATO; effective for CCEB nations on receipt, requires NAMILCOM directive for NATO activation
 - **NATO Core Metadata Specification (NCMS)**: Version 1.0
+
+### DCS Maturity Timeline (FMN)
+- **DCS-1** (target 2025): Basic labelling -- metadata labels applied to data objects
+- **DCS-2** (target 2028): Enhanced labelling and access control -- granular labelling (4778), ABAC enforcement (5663)
+- **DCS-3** (target 2033): Cryptographic protection -- data encrypted with policy-bound keys, federated key management
 
 ## Use Cases
 
